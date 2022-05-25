@@ -47,10 +47,10 @@
                         <div id="${cardid}" class="collapse"></div>
                     `
                     let collap = document.getElementById(cardid); console.log('collap', collap)
-                    let receipts = res.receipts; console.log('receipts=', receipts, receipts.length)
+                    let receipts = c[i].receipts; console.log('receipts=', receipts, receipts.length)
                     for(let j=0; j<receipts.length; j++){
                         console.log('j=', j)
-                        collap.innerHTML += `<div>billno:${receipts[j].bill_number} sadfa:${receipts[j].bill_number} </div>`;
+                        collap.innerHTML += `<div>billno:${receipts[j].bill_number} cDate:${receipts[j].created_at} card_no:${receipts[j].card_number} samo:${receipts[j].spend_amount} bamo:${receipts[j].bonus_amount} tamo:${receipts[j].total_amount} camo:${receipts[j].cash_amount} bonamo:${receipts[j].bonus_amount} tertoken:${receipts[j].terminal_token} custoken:${receipts[j].customer_token} totpoint:${receipts[j].total_point} befbal:${receipts[j].before_balance} poibal:${receipts[j].point_balance} cusmob:${receipts[j].customer_mobile} </div>`;
                     }
                     
                 }
