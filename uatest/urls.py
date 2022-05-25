@@ -9,7 +9,7 @@ urlpatterns = [
 
 
 
-    path('api/cons/<mobile>', views.getcons),
+    path('api/cons', views.getcons),
     path('api/cards/<id>', views.getcards),
     path('admin/', admin.site.urls),
 ]

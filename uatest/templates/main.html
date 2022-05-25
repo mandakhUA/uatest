@@ -13,23 +13,30 @@
 </head>
 <body>
     maintest
-    <input type="text" id="bb" value="" placeholder="utas"  />
-    <input type="button" value="send" onclick="findcon()"/>
-    <div id="aa1"></div>
+    <form>
+        <select id="searchval">
+            <option value="mobile" selected>mobile</option>
+            <option value="regno">regno</option>
+            <option value="id">id</option>
+          </select>
+        <input type="text" id="bb" value="" placeholder="utas" onchange="findcon()" />
+        <input type="button" value="send" onclick="findcon()"/>
+        <div id="aa1"></div>
+    </form>
+    
+    
   
     
 
 
     <script>
-        function sendreq(mehtod, url){
-            
-        }
 
         function findcon(){
+            let searchval = document.getElementById("searchval"); console.log('searchval',searchval.value)
             let bb = document.getElementById("bb")
             console.log(bb.value)
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/api/cons/'+ bb.value, true);
+            xhr.open('GET', '/api/cons?'+ searchval.value +"="+bb.value, true);
             xhr.responseType= "json"
             xhr.onload = function () {
                 let res = xhr.response; console.log('res', res); 
@@ -42,7 +49,7 @@
                     cardid=d.cards[i]['$oid'];
                     aa1.innerHTML += `
                         <div>_id:${cardid} num:${c[i].number} ct:${c[i].card_type} bal:${c[i].balance} st:${c[i].status} mobile:${c[i].mobile}
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${cardid}">receipt</button>
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${cardid}">receipt(${c[i].receipts.length})</button>
                         </div>                         
                         <div id="${cardid}" class="collapse"></div>
                     `

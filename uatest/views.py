@@ -4,10 +4,11 @@ import requests
 import json
 
 from pymongo import MongoClient
-from bson import json_util
+from bson import json_util, Int64
+from bson.objectid import ObjectId
 from bson.json_util import loads, dumps
 import pprint
-from bson.objectid import ObjectId
+
 
 
 import re
@@ -107,34 +108,44 @@ def test(request):
 
 
 @csrf_exempt
-def getcons(request, mobile):	
-	print(mobile)
+def getcons(request):
 	msg = ''
-
 	client = getMongoClient()
-	db = client.nut
-	con = db.consumer.find_one({'mobile': mobile })
-	conCnt = db.consumer.count_documents({'mobile': mobile }) 
-	print(conCnt)
-	if conCnt>1:
-		msg+= str(conCnt)+' hereglegch oldloo!!!'
-	# con = db.consumer.find_one({'profile.registration_number': re.compile(reg_no, re.IGNORECASE) })
-	# con = db.consumer.find_one({'profile.registration_number': re.compile(reg_no, re.IGNORECASE) })
-	print('cons', con['cards'], len(con['cards']))
-	concards = []
-	
-	for c in con['cards']:
-		c1 = getcard(c)
-		# print(c ,c1)
+	db = client.nut	
+	if 'mobile' in request.GET:
+		val = request.GET['mobile']
+		con = db.consumer.find_one({"mobile": val })
+		conCnt = db.consumer.count_documents({"mobile": val }) 
+	elif 'regno' in request.GET:
+		val = request.GET['regno'] 
+		con = db.consumer.find_one({"profile.registration_number": re.compile(val, re.IGNORECASE) })
+		conCnt = db.consumer.count_documents({"profile.registration_number": re.compile(val, re.IGNORECASE) }) 
+	elif 'id' in request.GET:
+		val = request.GET['id']
+		# print( val)
+		con = db.consumer.find_one({"_id": Int64(val) })
+		conCnt = db.consumer.count_documents({"_id": Int64(val)  }) 
+	print( val, con, conCnt)
+	if conCnt == 0:
+		msg=' consumer oldsongui'
+	elif conCnt>1:
+		msg = str(conCnt)+' hereglegch oldloo!!!'
+	elif conCnt == 1:
+		print('cons', con['cards'], len(con['cards']))
+		concards = []
 		
-		receipts = []
-		for r in getreceipts(c1['number']):
-			receipts.append(r)
-		c1['receipts']=receipts
-		concards.append(c1)
+		for c in con['cards']:
+			c1 = getcard(c)
+			# print(c ,c1)
+			
+			receipts = []
+			for r in getreceipts(c1['number']):
+				receipts.append(r)
+			c1['receipts']=receipts
+			concards.append(c1)
 	# print('concards', concards)
 	# print('receipt', receipts)
-	return JsonResponse( {'data': json.loads(json_util.dumps(con)), "concards":json.loads(json_util.dumps(concards)), 'msg':msg}  )
+	return JsonResponse({'data': json.loads(json_util.dumps(con)), "concards":json.loads(json_util.dumps(concards)), 'msg':msg}  )
 
 def getreceipts(num):
 	client = getMongoClient()
