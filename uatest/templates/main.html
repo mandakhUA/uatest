@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+</head>
+<body>
+    maintest
+    <input type="text" id="bb" value="" placeholder="utas"  /><div id="aa1"></div>
+    <input type="button" value="send" onclick="findcon()"/>
+
+
+    <script>
+        function sendreq(mehtod, url){
+            
+        }
+
+        function findcon(){
+            let bb = document.getElementById("bb")
+            console.log(bb.value)
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/cons/'+ bb.value, true);
+            xhr.responseType= "json"
+            xhr.onload = function () {
+                let res = xhr.response; console.log('res', res); 
+                d = res.data;
+                let aa1 = document.getElementById("aa1")
+                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} <br>`
+                for (let i=0; i<d.cards.length; i++){
+                    console.log('i=', i)
+                    xhr.open('POST', '/api/cards/'+ d.cards[i]['$oid'], true);
+                    xhr.responseType= "json"
+                    xhr.onload = function () {
+                        let res1 = xhr.response; console.log('res1', res1); 
+                        d1 = res1.data;
+                        aa1.innerHTML += `<div>_id:${d.cards[i]['$oid']} num:${d1.number}</div>`
+                    }
+                    xhr.send(null);
+                }
+                
+            };
+            xhr.send(null);
+            // 
+        }
+    </script>
+</body>
+</html>
