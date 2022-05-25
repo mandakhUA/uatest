@@ -122,12 +122,22 @@ def getcons(request, mobile):
 	# con = db.consumer.find_one({'profile.registration_number': re.compile(reg_no, re.IGNORECASE) })
 	print('cons', con['cards'], len(con['cards']))
 	concards = []
+	receipts = []
 	for c in con['cards']:
 		c1 = getcard(c)
 		# print(c ,c1)
 		concards.append(c1)
-	print('concards', concards)
-	return JsonResponse( {'data': json.loads(json_util.dumps(con)), "concards":json.loads(json_util.dumps(concards)), 'msg':msg}  )
+		for r in getreceipts(c1['number']):
+			receipts.append(r)
+
+	# print('concards', concards)
+	# print('receipt', receipts)
+	return JsonResponse( {'data': json.loads(json_util.dumps(con)), "concards":json.loads(json_util.dumps(concards)), "receipts":json.loads(json_util.dumps(receipts)), 'msg':msg}  )
+
+def getreceipts(num):
+	client = getMongoClient()
+	db = client.nut
+	return db.receipt.find({'card_number': num }).sort("author").limit(5)
 
 def getcard(id):
 	client = getMongoClient()

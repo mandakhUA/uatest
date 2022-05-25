@@ -5,11 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>main</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
     maintest
-    <input type="text" id="bb" value="" placeholder="utas"  /><div id="aa1"></div>
+    <input type="text" id="bb" value="" placeholder="utas"  />
     <input type="button" value="send" onclick="findcon()"/>
+    <div id="aa1"></div>
+  
+    
 
 
     <script>
@@ -27,11 +35,24 @@
                 let res = xhr.response; console.log('res', res); 
                 d = res.data;
                 let aa1 = document.getElementById("aa1")
-                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} <br>`
+                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} token: ${d.token}  bal: ${d.balance}  bs: ${d.balance_status}  isfam: ${d.is_family}<br>`
                 c = res.concards;
                 for (let i=0; i<c.length; i++){
                     console.log('i=', i)
-                    aa1.innerHTML += `<div>_id:${d.cards[i]['$oid']} num:${c[i].number}</div>`
+                    cardid=d.cards[i]['$oid'];
+                    aa1.innerHTML += `
+                        <div>_id:${cardid} num:${c[i].number} ct:${c[i].card_type} bal:${c[i].balance} st:${c[i].status} mobile:${c[i].mobile}
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${cardid}">receipt</button>
+                        </div>                         
+                        <div id="${cardid}" class="collapse"></div>
+                    `
+                    let collap = document.getElementById(cardid); console.log('collap', collap)
+                    let receipts = res.receipts; console.log('receipts=', receipts, receipts.length)
+                    for(let j=0; j<receipts.length; j++){
+                        console.log('j=', j)
+                        collap.innerHTML += `<div>billno:${receipts[j].bill_number} sadfa:${receipts[j].bill_number} </div>`;
+                    }
+                    
                 }
                 
             };
