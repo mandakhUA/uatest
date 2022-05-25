@@ -28,16 +28,10 @@
                 d = res.data;
                 let aa1 = document.getElementById("aa1")
                 aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} <br>`
-                for (let i=0; i<d.cards.length; i++){
+                c = res.concards;
+                for (let i=0; i<c.length; i++){
                     console.log('i=', i)
-                    xhr.open('POST', '/api/cards/'+ d.cards[i]['$oid'], true);
-                    xhr.responseType= "json"
-                    xhr.onload = function () {
-                        let res1 = xhr.response; console.log('res1', res1); 
-                        d1 = res1.data;
-                        aa1.innerHTML += `<div>_id:${d.cards[i]['$oid']} num:${d1.number}</div>`
-                    }
-                    xhr.send(null);
+                    aa1.innerHTML += `<div>_id:${d.cards[i]['$oid']} num:${c[i].number}</div>`
                 }
                 
             };

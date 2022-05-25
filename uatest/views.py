@@ -120,16 +120,25 @@ def getcons(request, mobile):
 		msg+= str(conCnt)+' hereglegch oldloo!!!'
 	# con = db.consumer.find_one({'profile.registration_number': re.compile(reg_no, re.IGNORECASE) })
 	# con = db.consumer.find_one({'profile.registration_number': re.compile(reg_no, re.IGNORECASE) })
-	print('cons', con)
-	return JsonResponse( {'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
+	print('cons', con['cards'], len(con['cards']))
+	concards = []
+	for c in con['cards']:
+		c1 = getcard(c)
+		# print(c ,c1)
+		concards.append(c1)
+	print('concards', concards)
+	return JsonResponse( {'data': json.loads(json_util.dumps(con)), "concards":json.loads(json_util.dumps(concards)), 'msg':msg}  )
+
+def getcard(id):
+	client = getMongoClient()
+	db = client.nut
+	return db.card.find_one({'_id': ObjectId(id) })
 
 @csrf_exempt
 def getcards(request, id):	
 	print(id)
 	msg = ''
-	client = getMongoClient()
-	db = client.nut
-	card = db.card.find_one({'_id': ObjectId(id) })
+	card = getcard(id)
 	print('card', card)
 	return JsonResponse( {'data': json.loads(json_util.dumps(card)), 'msg':msg}  )
 
