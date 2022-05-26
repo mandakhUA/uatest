@@ -99,6 +99,7 @@ def test(request):
 	pprint.pprint(db.movies.find_one()['_id'])
 	# posts.find_one({"author": "Mike"}))
 	# client.db.collection.find_one({'_id': ObjectId(post_id)})
+	# con = db.consumer.find_one({"_id": Int64(val) })
 	# for post in posts.find():
 	# 	pprint.pprint(post)
 	# db.movies.count_documents({}) //hooson esul haih utga teged toolno.
@@ -125,13 +126,17 @@ def getcons(request):
 		# print( val)
 		con = db.consumer.find_one({"_id": Int64(val) })
 		conCnt = db.consumer.count_documents({"_id": Int64(val)  }) 
-	print( val, con, conCnt)
+	# print( val, con, conCnt) 
 	if conCnt == 0:
 		msg=' consumer oldsongui'
 	elif conCnt>1:
 		msg = str(conCnt)+' hereglegch oldloo!!!'
 	elif conCnt == 1:
-		print('cons', con['cards'], len(con['cards']))
+
+		coll = getcollective(con['_id'])
+		con['collective']= coll
+		# print('coll', coll)
+		# print('cons', con['cards'], len(con['cards']))
 		concards = []
 		
 		for c in con['cards']:
@@ -146,6 +151,34 @@ def getcons(request):
 	# print('concards', concards)
 	# print('receipt', receipts)
 	return JsonResponse({'data': json.loads(json_util.dumps(con)), "concards":json.loads(json_util.dumps(concards)), 'msg':msg}  )
+
+
+def getcollective(id):
+	client = getMongoClient()
+	db = client.nut
+	confamcnt = db.consumer.count_documents({'consumer': Int64(id) }) 
+	print('==&^%^$$^&confamcnt============',confamcnt)
+	if confamcnt != 1:
+		return None
+	else :
+		confam = db.consumer_family.find_one({'consumer': Int64(id) })
+
+		famgr = db.family_group.find_one({'_id': ObjectId(confam['group']) })
+		# print('famgr', famgr)
+		congroups = []
+		for g in db.consumer_family.find({'group': ObjectId(confam['group']) }):		
+			congroups.append(g)
+		famgr['congroups'] = congroups
+		gr_req=[]	
+		for h in  db.group_request.find({'group': ObjectId(confam['group']) }):
+			gr_req.append(h)	
+		famgr['gr_req'] = gr_req
+		con_coll=[]	
+		for t in  db.consumer_collective.find({'sender': Int64(id) }):
+			con_coll.append(t)	
+		famgr['con_coll'] = con_coll
+		return famgr
+
 
 def getreceipts(num):
 	client = getMongoClient()

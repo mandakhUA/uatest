@@ -11,7 +11,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 </head>
-<body>
+<body onload="load()">
     maintest
     <form>
         <select id="searchval">
@@ -30,19 +30,58 @@
 
 
     <script>
+        function load(){
+            console.log('load')
+            const params = new URLSearchParams(window.location.search);//console.log('params', params, params.has('id'), params.get('id'))
+            if (params.has('mobile') || params.has('regno') || params.has('id')) {
+                let searchval = document.getElementById("searchval"); //console.log('searchval',searchval.value)
+                let bb = document.getElementById("bb");  //console.log(bb.value)
+                if (params.has('mobile')) {searchval.value = "mobile"; bb.value=params.get('id');   }
+                else if (params.has('regno')) {searchval.value = "regno"; bb.value=params.get('regno');   }
+                else if (params.has('id')) {searchval.value = "id"; bb.value=params.get('id');   } 
+            }
+            
+        }
 
-        function findcon(){
-            let searchval = document.getElementById("searchval"); console.log('searchval',searchval.value)
-            let bb = document.getElementById("bb")
-            console.log(bb.value)
+        function findcon(){            
+            let searchval = document.getElementById("searchval"); //console.log('searchval',searchval.value)
+            let bb = document.getElementById("bb");  //console.log(bb.value)
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/api/cons?'+ searchval.value +"="+bb.value, true);
             xhr.responseType= "json"
             xhr.onload = function () {
                 let res = xhr.response; console.log('res', res); 
                 d = res.data;
-                let aa1 = document.getElementById("aa1")
-                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} token: ${d.token}  bal: ${d.balance}  bs: ${d.balance_status}  isfam: ${d.is_family}<br>`
+
+                if (res.data.collective){
+                    c = res.data.collective;
+                    cstring = `bal: ${c.balance} fam_name: ${c.family_name} fam_id: ${c.family_id}`
+                    for(let g=0; g<c.congroups.length; g++){                   
+                        cstring += `<div>isadmin: ${c.congroups[g].is_admin} group:${c.congroups[g].group['$oid']} consumer:  ${ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : '<a href="/main?id='+c.congroups[g].consumer+'">' + c.congroups[g].consumer  + '</a>'}</div>`;
+                    }
+
+                    gr_req_string = '';
+                    for(let h=0; h<c.gr_req.length; h++){ 
+                        gr_req_string += `<div>cr_at: ${c.gr_req[h].created_at['$date']} st: ${c.gr_req[h].status} conid: ${c.gr_req[h].consumer}</div>`
+                    }
+
+                    con_coll_string = '';
+                    for(let k=0; k<c.con_coll.length; k++){ 
+                        con_coll_string += `<div>cr_at: ${c.con_coll[k].created_at['$date']} sender: ${c.con_coll[k].sender} sender_mobile: ${c.con_coll[k].sender_mobile} is_sender: ${c.con_coll[k].is_sender} receiver: ${c.con_coll[k].receiver} receiver_mobile: ${c.con_coll[k].receiver_mobile} is_receiver ${c.con_coll[k].is_receiver} group ${c.con_coll[k].group['$oid']} group_id ${c.con_coll[k].group_id}</div>`
+                    }
+                }
+                
+
+
+                let aa1 = document.getElementById("aa1")    //
+                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} token: ${d.token}  bal: ${d.balance}  bs: ${d.balance_status}  isfam: ${d.is_family}`
+                if (res.data.collective ){
+                    aa1.innerHTML += `<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collective">collective(${res.data.collective && res.data.collective.congroups.length})</button><br>
+                    <div id="collective" class="collapse"> ${cstring} ${gr_req_string} sender ${con_coll_string} receiver</div>
+                    `
+                }else {aa1.innerHTML += `<button type="button" class="btn btn-info" >collective(0)</button><br>`}
+                
+                
                 c = res.concards;
                 for (let i=0; i<c.length; i++){
                     console.log('i=', i)
@@ -64,7 +103,6 @@
                 
             };
             xhr.send(null);
-            // 
         }
     </script>
 </body>
