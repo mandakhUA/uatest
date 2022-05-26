@@ -105,6 +105,7 @@ def test(request):
 	# db.movies.count_documents({}) //hooson esul haih utga teged toolno.
 	# d = datetime.datetime(2009, 11, 12, 12)
 	# for post in posts.find({"date": {"$lt": d}}).sort("author"):
+	# .find({'card_number': num }).sort("created_at",-1})
 	return HttpResponse("page num=="+ str(     db.movies.count_documents({})        )	)
 
 
@@ -135,22 +136,16 @@ def getcons(request):
 		msg = str(conCnt)+' hereglegch oldloo!!!'
 	elif conCnt == 1:
 		con['collective']= getcollective(con['_id'])
-		# print('coll', coll)
-		# print('cons', con['cards'], len(con['cards']))
-		concards = []
-		
+		concards = []		
 		for c in con['cards']:
-			c1 = getcard(c)
-			# print(c ,c1)
-			
+			c1 = getcard(c)			
 			receipts = []
 			for r in getreceipts(c1['number']):
 				receipts.append(r)
 			c1['receipts']=receipts
 			concards.append(c1)
-	# print('concards', concards)
-	# print('receipt', receipts)
-	return JsonResponse({'data': json.loads(json_util.dumps(con)), "concards":json.loads(json_util.dumps(concards)), 'msg':msg}  )
+	con['concards'] = concards
+	return JsonResponse({'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
 
 
 def getConCnt(expr):
@@ -167,7 +162,6 @@ def getcollective(id):
 	client = getMongoClient()
 	db = client.nut
 	confamcnt = db.consumer_family.count_documents({'consumer': Int64(id) }) 
-	print('==&^%^$$^&confamcnt============',confamcnt)
 	if confamcnt != 1:
 		return None
 	else :
@@ -193,7 +187,7 @@ def getcollective(id):
 def getreceipts(num):
 	client = getMongoClient()
 	db = client.nut
-	return db.receipt.find({'card_number': num }).sort("author").limit(5)
+	return db.receipt.find({'card_number': num }).sort("created_at",-1).limit(5)
 
 def getcard(id):
 	client = getMongoClient()

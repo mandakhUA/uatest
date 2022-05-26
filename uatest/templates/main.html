@@ -53,7 +53,9 @@
                 let res = xhr.response; console.log('res', res); 
                 d = res.data;
 
-                if (res.data.collective){
+                let aa1 = document.getElementById("aa1")    //
+                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} token: ${d.token}  bal: ${d.balance}  bs: ${d.balance_status}  isfam: ${d.is_family}`
+                if (res.data.collective ){
                     c = res.data.collective;
                     cstring = `bal: ${c.balance} fam_name: ${c.family_name} fam_id: ${c.family_id}`
                     for(let g=0; g<c.congroups.length; g++){                   
@@ -69,35 +71,39 @@
                     for(let k=0; k<c.con_coll.length; k++){ 
                         con_coll_string += `<div>cr_at: ${c.con_coll[k].created_at['$date']} sender: ${c.con_coll[k].sender} sender_mobile: ${c.con_coll[k].sender_mobile} is_sender: ${c.con_coll[k].is_sender} receiver: ${c.con_coll[k].receiver} receiver_mobile: ${c.con_coll[k].receiver_mobile} is_receiver ${c.con_coll[k].is_receiver} group ${c.con_coll[k].group['$oid']} group_id ${c.con_coll[k].group_id}</div>`
                     }
-                }
-                
-
-
-                let aa1 = document.getElementById("aa1")    //
-                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} token: ${d.token}  bal: ${d.balance}  bs: ${d.balance_status}  isfam: ${d.is_family}`
-                if (res.data.collective ){
                     aa1.innerHTML += `<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collective">collective(${res.data.collective && res.data.collective.congroups.length})</button><br>
                     <div id="collective" class="collapse"> ${cstring} ${gr_req_string} sender ${con_coll_string} receiver</div>
                     `
                 }else {aa1.innerHTML += `<button type="button" class="btn btn-info" disabled>collective(0)</button><br>`}
                 
                 
-                c = res.concards;
-                for (let i=0; i<c.length; i++){
-                    console.log('i=', i)
-                    cardid=d.cards[i]['$oid'];
-                    aa1.innerHTML += `
-                        <div>_id:${cardid} num:${c[i].number} ct:${c[i].card_type} bal:${c[i].balance} st:${c[i].status} mobile:${c[i].mobile}
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${cardid}">receipt(${c[i].receipts.length})</button>
-                        </div>                         
-                        <div id="${cardid}" class="collapse"></div>
-                    `
-                    let collap = document.getElementById(cardid); console.log('collap', collap)
-                    let receipts = c[i].receipts; console.log('receipts=', receipts, receipts.length)
-                    for(let j=0; j<receipts.length; j++){
-                        console.log('j=', j)
-                        collap.innerHTML += `<div>billno:${receipts[j].bill_number} cDate:${receipts[j].created_at} card_no:${receipts[j].card_number} samo:${receipts[j].spend_amount} bamo:${receipts[j].bonus_amount} tamo:${receipts[j].total_amount} camo:${receipts[j].cash_amount} bonamo:${receipts[j].bonus_amount} tertoken:${receipts[j].terminal_token} custoken:${receipts[j].customer_token} totpoint:${receipts[j].total_point} befbal:${receipts[j].before_balance} poibal:${receipts[j].point_balance} cusmob:${receipts[j].customer_mobile} </div>`;
-                    }
+                c = res.data.concards;
+                for (let i=0; i<c.length; i++){//tuhain consumeriin cards-n toogoor davtana.
+                    // console.log('i=', i)
+                    cardid=d.cards[i]['$oid'];  //card buriin id ni cardid-d onoogdono.
+                    aa1.innerHTML += `<div>_id:${cardid} num:${c[i].number} ct:${c[i].card_type} bal:${c[i].balance} st:${c[i].status} mobile:${c[i].mobile}`
+                    if(c[i].receipts.length >0){    //tuhain card receipttei eseh
+                        // let collap = document.getElementById(cardid); console.log('collap', collap)
+                        let receipts = c[i].receipts; console.log('receipts=', receipts, receipts.length)
+                        receipt_str = ''
+                        receipt_str+='<table border=1><tr><th>billno:</th><th>cDate:</th><th>card_no:</th><th>samo:</th><th>bamo:</th><th>tamo:</th><th>camo:</th><th>bonamo:</th><th>tertoken:</th><th>custoken:</th><th>totpoint:</th><th>befbal:</th><th>poibal:</th><th>cusmob:</th></tr>'
+                            
+                        for(let j=0; j<receipts.length; j++){
+                            receipt_str += `<tr><td>${receipts[j].bill_number}</td><td> ${receipts[j].created_at['$date']}</td><td> ${receipts[j].card_number}</td><td> ${receipts[j].spend_amount}</td><td> ${receipts[j].bonus_amount}</td><td> ${receipts[j].total_amount}</td><td> ${receipts[j].cash_amount}</td><td> ${receipts[j].bonus_amount}</td><td> ${receipts[j].terminal_token}</td><td> ${receipts[j].customer_token}</td><td> ${receipts[j].total_point}</td><td> ${receipts[j].before_balance}</td><td> ${receipts[j].point_balance}</td><td> ${receipts[j].customer_mobile} </td></tr>`;
+                        }
+                        receipt_str +='</table>'
+                    
+                        aa1.innerHTML +=`<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${cardid}">receipt(${c[i].receipts.length})</button>
+                        <div id="${cardid}" class="collapse">${receipt_str}</div>
+                        </div> 
+                        `
+                    }else {aa1.innerHTML +=`<button type="button" class="btn btn-info" disabled>receipt(0)</button></div>`}
+                    
+                               
+                                                
+                        
+                    
+                   
                     
                 }
                 
