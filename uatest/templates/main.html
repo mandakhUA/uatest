@@ -79,7 +79,7 @@
                     aa1.innerHTML += `<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collective">collective(${res.data.collective && res.data.collective.congroups.length})</button><br>
                     <div id="collective" class="collapse"> ${cstring} ${gr_req_string} sender ${con_coll_string} receiver</div>
                     `
-                }else {aa1.innerHTML += `<button type="button" class="btn btn-info" >collective(0)</button><br>`}
+                }else {aa1.innerHTML += `<button type="button" class="btn btn-info" disabled>collective(0)</button><br>`}
                 
                 
                 c = res.concards;

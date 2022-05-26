@@ -111,30 +111,30 @@ def test(request):
 @csrf_exempt
 def getcons(request):
 	msg = ''
-	client = getMongoClient()
-	db = client.nut	
-	if 'mobile' in request.GET:
+	if 'mobile' in request.GET:	#page der combobox-s mobile songood textbox der mobile bicheed ilgeesn bol end ajillan.
 		val = request.GET['mobile']
-		con = db.consumer.find_one({"mobile": val })
-		conCnt = db.consumer.count_documents({"mobile": val }) 
+		con = getCon({"mobile": val })
+		conCnt = getConCnt({"mobile": val })
+		# conCnt = db.consumer.count_documents({"mobile": val }) 
 	elif 'regno' in request.GET:
 		val = request.GET['regno'] 
-		con = db.consumer.find_one({"profile.registration_number": re.compile(val, re.IGNORECASE) })
-		conCnt = db.consumer.count_documents({"profile.registration_number": re.compile(val, re.IGNORECASE) }) 
+		con = getCon({"profile.registration_number": re.compile(val, re.IGNORECASE) })
+		conCnt = getConCnt({"profile.registration_number": re.compile(val, re.IGNORECASE) })
+		# con = db.consumer.find_one({"profile.registration_number": re.compile(val, re.IGNORECASE) })
+		# conCnt = db.consumer.count_documents({"profile.registration_number": re.compile(val, re.IGNORECASE) }) 
 	elif 'id' in request.GET:
 		val = request.GET['id']
-		# print( val)
-		con = db.consumer.find_one({"_id": Int64(val) })
-		conCnt = db.consumer.count_documents({"_id": Int64(val)  }) 
+		con = getCon({"_id": Int64(val) })
+		conCnt = getConCnt({"_id": Int64(val)  })
+		# con = db.consumer.find_one()
+		# conCnt = db.consumer.count_documents() 
 	# print( val, con, conCnt) 
 	if conCnt == 0:
 		msg=' consumer oldsongui'
 	elif conCnt>1:
 		msg = str(conCnt)+' hereglegch oldloo!!!'
 	elif conCnt == 1:
-
-		coll = getcollective(con['_id'])
-		con['collective']= coll
+		con['collective']= getcollective(con['_id'])
 		# print('coll', coll)
 		# print('cons', con['cards'], len(con['cards']))
 		concards = []
@@ -153,10 +153,20 @@ def getcons(request):
 	return JsonResponse({'data': json.loads(json_util.dumps(con)), "concards":json.loads(json_util.dumps(concards)), 'msg':msg}  )
 
 
+def getConCnt(expr):
+	client = getMongoClient()
+	db = client.nut
+	return db.consumer.count_documents(expr) 
+
+def getCon(expr):
+	client = getMongoClient()
+	db = client.nut
+	return db.consumer.find_one(expr)
+
 def getcollective(id):
 	client = getMongoClient()
 	db = client.nut
-	confamcnt = db.consumer.count_documents({'consumer': Int64(id) }) 
+	confamcnt = db.consumer_family.count_documents({'consumer': Int64(id) }) 
 	print('==&^%^$$^&confamcnt============',confamcnt)
 	if confamcnt != 1:
 		return None
