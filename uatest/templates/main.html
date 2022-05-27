@@ -21,6 +21,14 @@
           </select>
         <input type="text" id="bb" value="" placeholder="utas" onchange="findcon()" />
         <input type="button" value="send" onclick="findcon()"/>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#uaconsumer">uaconsumer</button>
+        <div id="uaconsumer">uaconsumer
+            <div><input type="text" name="uaconsumer_token" id="uaconsumer_token" placeholder="token"/><input type="button" value="[]" onclick="check_token()"/><span id="uaconsumer_token_msg"></span></div>
+            <div><input type="text" name="uaconsumer_mobile" id="uaconsumer_mobile" placeholder="mobile"/><input type="button" value="[]" onclick="check_mobile()"/><span id="uaconsumer_mobile_msg"></span></div>
+            <div><input type="text" name="uaconsumer_regno" id="uaconsumer_regno" placeholder="mobile"/><input type="button" value="[]" onclick="check_regno()"/><span id="uaconsumer_regno_msg"></span></div>
+            <div><input type="text" name="uaconsumer_num" id="uaconsumer_num" placeholder="mobile"/><input type="button" value="[]" onclick="check_num()"/><span id="uaconsumer_num_msg"></span></div>
+            <div><input type="button" value="send" onclick="send_uaconsumer()"/><span id="uaconsumer_msg"></span></div>
+        </div>
         <div id="aa1"></div>
     </form>
     
@@ -30,6 +38,82 @@
 
 
     <script>
+        function send_uaconsumer(){
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/uaconsumer', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.responseType= "json"
+            xhr.onload = function () {
+                d = xhr.response.data;
+                console.log('checregno', d, Array.isArray(d))
+                msg = document.getElementById('uaconsumer_msg'); 
+                if(Array.isArray(d)){
+                    msg.innerHTML = d[0]
+                } else if (typeof d === "object" && 'detail' in d){msg.innerHTML = d.detail}
+
+            }            
+            xhr.send(`token=${document.getElementById('uaconsumer_token').value}&mobile=${document.getElementById('uaconsumer_mobile').value}&registration_number=${document.getElementById('uaconsumer_regno').value}&card_number=${document.getElementById('uaconsumer_num').value}&nomin_card=''&fee_type=0 &card_fee=0 &username=123`);
+        }
+
+
+        function check_mobile(){
+            mob = document.getElementById('uaconsumer_mobile'); console.log('mob', mob.value)
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/check_mobile?mobile='+mob.value, true);
+            xhr.responseType= "json"
+            xhr.onload = function () {
+                console.log('checkmoob', xhr.response)
+                msg = document.getElementById('uaconsumer_mobile_msg');                 
+                if (xhr.response.cons.length === 0){msg.innerHTML = ` msg: энэ утас дээр бүртгэлтэй хэр олдсонгүй. `}
+                else if (xhr.response.cons.length > 0){
+                    msg.innerHTML += `${xhr.response.cons.length} cons oldloo. cons: <a href='main?id=${xhr.response.cons[0]._id}' target="_blank">${xhr.response.cons[0]._id}</a>`
+                }
+                if (xhr.response.cards.length === 0){msg.innerHTML += ` msg: энэ утас дээр бүртгэлтэй карт олдсонгүй. `}
+                else if (xhr.response.cards.length > 0){
+                    msg.innerHTML += `${xhr.response.cards.length} cards oldloo. cards: <a href='card?id=${xhr.response.cards[0]._id}' target="_blank">${xhr.response.cards[0]._id}</a>`
+                }
+            }
+            xhr.send(null);
+        }
+        
+        function check_regno(){
+            val = document.getElementById('uaconsumer_regno'); console.log('regno', val.value)
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/check_regno?regno='+val.value, true);
+            xhr.responseType= "json"
+            xhr.onload = function () {
+                console.log('checregno', xhr.response)
+                msg = document.getElementById('uaconsumer_regno_msg'); 
+                if (xhr.response.cons.length === 0){msg.innerHTML = ` msg: энэ рег дээр бүртгэлтэй хэр олдсонгүй. `}
+                else if (xhr.response.cons.length > 0){
+                    msg.innerHTML += `${xhr.response.cons.length} cons oldloo. cons: <a href='main?id=${xhr.response.cons[0]._id}' target="_blank">${xhr.response.cons[0]._id}</a>`
+                }
+            }
+            xhr.send(null);
+        }
+        function check_num(){
+            val = document.getElementById('uaconsumer_num'); console.log('num', val.value)
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/check_num?num='+val.value, true);
+            xhr.responseType= "json"
+            xhr.onload = function () {
+                console.log('checknum', xhr.response)
+                msg = document.getElementById('uaconsumer_num_msg');                 
+                if (xhr.response.cards.length === 0){msg.innerHTML = ` msg: энэ дугаар дээр бүртгэлтэй карт олдсонгүй. `}
+                else if (xhr.response.cards.length > 0){
+                    msg.innerHTML += `${xhr.response.cards.length} cards oldloo. cards: <a href='card?id=${xhr.response.cards[0]._id['$oid']}' target="_blank">${xhr.response.cards[0]._id['$oid']}</a>`
+                    if (xhr.response.cards[0].cons.length === 0){msg.innerHTML += ` msg: энэ дугаар дээр бүртгэлтэй хэр олдсонгүй. `}
+                    else if (xhr.response.cards[0].cons.length > 0){
+                        msg.innerHTML += `${xhr.response.cards[0].cons.length} cons oldloo. cons: <a href='main?id=${xhr.response.cards[0].cons[0]._id}' target="_blank">${xhr.response.cards[0].cons[0]._id}</a>`
+                    }
+                }
+            }
+            xhr.send(null);
+        }
+
+
+
+
         function load(){
             console.log('load')
             const params = new URLSearchParams(window.location.search);//console.log('params', params, params.has('id'), params.get('id'))
@@ -59,7 +143,7 @@
                     c = res.data.collective;
                     cstring = `bal: ${c.balance} fam_name: ${c.family_name} fam_id: ${c.family_id}`
                     for(let g=0; g<c.congroups.length; g++){                   
-                        cstring += `<div>isadmin: ${c.congroups[g].is_admin} group:${c.congroups[g].group['$oid']} consumer:  ${ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : '<a href="/main?id='+c.congroups[g].consumer+'">' + c.congroups[g].consumer  + '</a>'}</div>`;
+                        cstring += `<div>isadmin: ${c.congroups[g].is_admin} group:${c.congroups[g].group['$oid']} consumer:  ${ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : '<a href="/main?id='+c.congroups[g].consumer+'" target="_blank">' + c.congroups[g].consumer  + '</a>'}</div>`;
                     }
 
                     gr_req_string = '';
@@ -83,27 +167,29 @@
                     cardid=d.cards[i]['$oid'];  //card buriin id ni cardid-d onoogdono.
                     aa1.innerHTML += `<div>_id:${cardid} num:${c[i].number} ct:${c[i].card_type} bal:${c[i].balance} st:${c[i].status} mobile:${c[i].mobile}`
                     if(c[i].receipts.length >0){    //tuhain card receipttei eseh
-                        // let collap = document.getElementById(cardid); console.log('collap', collap)
-                        let receipts = c[i].receipts; console.log('receipts=', receipts, receipts.length)
-                        receipt_str = ''
-                        receipt_str+='<table border=1><tr><th>billno:</th><th>cDate:</th><th>card_no:</th><th>samo:</th><th>bamo:</th><th>tamo:</th><th>camo:</th><th>bonamo:</th><th>tertoken:</th><th>custoken:</th><th>totpoint:</th><th>befbal:</th><th>poibal:</th><th>cusmob:</th></tr>'
-                            
+                        let receipts = c[i].receipts; 
+                        receipt_str = `<table border=1><tr><th>billno:</th><th>cDate:</th><th>card_no:</th><th>samo:</th><th>bamo:</th><th>tamo:</th><th>camo:</th><th>bonamo:</th><th>tertoken:</th><th>custoken:</th><th>totpoint:</th><th>befbal:</th><th>poibal:</th><th>cusmob:</th><th>is_returnCnt</th></tr>`
                         for(let j=0; j<receipts.length; j++){
-                            receipt_str += `<tr><td>${receipts[j].bill_number}</td><td> ${receipts[j].created_at['$date']}</td><td> ${receipts[j].card_number}</td><td> ${receipts[j].spend_amount}</td><td> ${receipts[j].bonus_amount}</td><td> ${receipts[j].total_amount}</td><td> ${receipts[j].cash_amount}</td><td> ${receipts[j].bonus_amount}</td><td> ${receipts[j].terminal_token}</td><td> ${receipts[j].customer_token}</td><td> ${receipts[j].total_point}</td><td> ${receipts[j].before_balance}</td><td> ${receipts[j].point_balance}</td><td> ${receipts[j].customer_mobile} </td></tr>`;
+                            receipt_str += `<tr><td>${receipts[j].bill_number}</td><td> ${receipts[j].created_at['$date']}</td><td> ${receipts[j].card_number}</td><td> ${receipts[j].spend_amount}</td><td> ${receipts[j].bonus_amount}</td><td> ${receipts[j].total_amount}</td><td> ${receipts[j].cash_amount}</td><td> ${receipts[j].bonus_amount}</td><td> ${receipts[j].terminal_token}</td><td> ${receipts[j].customer_token}</td><td> ${receipts[j].total_point}</td><td> ${receipts[j].before_balance}</td><td> ${receipts[j].point_balance}</td><td> ${receipts[j].customer_mobile} </td><td>${receipts[j].rec_return.length}</td></tr>`;
+                            if(c[i].receipts[j].rec_return.length >0){    //tuhain receipt returntei eseh
+                                let rec_return =  c[i].receipts[j].rec_return;
+                                let rec_return_str = ``
+                                for(let p=0; p<rec_return.length; p++){
+                                    rec_return_str += `bef_bal:${rec_return[p].before_balance} bpt_bal:${rec_return[p].point_balance} `
+                                }
+                                receipt_str += `<tr><td colspan=10>${rec_return_str}<td></tr>`
+                            }
+
+
+                            
                         }
                         receipt_str +='</table>'
                     
-                        aa1.innerHTML +=`<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${cardid}">receipt(${c[i].receipts.length})</button>
+                        aa1.innerHTML +=`<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${cardid}">receipt(${c[i].receiptsCnt})</button>
                         <div id="${cardid}" class="collapse">${receipt_str}</div>
                         </div> 
                         `
                     }else {aa1.innerHTML +=`<button type="button" class="btn btn-info" disabled>receipt(0)</button></div>`}
-                    
-                               
-                                                
-                        
-                    
-                   
                     
                 }
                 

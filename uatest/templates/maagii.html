@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+ 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ 
+</head>
+<body onload="load()">
+    maintest
+    <form >
+        <select id="searchval">
+            <option value="mobile" selected>mobile</option>
+            <option value="regno">regno</option>
+            <option value="id">id</option>
+          </select>
+        <input type="text" id="bb" value="" placeholder="utas" onchange="findcon()" />
+        <input type="button" value="Шалгах"class="btn btn-primary" onclick="findcon()"/>
+        <div id="aa1"></div>
+    </form>
+   
+   
+ 
+   
+ 
+ 
+    <script>
+        function load(){
+            console.log('load')
+            const params = new URLSearchParams(window.location.search);//console.log('params', params, params.has('id'), params.get('id'))
+            if (params.has('mobile') || params.has('regno') || params.has('id')) {
+                let searchval = document.getElementById("searchval"); //console.log('searchval',searchval.value)
+                let bb = document.getElementById("bb");  //console.log(bb.value)
+                if (params.has('mobile')) {searchval.value = "mobile"; bb.value=params.get('id');   }
+                else if (params.has('regno')) {searchval.value = "regno"; bb.value=params.get('regno');   }
+                else if (params.has('id')) {searchval.value = "id"; bb.value=params.get('id');   }
+            }
+           
+        }
+ 
+        function findcon(){            
+            let searchval = document.getElementById("searchval"); //console.log('searchval',searchval.value)
+            let bb = document.getElementById("bb");  //console.log(bb.value)
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/cons?'+ searchval.value +"="+bb.value, true);
+            xhr.responseType= "json"
+            xhr.onload = function () {
+                let res = xhr.response; console.log('res', res);
+                d = res.data;
+ 
+                let aa1 = document.getElementById("aa1")    //
+                aa1.innerHTML = `<p><b>Хэрэглэгчийн мэдээлэл</b></p><table class="table table-striped table-bordered"><tr><th>msg:</th><th>_id:</th><th>mob:</th><th>cardslen:</th><th>token:</th><th>bal:</th><th>bs:</th><th>isfam:</th></tr>
+                <tr>                                
+                    <td>${res.msg}</td>
+                    <td>${d._id}</td>
+                    <td>${d.mobile}</td>
+                    <td>${d.cards.length}</td>
+                    <td>${d.token}</td>
+                    <td>${d.balance}</td>
+                    <td>${d.balance_status}</td>
+                    <td>${d.is_family}</td>
+                </tr>`
+                if (res.data.collective ){
+                    c = res.data.collective;
+                    cstring = `<table class="table table-striped table-bordered"><tr><th>bal: </th><th>fam_name: </th><th>fam_id: </th></tr>
+                    <tr>
+                        <td>${c.balance}</td>
+                        <td>${c.family_name}</td>
+                        <td>${c.family_id}</td>                        
+                    </tr>`
+                    for(let g=0; g<c.congroups.length; g++){                  
+                        cstring += `<table class="table table-striped table-hover table-bordered"><tr><th>isadmin: </th><th>group:</th><th>consumer: </th></tr>
+                    <tr>
+                        <td>${c.congroups[g].is_admin} </td>  
+                        <td>${c.congroups[g].group['$oid']}</td>
+                        <td>${ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : '<a href="/main?id='+c.congroups[g].consumer+'">' + c.congroups[g].consumer  + '</a>'}</td>                        
+                    </tr>`;                    
+                    }
+ 
+                    gr_req_string = '';
+                    for(let h=0; h<c.gr_req.length; h++){
+                        gr_req_string += `<table class="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>st: </th><th>conid: </th></tr>
+                        <tr>
+                            <td>${c.gr_req[h].created_at['$date']}</td>
+                            <td>${c.gr_req[h].status}</td>
+                            <td>${c.gr_req[h].consumer}</td>                            
+                        </tr>`
+                    }
+ 
+                    con_coll_string = '';
+                    for(let k=0; k<c.con_coll.length; k++){
+                        con_coll_string += `<table class="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>sender:</th><th>sender_mobile:</th><th>sender_mobile:</th><th>is_sender:</th><th>receiver: </th><th>receiver_mobile:</th><th>is_receiver</th><th>group</th><th>group_id</th></tr>
+                        <tr>
+                            <td>${c.con_coll[k].created_at['$date']}</td>
+                            <td>${c.con_coll[k].sender}</td>
+                            <td>${c.con_coll[k].sender_mobile}</td>    
+                            <td>${c.con_coll[k].is_sender}</td>
+                            <td>${c.con_coll[k].receiver}</td>
+                            <td>${c.con_coll[k].receiver_mobile}</td>
+                            <td>${c.con_coll[k].is_receiver}</td>
+                            <td>${c.con_coll[k].group['$oid']}</td>
+                            <td>${c.con_coll[k].group_id}</td>
+                        </tr>`
+                    }
+                    aa1.innerHTML += `<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collective">Collective харах(${res.data.collective && res.data.collective.congroups.length})</button><br>
+                    <div id="collective" class="collapse"> ${cstring} ${gr_req_string} sender ${con_coll_string} receiver</div>
+                    `
+                }else {aa1.innerHTML += `<button type="button" class="btn btn-info" disabled>Collective-гүй</button><br>`}
+               
+               
+                c = res.data.concards;
+                for (let i=0; i<c.length; i++){//tuhain consumeriin cards-n toogoor davtana.
+                    // console.log('i=', i)
+                    cardid=d.cards[i]['$oid'];  //card buriin id ni cardid-d onoogdono.
+                    aa1.innerHTML += `<table class="table table-striped table-hover table-bordered"><tr><th>id </th><th>num:</th><th>ct: </th></th><th>bal: </th></th><th>st: </th></th><th>mobile: </th></tr>
+                        <tr>
+                            <td>${cardid}</td>
+                            <td>${c[i].number}</td>
+                            <td>${c[i].card_type} </td>
+                            <td>${c[i].balance}</td>
+                            <td>${c[i].status}</td>
+                            <td>${c[i].mobile}</td>
+                        </tr>`
+                    if(c[i].receipts.length >0){    //tuhain card receipttei eseh
+                        // let collap = document.getElementById(cardid); console.log('collap', collap)
+                        let receipts = c[i].receipts; console.log('receipts=', receipts, receipts.length)
+                        receipt_str = ''
+                        receipt_str+='<table class="table table-striped table-hover table-bordered"><tr><th>cDate:</th><th>card_no:</th><th>samo:</th><th>bamo:</th><th>tamo:</th><th>camo:</th><th>bonamo:</th><th>totpoint:</th><th>befbal:</th><th>poibal:</th><th>tertoken:</th><th>custoken:</th><th>cusmob:</th><th>billno:</th></tr>'
+                           
+                        for(let j=0; j<receipts.length; j++){
+                            receipt_str += `<tr>                                
+                                <td> ${receipts[j].created_at['$date']}</td>
+                                <td> ${receipts[j].card_number}</td>
+                                <td> ${receipts[j].spend_amount}</td>
+                                <td> ${receipts[j].bonus_amount}</td>
+                                <td> ${receipts[j].total_amount}</td>
+                                <td> ${receipts[j].cash_amount}</td>
+                                <td> ${receipts[j].bonus_amount}</td>
+                                <td> ${receipts[j].total_point}</td>
+                                <td> ${receipts[j].before_balance}</td>
+                                <td> ${receipts[j].point_balance}</td>                                
+                                <td> ${receipts[j].terminal_token}</td>
+                                <td> ${receipts[j].customer_token}</td>                            
+                                <td> ${receipts[j].customer_mobile} </td>
+                                <td>${receipts[j].bill_number}</td>
+                                </tr>`;
+                        }
+                        receipt_str +='</table>'
+                   
+                        aa1.innerHTML +=`</p><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${cardid}">Гүйлгээ харах(${c[i].receipts.length})</button>
+                        <div id="${cardid}" class="collapse">${receipt_str}</div>
+                        </div>
+                        `
+                    }else {aa1.innerHTML +=`<button type="button" class="btn btn-info" disabled>Гүйлгээ байхгүй</button></div>`}
+                   
+                               
+                       
+                   
+                }
+               
+            };
+            xhr.send(null);
+        }
+    </script>
+</body>
+</html>
+
+

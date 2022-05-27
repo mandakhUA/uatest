@@ -9,22 +9,25 @@ from bson.objectid import ObjectId
 from bson.json_util import loads, dumps
 import pprint
 
-
-
 import re
-
 from django.views.decorators.csrf import csrf_exempt
 
+# 74b799b979e77e54fbdd6bc3c2b4761e1a487be2        Monos UB
+# 747a67c09f665701e723e1652253394c2f32a11e        Unitel
+# 024164dc1a027029d3d59cfc988ef6f15231d94c        MetroExpress
+# 8b8a09a36f9e3e80ffadd81f8daed268800a470d        Univision
+# 06be024370fca7aaf0a4c2aa9caa91f47da02e5c			ua
 tokens = {
-	'nomin': "7900b7fe2e28fa86cda82cd11b204e13ae9097e2"
+	'nomin': "7900b7fe2e28fa86cda82cd11b204e13ae9097e2",
+	'DDISHTV': "83027b6ff8ba971fd07d48a3d67a544a6ee28104",
 }
 
 def getMongoClient():
 	# client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
 	# client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
 	# client = MongoClient(host="10.10.10.29", port=int(27017), username="mandakh", password="soeKZH4fEt3LxxFNu1o0", tls=True)
-	# client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
-	client = MongoClient(host="localhost", port=int(27017), username="", password="")
+	client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
+	# client = MongoClient(host="localhost", port=int(27017), username="", password="")
 	return client
 
 
@@ -140,9 +143,14 @@ def getcons(request):
 		for c in con['cards']:
 			c1 = getcard(c)			
 			receipts = []
-			for r in getreceipts(c1['number']):
+			for r in getreceipts({'card_number':c1['number']}):
+				rec_return = []
+				for ret in getreceiptreturn({'receipt':r['_id']}):
+					rec_return.append(ret)
+				r['rec_return']=rec_return
 				receipts.append(r)
 			c1['receipts']=receipts
+			c1['receiptsCnt'] = getreceiptCnt({'card_number':c1['number']})
 			concards.append(c1)
 	con['concards'] = concards
 	return JsonResponse({'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
@@ -183,16 +191,27 @@ def getcollective(id):
 		famgr['con_coll'] = con_coll
 		return famgr
 
-
-def getreceipts(num):
+def getreceiptCnt(expr):
 	client = getMongoClient()
 	db = client.nut
-	return db.receipt.find({'card_number': num }).sort("created_at",-1).limit(5)
+	return db.receipt.count_documents(expr) 
+
+def getreceipts(expr):
+	client = getMongoClient()
+	db = client.nut
+	return db.receipt.find(expr).sort("created_at",-1).limit(5)
 
 def getcard(id):
 	client = getMongoClient()
 	db = client.nut
 	return db.card.find_one({'_id': ObjectId(id) })
+
+def getreceiptreturn(expr):
+	client = getMongoClient()
+	db = client.nut
+	return db.receipt_return.find(expr)
+
+
 
 @csrf_exempt
 def getcards(request, id):	
@@ -203,9 +222,55 @@ def getcards(request, id):
 	return JsonResponse( {'data': json.loads(json_util.dumps(card)), 'msg':msg}  )
 
 
+	
 
+@csrf_exempt
+def check_mobile(request):
+	mobile = request.GET['mobile']
+	client = getMongoClient()
+	db = client.nut
+	cons = []
+	for c in db.consumer.find( {'mobile': mobile}):
+		cons.append(c)  	
+	cards = []
+	for c in db.card.find( {'mobile': mobile}):
+		cards.append(c) 
+	return JsonResponse({'cons': json.loads(json_util.dumps(cons)), 'cards': json.loads(json_util.dumps(cards))     })
+	
+@csrf_exempt
+def check_regno(request):
+	regno = request.GET['regno']
+	client = getMongoClient()
+	db = client.nut
+	cons = []
+	for c in db.consumer.find( {'profile.registration_number': regno}):
+		cons.append(c)  
+	return JsonResponse({'cons': json.loads(json_util.dumps(cons))})
+@csrf_exempt
+def check_num(request):
+	num = request.GET['num']
+	client = getMongoClient()
+	db = client.nut	
+	cards = []
+	for c in db.card.find( {'number': num}):
+		cons = []
+		for c1 in db.consumer.find( {'cards': ObjectId(c['_id'])}):
+			cons.append(c1)
+		c['cons'] = cons
+		cards.append(c)  			  
+	return JsonResponse({'cards': json.loads(json_util.dumps(cards))})
 
-
+@csrf_exempt
+def uaconsumer(request):
+	p = request.POST
+	print('token',"'"+p['token']+ "'","'"+p['mobile']+ "'")	
+	#7900b7fe2e28fa86cda82cd11b204e13ae9097e2
+	#900b7fe2e28fa86cda82cd11b204e13ae9097e2
+	response = requests.post('http://66.181.175.8:8000/consumer/account/uaconsumer/', data=json.dumps({"mobile": p['mobile'], "card_number": p['card_number'], "registration_number": p['registration_number'], "nomin_card": p['nomin_card'], "fee_type": p['fee_type'], "card_fee": p['card_fee'], "username": p['username']}), headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
+	# print('content', response.content)
+	r = json.loads(response.content)
+	# print('content', r,  isinstance(r, list))
+	return JsonResponse({'data':r})
 
 
 
