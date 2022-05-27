@@ -66,10 +66,13 @@
                 msg = document.getElementById('uaconsumer_msg'); 
                 if(Array.isArray(d)){
                     msg.innerHTML = d[0]
-                } else if (typeof d === "object" && 'detail' in d){msg.innerHTML = d.detail}
+                } else if (typeof d === "object"){
+                    if('detail' in d){msg.innerHTML = d.detail}
+                    if('mobile' in d && 'message' in d && 'result' in d){msg.innerHTML = `msg:${d.message}   mobile:<a href='main?mobile=${d.mobile}'>${d.mobile} </a> result:${d.result}`}
+                } 
 
             }            
-            xhr.send(`token=${document.getElementById('uaconsumer_token').value}&mobile=${document.getElementById('uaconsumer_mobile').value}&registration_number=${document.getElementById('uaconsumer_regno').value}&card_number=${document.getElementById('uaconsumer_num').value}&nomin_card=''&fee_type=0 &card_fee=0 &username=123`);
+            xhr.send(`token=${document.getElementById('uaconsumer_token').value}&mobile=${document.getElementById('uaconsumer_mobile').value}&registration_number=${document.getElementById('uaconsumer_regno').value}&card_number=${document.getElementById('uaconsumer_num').value}&nomin_card=&fee_type=0 &card_fee=0 &username=123`);
         }
 
 
@@ -80,19 +83,18 @@
             xhr.responseType= "json"
             xhr.onload = function () {
                 console.log('checkmoob', xhr.response)
-                msg = document.getElementById('uaconsumer_mobile_msg');                 
+                msg = document.getElementById('uaconsumer_mobile_msg');    msg.innerHTML = '';              
                 if (xhr.response.cons.length === 0){msg.innerHTML = ` msg: энэ утас дээр бүртгэлтэй хэр олдсонгүй. `}
                 else if (xhr.response.cons.length > 0){
                     msg.innerHTML += `${xhr.response.cons.length} cons oldloo. cons: <a href='main?id=${xhr.response.cons[0]._id}' target="_blank">${xhr.response.cons[0]._id}</a>`
                 }
                 if (xhr.response.cards.length === 0){msg.innerHTML += ` msg: энэ утас дээр бүртгэлтэй карт олдсонгүй. `}
                 else if (xhr.response.cards.length > 0){
-                    msg.innerHTML += `${xhr.response.cards.length} cards oldloo. cards: <a href='card?id=${xhr.response.cards[0]._id}' target="_blank">${xhr.response.cards[0]._id}</a>`
+                    msg.innerHTML += `${xhr.response.cards.length} cards oldloo. cards: <a href='card?id=${xhr.response.cards[0]._id['$oid']}' target="_blank">${xhr.response.cards[0]._id['$oid']}</a>`
                 }
             }
             xhr.send(null);
         }
-        
         function check_regno(){
             val = document.getElementById('uaconsumer_regno'); console.log('regno', val.value)
             var xhr = new XMLHttpRequest();
@@ -100,7 +102,7 @@
             xhr.responseType= "json"
             xhr.onload = function () {
                 console.log('checregno', xhr.response)
-                msg = document.getElementById('uaconsumer_regno_msg'); 
+                msg = document.getElementById('uaconsumer_regno_msg');     msg.innerHTML = ''; 
                 if (xhr.response.cons.length === 0){msg.innerHTML = ` msg: энэ рег дээр бүртгэлтэй хэр олдсонгүй. `}
                 else if (xhr.response.cons.length > 0){
                     msg.innerHTML += `${xhr.response.cons.length} cons oldloo. cons: <a href='main?id=${xhr.response.cons[0]._id}' target="_blank">${xhr.response.cons[0]._id}</a>`
@@ -115,7 +117,7 @@
             xhr.responseType= "json"
             xhr.onload = function () {
                 console.log('checknum', xhr.response)
-                msg = document.getElementById('uaconsumer_num_msg');                 
+                msg = document.getElementById('uaconsumer_num_msg');   msg.innerHTML = '';                 
                 if (xhr.response.cards.length === 0){msg.innerHTML = ` msg: энэ дугаар дээр бүртгэлтэй карт олдсонгүй. `}
                 else if (xhr.response.cards.length > 0){
                     msg.innerHTML += `${xhr.response.cards.length} cards oldloo. cards: <a href='card?id=${xhr.response.cards[0]._id['$oid']}' target="_blank">${xhr.response.cards[0]._id['$oid']}</a>`
@@ -137,7 +139,7 @@
             if (params.has('mobile') || params.has('regno') || params.has('id')) {
                 let searchval = document.getElementById("searchval"); //console.log('searchval',searchval.value)
                 let bb = document.getElementById("bb");  //console.log(bb.value)
-                if (params.has('mobile')) {searchval.value = "mobile"; bb.value=params.get('id');   }
+                if (params.has('mobile')) {searchval.value = "mobile"; bb.value=params.get('mobile');   }
                 else if (params.has('regno')) {searchval.value = "regno"; bb.value=params.get('regno');   }
                 else if (params.has('id')) {searchval.value = "id"; bb.value=params.get('id');   } 
             }
@@ -155,7 +157,7 @@
                 d = res.data;
 
                 let aa1 = document.getElementById("aa1")    //
-                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} token: ${d.token}  bal: ${d.balance}  bs: ${d.balance_status}  isfam: ${d.is_family}`
+                aa1.innerHTML = `msg:${res.msg} _id:${d._id}  mob: ${d.mobile} cardslen: ${d.cards.length} token: ${d.token}  bal: ${d.balance}  bs: ${d.balance_status}  isfam: ${d.is_family} regno: ${d.profile.registration_number}`
                 if (res.data.collective ){
                     c = res.data.collective;
                     cstring = `bal: ${c.balance} fam_name: ${c.family_name} fam_id: ${c.family_id}`
