@@ -132,18 +132,17 @@ def getcons(request):
         # conCnt = db.consumer.count_documents({"profile.registration_number": re.compile(val, re.IGNORECASE) })
     elif 'id' in request.GET:
         val = request.GET['id']
-        con = getCon({"_id": Int64(val) })
+        con = getCon({"_id": Int64(val) })       
         conCnt = getConCnt({"_id": Int64(val)  })
-        # con = db.consumer.find_one()
-        # conCnt = db.consumer.count_documents()
-    # print( val, con, conCnt)
+      
+    concards = [] 
     if conCnt == 0:
         msg=' Хэрэглэгч олдсонгүй'
     elif conCnt>1:
         msg = str(conCnt)+' Хэрэглэгч олдлоо!!!'
     elif conCnt == 1:
         con['collective']= getcollective(con['_id'])
-        concards = []      
+             
         for c in con['cards']:
             c1 = getcard(c)        
             receipts = []
