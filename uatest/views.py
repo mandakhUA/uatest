@@ -21,6 +21,10 @@ tokens = {
     'Univision': "8b8a09a36f9e3e80ffadd81f8daed268800a470d",
     'UA': "06be024370fca7aaf0a4c2aa9caa91f47da02e5c",
 }
+
+# url = 'http://66.181.175.8:8000'
+url = 'https://staging-zone.upoint.mn'
+
  
 def getMongoClient():
     # client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
@@ -212,7 +216,6 @@ def getreceiptreturn(expr):
     return db.receipt_return.find(expr)
  
  
- 
 @csrf_exempt
 def getcards(request, id):  
     print(id)
@@ -220,8 +223,6 @@ def getcards(request, id):
     card = getcard(id)
     print('card', card)
     return JsonResponse( {'data': json.loads(json_util.dumps(card)), 'msg':msg}  )
- 
- 
    
  
 @csrf_exempt
@@ -260,18 +261,21 @@ def check_num(request):
         cards.append(c)              
     return JsonResponse({'cards': json.loads(json_util.dumps(cards))})
  
+
 @csrf_exempt
-def uaconsumer(request):
+def sendurl(request, func_name):
     p = request.POST
-    print('token',"'"+p['token']+ "'","'"+p['nomin_card']+ "'")
-    #7900b7fe2e28fa86cda82cd11b204e13ae9097e2
-    #900b7fe2e28fa86cda82cd11b204e13ae9097e2
-    response = requests.post('http://66.181.175.8:8000/consumer/account/uaconsumer/', data=json.dumps({"mobile": p['mobile'], "card_number": p['card_number'], "registration_number": p['registration_number'], "nomin_card": p['nomin_card'], "fee_type": p['fee_type'], "card_fee": p['card_fee'], "username": p['username']}), headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
+    h1={"Content-Type":"application/json", "Authorization":"Token " + p['token']}
+    # print('token',"'"+p['token']+ "'","'"+p['nomin_card']+ "'")
+    if (func_name == "uaconsumer"):
+        response = requests.post(url + '/consumer/account/uaconsumer/', data=json.dumps({"mobile": p['mobile'], "card_number": p['card_number'], "registration_number": p['registration_number'], "nomin_card": p['nomin_card'], "fee_type": p['fee_type'], "card_fee": p['card_fee'], "username": p['username']}), headers=h1)
+    elif (func_name == "createpc"):
+        response = requests.post(url + '/transaction/consumer/create_partnercard/', data=json.dumps({  "reg_no": p['reg_no'], "card_no": p['card_no'], "card_serial": p['card_serial'], "nfc_no": p['nfc_no'], }), headers=h1)
+    elif (func_name == "updatepc"):
+        response = requests.post(url + '/transaction/consumer/update_partnercard/', data=json.dumps({  "reg_no": p['reg_no'], "card_no": p['card_no'], }), headers=h1)
+    elif (func_name == "changepc"):
+        response = requests.post(url + '/transaction/consumer/update_partnercard/', data=json.dumps({  "reg_no": p['reg_no'], "card_no_1": p['card_no_1'], }), headers=h1)
+    
     # print('content', response.content)
     r = json.loads(response.content)
-    # print('content', r,  isinstance(r, list))
     return JsonResponse({'data':r})
-
-
-
-

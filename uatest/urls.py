@@ -7,7 +7,7 @@ urlpatterns = [
     path('main', views.maintest),
     path('createpc/', views.createpc),
 
-    path('api/uaconsumer', views.uaconsumer),
+    path('api/sendurl/<func_name>', views.sendurl),
     path('api/check_mobile', views.check_mobile),
     path('api/check_regno', views.check_regno),
     path('api/check_num', views.check_num),
