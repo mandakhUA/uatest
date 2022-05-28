@@ -77,7 +77,7 @@
                 <input type="button" value="[]" onclick="check_token()"/><span id="createpc_token_msg"></span></div>            
             <div><input type="text" name="createpc_regno" id="createpc_regno" placeholder="regno"/><input type="button" value="[]" onclick="check_regno('createpc_regno','createpc_regno_msg')"/><span id="createpc_regno_msg"></span></div>
             <div><input type="text" name="createpc_num" id="createpc_num" placeholder="num"/><input type="button" value="[]" onclick="check_num('createpc_num', 'createpc_num_msg')"/><span id="createpc_num_msg"></span></div>            
-            <div><input type="button" value="send" onclick="send_url('createpc', 'create_msg')"/><span id="createpc_msg"></span></div>
+            <div><input type="button" value="send" onclick="send_url('createpc', 'createpc_msg')"/><span id="createpc_msg"></span></div>
 
         </div>
         
@@ -117,7 +117,7 @@
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.responseType= "json"
             xhr.onload = function () {
-                d = xhr.response.data; console.log('send_url', d)
+                d = xhr.response.data; console.log('send_url', d,msg_id)
                 msg = document.getElementById(msg_id); msg.innerHTML=''
                 if(Array.isArray(d)){msg.innerHTML = d[0]} 
                 else if (typeof d === "object"){
