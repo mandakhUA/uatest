@@ -262,7 +262,9 @@ def sendurl(request, func_name):
     p = request.POST
     h1={"Content-Type":"application/json", "Authorization":"Token " + p['token']}
     # print('token',"'"+p['token']+ "'","'"+p['nomin_card']+ "'")
-    if (func_name == "uaconsumer"):
+    if (func_name == "check_token"):
+        response = requests.post(url + '/consumer/family/add_member/', data=json.dumps({  "mobile": p['mobile'], }), headers=h1)
+    elif (func_name == "uaconsumer"):
         response = requests.post(url + '/consumer/account/uaconsumer/', data=json.dumps({"mobile": p['mobile'], "card_number": p['card_number'], "registration_number": p['registration_number'], "nomin_card": p['nomin_card'], "fee_type": p['fee_type'], "card_fee": p['card_fee'], "username": p['username']}), headers=h1)
     elif (func_name == "createpc"):
         print("orloo")
@@ -271,7 +273,10 @@ def sendurl(request, func_name):
         response = requests.post(url + '/transaction/consumer/update_partnercard/', data=json.dumps({  "reg_no": p['reg_no'], "card_no": p['card_no'], }), headers=h1)
     elif (func_name == "changepc"):
         response = requests.post(url + '/transaction/consumer/update_partnercard/', data=json.dumps({  "reg_no": p['reg_no'], "card_no_1": p['card_no_1'], }), headers=h1)
-    
+    elif (func_name == "addmember"):
+        response = requests.post(url + '/consumer/family/add_member/', data=json.dumps({  "mobile": p['mobile'], }), headers=h1)
+
+
     print('content', response.content)
     r = json.loads(response.content)
     return JsonResponse({'data':r})

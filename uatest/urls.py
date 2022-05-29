@@ -12,6 +12,7 @@ urlpatterns = [
     path('api/check_mobile', views.check_mobile),
     path('api/check_regno', views.check_regno),
     path('api/check_num', views.check_num),
+    path('api/e', views.check_num),
     path('api/cons', views.getcons),
     path('api/cards/<id>', views.getcards),
     path('admin/', admin.site.urls),
