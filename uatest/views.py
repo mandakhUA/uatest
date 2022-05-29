@@ -36,13 +36,9 @@ def getMongoClient():
  
  
 def maintest(request):
- 
- 
- 
- 
     return render(request, "main.html")
-    # return HttpResponse("createpc==" + msg + "<br>" + str(r))
- 
+def maintest1(request):
+    return render(request, "main1.html")
  
 def createpc(request):
     msg = ""
