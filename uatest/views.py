@@ -255,16 +255,27 @@ def check_num(request):
         c['cons'] = cons
         cards.append(c)              
     return JsonResponse({'cards': json.loads(json_util.dumps(cards))})
+@csrf_exempt
+def check_token(request, token):
+    print('token', token)
+    client = getMongoClient()
+    db = client.nut
+    con_tokens = []
+    for c in db.consumer.find( {'token': token}):
+        con_tokens.append(c) 
+        cons = []
+    mer_tokens = []
+    for c in db.merchant.find( {'token': token}):
+        mer_tokens.append(c)             
+    return JsonResponse({'con_tokens': json.loads(json_util.dumps(con_tokens)), 'mer_tokens': json.loads(json_util.dumps(mer_tokens)), })
  
-
 @csrf_exempt
 def sendurl(request, func_name):
     p = request.POST
     h1={"Content-Type":"application/json", "Authorization":"Token " + p['token']}
-    # print('token',"'"+p['token']+ "'","'"+p['nomin_card']+ "'")
-    if (func_name == "check_token"):
-        response = requests.post(url + '/consumer/family/add_member/', data=json.dumps({  "mobile": p['mobile'], }), headers=h1)
-    elif (func_name == "uaconsumer"):
+    h2={"Content-Type":"application/json", "Authorization":"Token " + p['token']}
+    print('token',"'"+p['token']+ "'","'"+p['mobile']+ "'", func_name)
+    if (func_name == "uaconsumer"):
         response = requests.post(url + '/consumer/account/uaconsumer/', data=json.dumps({"mobile": p['mobile'], "card_number": p['card_number'], "registration_number": p['registration_number'], "nomin_card": p['nomin_card'], "fee_type": p['fee_type'], "card_fee": p['card_fee'], "username": p['username']}), headers=h1)
     elif (func_name == "createpc"):
         print("orloo")

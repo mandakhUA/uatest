@@ -40,7 +40,7 @@
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
                     <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
                 </select>
-                <input type="button" value="[]" onclick="send_url('check_token', 'addmember_token_msg')"/><span id="addmember_token_msg"></span></div>  
+                <input type="button" value="[]" onclick="check_token('addmember_token', 'addmember_token_msg')"/><span id="addmember_token_msg"></span></div>  
             <div><input type="text" name="addmember_mobile" id="addmember_mobile" placeholder="mobile" onchange="check_mobile('addmember_mobile', 'addmember_mobile_msg')"/><input type="button" value="[]" onclick="check_mobile('addmember_mobile', 'addmember_mobile_msg')"/><span id="addmember_mobile_msg"></span></div>          
             <div><input type="button" value="send" onclick="send_url('addmember', 'addmember_msg')"/><span id="addmember_msg"></span></div>
 
@@ -57,7 +57,7 @@
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
                     <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
                 </select>
-                <input type="button" value="[]" onclick="send_url('check_token', 'changepc_token_msg')"/><span id="changepc_token_msg"></span></div>            
+                <input type="button" value="[]" onclick="check_token('changepc_token', 'changepc_token_msg')"/><span id="changepc_token_msg"></span></div>            
             <div><input type="text" name="changepc_regno" id="changepc_regno" placeholder="regno" onchange="check_regno('changepc_regno','changepc_regno_msg')"/><input type="button" value="[]" onclick="check_regno('changepc_regno','changepc_regno_msg')"/><span id="changepc_regno_msg"></span></div>
             <div><input type="text" name="changepc_num1" id="changepc_num1" placeholder="num1" onchange="check_num('changepc_num1', 'changepc_num1_msg')"/><input type="button" value="[]" onclick="check_num('changepc_num1', 'changepc_num1_msg')"/><span id="changepc_num1_msg"></span></div>            
             <div><input type="text" name="changepc_num2" id="changepc_num2" placeholder="num2" onchange="check_num('changepc_num2', 'changepc_num2_msg')"/><input type="button" value="[]" onclick="check_num('changepc_num2', 'changepc_num2_msg')"/><span id="changepc_num2_msg"></span></div>            
@@ -76,7 +76,7 @@
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
                     <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
                 </select>
-                <input type="button" value="[]" onclick="send_url('check_token', 'updatepc_token_msg')"/><span id="updatepc_token_msg"></span></div>            
+                <input type="button" value="[]" onclick="check_token('updatepc_token', 'updatepc_token_msg')"/><span id="updatepc_token_msg"></span></div>            
             <div><input type="text" name="updatepc_regno" id="updatepc_regno" placeholder="regno" onchange="check_regno('updatepc_regno','updatepc_regno_msg')"/><input type="button" value="[]" onclick="check_regno('updatepc_regno','updatepc_regno_msg')"/><span id="updatepc_regno_msg"></span></div>
             <div><input type="text" name="updatepc_num" id="updatepc_num" placeholder="num" onchange="check_num('updatepc_num','updatepc_num_msg')"/><input type="button" value="[]" onclick="check_num('updatepc_num', 'updatepc_num_msg')"/><span id="updatepc_num_msg"></span></div>            
             <div><input type="button" value="send" onclick="send_url('updatepc', 'updatepc_msg')"/><span id="updatepc_msg"></span></div>
@@ -94,7 +94,7 @@
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
                     <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
                 </select>
-                <input type="button" value="[]" onclick="send_url('check_token', 'createpc_token_msg')"/><span id="createpc_token_msg"></span></div>            
+                <input type="button" value="[]" onclick="check_token('createpc_token', 'createpc_token_msg')"/><span id="createpc_token_msg"></span></div>            
             <div><input type="text" name="createpc_regno" id="createpc_regno" placeholder="regno" onchange="check_regno('createpc_regno','createpc_regno_msg')"/><input type="button" value="[]" onclick="check_regno('createpc_regno','createpc_regno_msg')"/><span id="createpc_regno_msg"></span></div>
             <div><input type="text" name="createpc_num" id="createpc_num" placeholder="num" onchange="check_num('createpc_num', 'createpc_num_msg')"/><input type="button" value="[]" onclick="check_num('createpc_num', 'createpc_num_msg')"/><span id="createpc_num_msg"></span></div>            
             <div><input type="button" value="send" onclick="send_url('createpc', 'createpc_msg')"/><span id="createpc_msg"></span></div>
@@ -112,7 +112,7 @@
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
                     <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
                 </select>
-                <input type="button" value="[]" onclick="send_url('check_token', 'uaconsumer_token_msg')"/><span id="uaconsumer_token_msg"></span></div>
+                <input type="button" value="[]" onclick="check_token('uaconsumer_token', 'uaconsumer_token_msg')"/><span id="uaconsumer_token_msg"></span></div>
             <div><input type="text" name="uaconsumer_mobile" id="uaconsumer_mobile" placeholder="mobile" onchange="check_mobile('uaconsumer_mobile', 'uaconsumer_mobile_msg')"/><input type="button" value="[]" onclick="check_mobile('uaconsumer_mobile', 'uaconsumer_mobile_msg')"/><span id="uaconsumer_mobile_msg"></span></div>
             <div><input type="text" name="uaconsumer_regno" id="uaconsumer_regno" placeholder="regno" onchange="check_regno('uaconsumer_regno', 'uaconsumer_regno_msg')"/><input type="button" value="[]" onclick="check_regno('uaconsumer_regno', 'uaconsumer_regno_msg')"/><span id="uaconsumer_regno_msg"></span></div>
             <div><input type="text" name="uaconsumer_num" id="uaconsumer_num" placeholder="num" onchange="check_num('uaconsumer_num', 'uaconsumer_num_msg')"/><input type="button" value="[]" onclick="check_num('uaconsumer_num', 'uaconsumer_num_msg')"/><span id="uaconsumer_num_msg"></span></div>
@@ -130,21 +130,19 @@
     <script>
         function check_token(inpid, msgid){
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/api/check_token', true);
+            xhr.open('POST', '/api/check_token/' + document.getElementById(inpid).value, true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.responseType= "json"
             xhr.onload = function () {
-                d = xhr.response.data; console.log('send_url', d,msgid)
+                con_tokens = xhr.response.con_tokens; console.log('con_tokens', con_tokens)
+                mer_tokens = xhr.response.mer_tokens; console.log('mer_tokens', mer_tokens)
                 msg = document.getElementById(msgid); msg.innerHTML=''
-                if(Array.isArray(d)){msg.innerHTML = d[0]} 
-                else if (typeof d === "object"){
-                    if('detail' in d)   {msg.innerHTML +=" "+ d.detail}
-                    if('message' in d)  {msg.innerHTML += ` msg:${d.message}`;  }
-                    if('mobile' in d )  {msg.innerHTML += ` mobile:<a href='main?mobile=${d.mobile}'>${d.mobile} </a>`}                    
-                    if('result' in d)   {msg.innerHTML += ` result:${d.result}`}                    
-                } 
+                if(con_tokens.length == 0 ) {msg.innerHTML = 'cons oldsongui.'} 
+                else { msg.innerHTML = `${con_tokens.length} cons oldloo. <a href='main?mobile='${con_tokens[0].mobile }'> ${con_tokens[0].mobile } </a>`;} 
+                if(mer_tokens.length == 0 ) {msg.innerHTML += ' mer_tokens oldsongui.'} 
+                else { msg.innerHTML += `${mer_tokens.length} mer oldloo. ${mer_tokens[0].name}`;} 
             }
-            xhr.send(`token=${document.getElementById(inpid).value}`)
+            xhr.send()
             
         }
         function token_select(id, id1){
