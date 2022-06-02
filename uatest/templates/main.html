@@ -192,7 +192,7 @@
                 else if (typeof d === "object"){
                     if('detail' in d)   {msg.innerHTML +=" "+ d.detail}
                     if('message' in d)  {msg.innerHTML += ` msg:${d.message}`;  }
-                    if('group_id' in d)  {msg.innerHTML += ` gid:${d.group_id} id:${id}`;  }
+                    if('group_id' in d)  {msg.innerHTML += ` gid:${d.group_id} id:${d.id}`;  }
                     if('mobile' in d )  {msg.innerHTML += ` mobile:<a href='main?mobile=${d.mobile}'>${d.mobile} </a>`}                    
                     if('result' in d)   {msg.innerHTML += ` result:${d.result}`}                    
                 } 
