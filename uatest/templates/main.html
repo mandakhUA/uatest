@@ -28,6 +28,23 @@
         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#changepc">changepc</button>
         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#addmember">addmember</button>
         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#acceptreq">acceptreq</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#rejectreq">rejectreq</button>
+        <div id="rejectreq" class="collapse">
+            <div><input type="text" name="rejectreq_token" id="rejectreq_token" placeholder="token"/>
+                <select id="rejectreq_token_sel" onchange="token_select('rejectreq_token_sel','rejectreq_token')">
+                    <option value="" selected>tokens</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
+                    <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
+                    <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
+                    <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
+                    <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                </select>
+                <input type="button" value="[]" onclick="check_token('rejectreq_token', 'rejectreq_token_msg')"/><span id="rejectreq_token_msg"></span></div>  
+            <div><input type="text" name="rejectreq_famid" id="rejectreq_famid" placeholder="famid" onchange="check_family('rejectreq_famid', 'rejectreq_famid_msg')"/><input type="button" value="[]" onclick="check_family('rejectreq_famid', 'rejectreq_famid_msg')"/><span id="rejectreq_famid_msg"></span></div>          
+            <div><input type="button" value="send" onclick="send_url('rejectreq', 'rejectreq_msg')"/><span id="rejectreq_msg"></span></div>
+        </div>
         <div id="acceptreq" class="collapse">
             <div><input type="text" name="acceptreq_token" id="acceptreq_token" placeholder="token"/>
                 <select id="acceptreq_token_sel" onchange="token_select('acceptreq_token_sel','acceptreq_token')">
@@ -186,6 +203,7 @@
             else if(func_name == 'changepc'){xhr.send(`token=${document.getElementById('changepc_token').value}&reg_no=${document.getElementById('changepc_regno').value}&card_no_1=${document.getElementById('changepc_num1').value}&card_no_2=${document.getElementById('changepc_num2').value}`);}
             else if(func_name == 'addmember'){xhr.send(`token=${document.getElementById('addmember_token').value}&mobile=${document.getElementById('addmember_mobile').value}`);}            
             else if(func_name == 'acceptreq'){xhr.send(`token=${document.getElementById('acceptreq_token').value}&famid=${document.getElementById('acceptreq_famid').value}`);}            
+            else if(func_name == 'rejectreq'){xhr.send(`token=${document.getElementById('rejectreq_token').value}&famid=${document.getElementById('rejectreq_famid').value}`);}            
         }
         
 
