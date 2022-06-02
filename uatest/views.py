@@ -276,13 +276,27 @@ def check_token(request, token):
     for c in db.merchant.find( {'token': token}):
         mer_tokens.append(c)             
     return JsonResponse({'con_tokens': json.loads(json_util.dumps(con_tokens)), 'mer_tokens': json.loads(json_util.dumps(mer_tokens)), })
- 
+@csrf_exempt
+def check_fam(request):
+    famid = request.GET['fam']
+    # print('famid', famid)
+    client = getMongoClient()
+    db = client.nut
+    fcnt = db.family_group.count_documents( {'family_id': int(famid)} )
+    f = db.family_group.find_one( {'family_id': int(famid)}  ) 
+    if (f ):
+        cfcnt = db.consumer_family.count_documents( {'group': ObjectId(f['_id'])} )
+        f['cfcnt'] = cfcnt
+    # print('famid', "'"+famid+"'",fcnt , f )
+    return JsonResponse({'fam': json.loads(json_util.dumps(f)) })
+
+
 @csrf_exempt
 def sendurl(request, func_name):
     p = request.POST
     h1={"Content-Type":"application/json", "Authorization":"Token " + p['token']}
     h2={"Content-Type":"application/json", "Authorization":"Token " + p['token']}
-    print('token',"'"+p['token']+ "'","'"+p['mobile']+ "'", func_name)
+    print('token',"'"+p['token']+ "'","'"+p['famid']+ "'", func_name)
     if (func_name == "uaconsumer"):
         response = requests.post(url + '/consumer/account/uaconsumer/', data=json.dumps({"mobile": p['mobile'], "card_number": p['card_number'], "registration_number": p['registration_number'], "nomin_card": p['nomin_card'], "fee_type": p['fee_type'], "card_fee": p['card_fee'], "username": p['username']}), headers=h1)
     elif (func_name == "createpc"):
@@ -294,7 +308,8 @@ def sendurl(request, func_name):
         response = requests.post(url + '/transaction/consumer/update_partnercard/', data=json.dumps({  "reg_no": p['reg_no'], "card_no_1": p['card_no_1'], }), headers=h1)
     elif (func_name == "addmember"):
         response = requests.post(url + '/consumer/family/add_member/', data=json.dumps({  "mobile": p['mobile'], }), headers=h1)
-
+    elif (func_name == "acceptreq"):
+        response = requests.post(url + '/consumer/family/accept_request/', data=json.dumps({  "family_id": p['famid'], }), headers=h1)
 
     print('content', response.content)
     r = json.loads(response.content)

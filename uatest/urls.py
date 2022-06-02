@@ -13,6 +13,7 @@ urlpatterns = [
     path('api/check_regno', views.check_regno),
     path('api/check_num', views.check_num),
     path('api/check_token/<token>', views.check_token),
+    path('api/check_fam', views.check_fam),
     path('api/cons', views.getcons),
     path('api/cards/<id>', views.getcards),
     path('admin/', admin.site.urls),
