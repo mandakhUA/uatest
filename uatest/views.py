@@ -168,19 +168,26 @@ def getCon(expr):
 def getcollective(id):
     client = getMongoClient()
     db = client.nut
-    confamcnt = db.consumer_family.count_documents({'consumer': Int64(id) })
-    if confamcnt != 1:
+    confamcnt = db.consumer_family.count_documents({'consumer': Int64(id) })    #busad ruu add member hiiged ooroo admin bolson eseh. yer ni collective uusle gesn ug.
+    congrreqcnt = db.group_request.count_documents({'consumer': Int64(id) })    #oor der ni add member irsen eseh.
+    # concollcnt = db.consumer_collective.count_documents({'receiver': Int64(id) })    #oor deer ni add member irsen eseh
+    if confamcnt < 1 and congrreqcnt < 1 :
         return None
     else :
-        confam = db.consumer_family.find_one({'consumer': Int64(id) })
- 
+        famgr = {}
+        confam = {}
+        if confamcnt == 0 and (congrreqcnt > 0 or concollcnt >0): #coll-nd orooguich huselt irsen eseh.    
+            h = db.group_request.find_one({'consumer': Int64(id), 'status': 0 })
+            confam['group'] = h['group']
+        elif confamcnt == 1 :
+            confam = db.consumer_family.find_one({'consumer': Int64(id) }) 
         famgr = db.family_group.find_one({'_id': ObjectId(confam['group']) })
         # print('famgr', famgr)
         congroups = []
         for g in db.consumer_family.find({'group': ObjectId(confam['group']) }):        
             congroups.append(g)
         famgr['congroups'] = congroups
-        gr_req=[]  
+        gr_req=[] 
         for h in  db.group_request.find({'group': ObjectId(confam['group']) }):
             gr_req.append(h)    
         famgr['gr_req'] = gr_req
@@ -189,6 +196,7 @@ def getcollective(id):
             con_coll.append(t)  
         famgr['con_coll'] = con_coll
         return famgr
+        
  
 def getreceiptCnt(expr):
     client = getMongoClient()

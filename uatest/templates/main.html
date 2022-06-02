@@ -160,6 +160,7 @@
                 else if (typeof d === "object"){
                     if('detail' in d)   {msg.innerHTML +=" "+ d.detail}
                     if('message' in d)  {msg.innerHTML += ` msg:${d.message}`;  }
+                    if('group_id' in d)  {msg.innerHTML += ` gid:${d.group_id} id:${id}`;  }
                     if('mobile' in d )  {msg.innerHTML += ` mobile:<a href='main?mobile=${d.mobile}'>${d.mobile} </a>`}                    
                     if('result' in d)   {msg.innerHTML += ` result:${d.result}`}                    
                 } 
@@ -272,18 +273,21 @@
                 if (res.data.collective ){
                     c = res.data.collective;
                     cstring = `bal: ${c.balance} fam_name: ${c.family_name} fam_id: ${c.family_id}`
-                    cstring += '<table class="table table-striped table-bordered"><tr><th>isadmin: </th><th>group: </th><th>consumer: </th></tr>'
-                    for(let g=0; g<c.congroups.length; g++){      
-                        cstring += `
-                        <tr>
-                            <td>${c.congroups[g].is_admin}</td>
-                            <td>${c.congroups[g].group['$oid']}</td>
-                            <td>${ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : '<a href="/main?id='+c.congroups[g].consumer+'" target="_blank">' + c.congroups[g].consumer  + '</a>'}</td>                         
-                        </tr>`
+                    if( c.congroups && c.congroups.length>0){
+                        cstring += '<br>consuemr_family<table class="table table-striped table-bordered"><tr><th>isadmin: </th><th>group: </th><th>consumer: </th></tr>'
+                        for(let g=0; g<c.congroups.length; g++){      
+                            cstring += `
+                            <tr>
+                                <td>${c.congroups[g].is_admin}</td>
+                                <td>${c.congroups[g].group['$oid']}</td>
+                                <td>${ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : '<a href="/main?id='+c.congroups[g].consumer+'" target="_blank">' + c.congroups[g].consumer  + '</a>'}</td>                         
+                            </tr>`
+                        }
+                        cstring += '</table>'
                     }
-                    cstring += '</table>'
+                    
                     if(c.gr_req.length >0 ){
-                        gr_req_string = `<table class="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>st: </th><th>conid: </th></tr>`;
+                        gr_req_string = `group_request<table class="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>st: </th><th>conid: </th></tr>`;
                         for(let h=0; h<c.gr_req.length; h++){ 
                             // gr_req_string += `<div>cr_at: ${c.gr_req[h].created_at['$date']} st: ${c.gr_req[h].status} conid: ${c.gr_req[h].consumer}</div>`
                             gr_req_string += `
@@ -297,7 +301,7 @@
                         cstring+=gr_req_string;
                     }
                     if (c.con_coll.length>0){
-                        con_coll_string = `<table class="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>sender:</th><th>sender_mobile:</th><th>sender_mobile:</th><th>is_sender:</th><th>receiver: </th><th>receiver_mobile:</th><th>is_receiver</th><th>group</th><th>group_id</th></tr>s`;
+                        con_coll_string = `consumer_collection<table class="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>sender:</th><th>sender_mobile:</th><th>sender_mobile:</th><th>is_sender:</th><th>receiver: </th><th>receiver_mobile:</th><th>is_receiver</th><th>group</th><th>group_id</th></tr>s`;
                         for(let k=0; k<c.con_coll.length; k++){ 
                             // con_coll_string += `<div>cr_at: ${c.con_coll[k].created_at['$date']} sender: ${c.con_coll[k].sender} sender_mobile: ${c.con_coll[k].sender_mobile} is_sender: ${c.con_coll[k].is_sender} receiver: ${c.con_coll[k].receiver} receiver_mobile: ${c.con_coll[k].receiver_mobile} is_receiver ${c.con_coll[k].is_receiver} group ${c.con_coll[k].group['$oid']} group_id ${c.con_coll[k].group_id}</div>`
                             con_coll_string +=  `
@@ -316,7 +320,7 @@
                         con_coll_string +='</table>'
                         cstring+=con_coll_string;
                     }
-                    aa1.innerHTML += `<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collective">collective(${res.data.collective && res.data.collective.congroups.length})</button><br>
+                    aa1.innerHTML += `<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collective">collective(${res.data.collective && res.data.collective.congroups && res.data.collective.congroups.length || 0})</button><br>
                     <div id="collective" class="collapse"> ${cstring}</div>
                     `
                 } else {aa1.innerHTML += `<button type="button" class="btn btn-info" disabled>collective(0)</button><br>`}
