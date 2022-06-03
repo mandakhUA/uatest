@@ -315,6 +315,12 @@ def sendurl(request, func_name):
         response = requests.post(url + '/consumer/family/reject_request/', data=json.dumps({  "family_id": p['famid'], }), headers=h1)
     elif (func_name == "quitfam"):
         response = requests.post(url + '/consumer/family/quit_group/', headers=h1)
+    elif (func_name == "delgr"):
+        response = requests.post(url + '/consumer/family/delete_group/', headers=h1)
+    elif (func_name == "remmem"):
+        response = requests.post(url + '/consumer/family/remove_member/', data=json.dumps({  "mobile": p['mobile'], }), headers=h1)
+    elif (func_name == "changeadmin"):
+        response = requests.post(url + '/consumer/family/change_admin/', data=json.dumps({  "mobile": p['mobile'], }), headers=h1)
     print('content', response.content)
     r = json.loads(response.content)
     return JsonResponse({'data':r})
