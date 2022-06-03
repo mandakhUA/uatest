@@ -169,15 +169,17 @@ def getcollective(id):
     client = getMongoClient()
     db = client.nut
     confamcnt = db.consumer_family.count_documents({'consumer': Int64(id) })    #busad ruu add member hiiged ooroo admin bolson eseh. yer ni collective uusle gesn ug.
-    congrreqcnt = db.group_request.count_documents({'consumer': Int64(id) })    #oor der ni add member irsen eseh.
+    congrreqcnt = db.group_request.count_documents({'consumer': Int64(id) , 'status': 0  })    #oor der ni add member irsen eseh.
     # concollcnt = db.consumer_collective.count_documents({'receiver': Int64(id) })    #oor deer ni add member irsen eseh
     if confamcnt < 1 and congrreqcnt < 1 :
         return None
     else :
         famgr = {}
         confam = {}
-        if confamcnt == 0 and (congrreqcnt > 0 or concollcnt >0): #coll-nd orooguich huselt irsen eseh.    
+        if confamcnt == 0 and (congrreqcnt > 0): #coll-nd orooguich huselt irsen eseh.    
+            
             h = db.group_request.find_one({'consumer': Int64(id), 'status': 0 })
+            print('asdf', confamcnt, congrreqcnt, h)
             confam['group'] = h['group']
         elif confamcnt == 1 :
             confam = db.consumer_family.find_one({'consumer': Int64(id) }) 
@@ -295,7 +297,6 @@ def check_fam(request):
 def sendurl(request, func_name):
     p = request.POST
     h1={"Content-Type":"application/json", "Authorization":"Token " + p['token']}
-    h2={"Content-Type":"application/json", "Authorization":"Token " + p['token']}
     # print('token',"'"+p['token']+ "'","'"+p['famid']+ "'", func_name)
     if (func_name == "uaconsumer"):
         response = requests.post(url + '/consumer/account/uaconsumer/', data=json.dumps({"mobile": p['mobile'], "card_number": p['card_number'], "registration_number": p['registration_number'], "nomin_card": p['nomin_card'], "fee_type": p['fee_type'], "card_fee": p['card_fee'], "username": p['username']}), headers=h1)
@@ -312,7 +313,8 @@ def sendurl(request, func_name):
         response = requests.post(url + '/consumer/family/accept_request/', data=json.dumps({  "family_id": p['famid'], }), headers=h1)
     elif (func_name == "rejectreq"):
         response = requests.post(url + '/consumer/family/reject_request/', data=json.dumps({  "family_id": p['famid'], }), headers=h1)
-
+    elif (func_name == "quitfam"):
+        response = requests.post(url + '/consumer/family/quit_group/', headers=h1)
     print('content', response.content)
     r = json.loads(response.content)
     return JsonResponse({'data':r})
