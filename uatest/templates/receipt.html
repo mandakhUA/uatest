@@ -92,13 +92,14 @@
             const [terid, setTerid] = useState();
             const [internum, setInternum] = useState();
 
-            // const [items, setItems] = useState([Items,Items,Items ]);
-            const items = [<Items/>,<Items/>,<Items/> ];
+            const [items, setItems] = useState([Items,Items,Items ]);
+            // const items = [];
             
 
             function handleCheckboxChange(t){
               console.log('v', t)
-              setItems(oldArray => [...oldArray, Items])
+              // items.push(<Items/>)
+              setItems(oldArray => [...oldArray, <Items/>])
             }
 
 
