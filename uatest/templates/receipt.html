@@ -87,6 +87,11 @@
             const [terid, setTerid] = useState();
             const [internum, setInternum] = useState();
 
+            function handleCheckboxChange(t){
+              console.log('v', t)
+            }
+
+
           return <div>
               <NumInputComp/>
               <MobileInputComp/>
@@ -101,7 +106,7 @@
               <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
               <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
               <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
-
+              <input type='checkbox' value="Bike" onChange={e=>handleCheckboxChange(e.target.value)} /><input type='checkbox' value="bb"/><input type='checkbox' value="cc"/>
               <Items/>
             </div>
         
