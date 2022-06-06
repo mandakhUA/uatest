@@ -23,17 +23,17 @@
         <input type="text" id="bb" value="" placeholder="utas" onchange="findcon()" />
         <input type="button" value="send" onclick="findcon()"/>        
         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#uaconsumer">uaconsumer</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#createpc">createpc</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#updatepc">updatepc</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#changepc">changepc</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#addmember">addmember</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#acceptreq">acceptreq</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#rejectreq">rejectreq</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#quitfam">quitfam</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#delgr">delgr</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#remmem">remmem</button>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#changeadmin">changeadmin</button>
-        <div id="remmem" class="collapse">
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#createpc">create_pc</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#updatepc">update_pc</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#changepc">change_pc</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#addmember">add_member</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#acceptreq">accept_req</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#rejectreq">reject_req</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#quitfam">quit_fam</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#delgr">del_group</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#remmem">rem_mem</button>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#changeadmin">change_admin</button>
+        <div id="remmem" class="collapse"><p class="text-info"><b>rem_mem</b></p>
             <div><input type="text" name="remmem_token" id="remmem_token" placeholder="token"/>
                 <select id="remmem_token_sel" onchange="token_select('remmem_token_sel','remmem_token')">
                     <option value="" selected>tokens</option>
@@ -43,117 +43,117 @@
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('remmem_token', 'remmem_token_msg')"/><span id="remmem_token_msg"></span></div>  
             <div><input type="text" name="remmem_mobile" id="remmem_mobile" placeholder="mobile" onchange="check_mobile('remmem_mobile', 'remmem_mobile_msg')"/><input type="button" value="[]" onclick="check_mobile('remmem_mobile', 'remmem_mobile_msg')"/><span id="remmem_mobile_msg"></span></div>          
             <div><input type="button" value="send" onclick="send_url('remmem', 'remmem_msg')"/><span id="remmem_msg"></span></div>
         </div>
-        <div id="changeadmin" class="collapse">
+        <div id="changeadmin" class="collapse"><p class="text-info"><b>change_admin</b></p>
             <div><input type="text" name="changeadmin_token" id="changeadmin_token" placeholder="token"/>
                 <select id="changeadmin_token_sel" onchange="token_select('changeadmin_token_sel','changeadmin_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('changeadmin_token', 'changeadmin_token_msg')"/><span id="changeadmin_token_msg"></span></div>  
             <div><input type="text" name="changeadmin_mobile" id="changeadmin_mobile" placeholder="mobile" onchange="check_mobile('changeadmin_mobile', 'changeadmin_mobile_msg')"/><input type="button" value="[]" onclick="check_mobile('changeadmin_mobile', 'changeadmin_mobile_msg')"/><span id="changeadmin_mobile_msg"></span></div>          
             <div><input type="button" value="send" onclick="send_url('changeadmin', 'changeadmin_msg')"/><span id="changeadmin_msg"></span></div>
         </div>
-        <div id="delgr" class="collapse">
+        <div id="delgr" class="collapse"><p class="text-info"><b>del_group</b></p>
             <div><input type="text" name="delgr_token" id="delgr_token" placeholder="token"/>
                 <select id="delgr_token_sel" onchange="token_select('delgr_token_sel','delgr_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('delgr_token', 'delgr_token_msg')"/><span id="delgr_token_msg"></span></div>              
             <div><input type="button" value="send" onclick="send_url('delgr', 'delgr_msg')"/><span id="delgr_msg"></span></div>
         </div>
-        <div id="quitfam" class="collapse">
+        <div id="quitfam" class="collapse"><p class="text-info"><b>quit_fam</b></p>
             <div><input type="text" name="quitfam_token" id="quitfam_token" placeholder="token"/>
                 <select id="quitfam_token_sel" onchange="token_select('quitfam_token_sel','quitfam_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('quitfam_token', 'quitfam_token_msg')"/><span id="quitfam_token_msg"></span></div>              
             <div><input type="button" value="send" onclick="send_url('quitfam', 'quitfam_msg')"/><span id="quitfam_msg"></span></div>
         </div>
-        <div id="rejectreq" class="collapse">
+        <div id="rejectreq" class="collapse"><p class="text-info"><b>reject_req</b></p>
             <div><input type="text" name="rejectreq_token" id="rejectreq_token" placeholder="token"/>
                 <select id="rejectreq_token_sel" onchange="token_select('rejectreq_token_sel','rejectreq_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('rejectreq_token', 'rejectreq_token_msg')"/><span id="rejectreq_token_msg"></span></div>  
             <div><input type="text" name="rejectreq_famid" id="rejectreq_famid" placeholder="famid" onchange="check_family('rejectreq_famid', 'rejectreq_famid_msg')"/><input type="button" value="[]" onclick="check_family('rejectreq_famid', 'rejectreq_famid_msg')"/><span id="rejectreq_famid_msg"></span></div>          
             <div><input type="button" value="send" onclick="send_url('rejectreq', 'rejectreq_msg')"/><span id="rejectreq_msg"></span></div>
         </div>
-        <div id="acceptreq" class="collapse">
+        <div id="acceptreq" class="collapse"><p class="text-info"><b>accept_req</b></p>
             <div><input type="text" name="acceptreq_token" id="acceptreq_token" placeholder="token"/>
                 <select id="acceptreq_token_sel" onchange="token_select('acceptreq_token_sel','acceptreq_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('acceptreq_token', 'acceptreq_token_msg')"/><span id="acceptreq_token_msg"></span></div>  
             <div><input type="text" name="acceptreq_famid" id="acceptreq_famid" placeholder="famid" onchange="check_family('acceptreq_famid', 'acceptreq_famid_msg')"/><input type="button" value="[]" onclick="check_family('acceptreq_famid', 'acceptreq_famid_msg')"/><span id="acceptreq_famid_msg"></span></div>          
             <div><input type="button" value="send" onclick="send_url('acceptreq', 'acceptreq_msg')"/><span id="acceptreq_msg"></span></div>
         </div>
-        <div id="addmember" class="collapse">
+        <div id="addmember" class="collapse"><p class="text-info"><b>Add_member</b></p>
             <div><input type="text" name="addmember_token" id="addmember_token" placeholder="token"/>
                 <select id="addmember_token_sel" onchange="token_select('addmember_token_sel','addmember_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('addmember_token', 'addmember_token_msg')"/><span id="addmember_token_msg"></span></div>  
             <div><input type="text" name="addmember_mobile" id="addmember_mobile" placeholder="mobile" onchange="check_mobile('addmember_mobile', 'addmember_mobile_msg')"/><input type="button" value="[]" onclick="check_mobile('addmember_mobile', 'addmember_mobile_msg')"/><span id="addmember_mobile_msg"></span></div>          
             <div><input type="button" value="send" onclick="send_url('addmember', 'addmember_msg')"/><span id="addmember_msg"></span></div>
         </div>
-        <div id="changepc" class="collapse">
+        <div id="changepc" class="collapse"><p class="text-info"><b>change_pc</b></p>
             <div><input type="text" name="changepc_token" id="changepc_token" placeholder="token"/>
                 <select id="changepc_token_sel" onchange="token_select('changepc_token_sel','changepc_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('changepc_token', 'changepc_token_msg')"/><span id="changepc_token_msg"></span></div>            
             <div><input type="text" name="changepc_regno" id="changepc_regno" placeholder="regno" onchange="check_regno('changepc_regno','changepc_regno_msg')"/><input type="button" value="[]" onclick="check_regno('changepc_regno','changepc_regno_msg')"/><span id="changepc_regno_msg"></span></div>
@@ -162,17 +162,17 @@
             <div><input type="button" value="send" onclick="send_url('changepc', 'changepc_msg')"/><span id="changepc_msg"></span></div>
 
         </div>
-        <div id="updatepc" class="collapse">
+        <div id="updatepc" class="collapse"><p class="text-info"><b>update_pc</b></p>
             <div><input type="text" name="updatepc_token" id="updatepc_token" placeholder="token"/>
                 <select id="updatepc_token_sel" onchange="token_select('updatepc_token_sel','updatepc_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('updatepc_token', 'updatepc_token_msg')"/><span id="updatepc_token_msg"></span></div>            
             <div><input type="text" name="updatepc_regno" id="updatepc_regno" placeholder="regno" onchange="check_regno('updatepc_regno','updatepc_regno_msg')"/><input type="button" value="[]" onclick="check_regno('updatepc_regno','updatepc_regno_msg')"/><span id="updatepc_regno_msg"></span></div>
@@ -180,17 +180,17 @@
             <div><input type="button" value="send" onclick="send_url('updatepc', 'updatepc_msg')"/><span id="updatepc_msg"></span></div>
 
         </div>
-        <div id="createpc" class="collapse">
+        <div id="createpc" class="collapse"><p class="text-info"><b>create_pc</b></p>
             <div><input type="text" name="createpc_token" id="createpc_token" placeholder="token"/>
                 <select id="createpc_token_sel" onchange="token_select('createpc_token_sel','createpc_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('createpc_token', 'createpc_token_msg')"/><span id="createpc_token_msg"></span></div>            
             <div><input type="text" name="createpc_regno" id="createpc_regno" placeholder="regno" onchange="check_regno('createpc_regno','createpc_regno_msg')"/><input type="button" value="[]" onclick="check_regno('createpc_regno','createpc_regno_msg')"/><span id="createpc_regno_msg"></span></div>
@@ -198,17 +198,17 @@
             <div><input type="button" value="send" onclick="send_url('createpc', 'createpc_msg')"/><span id="createpc_msg"></span></div>
         </div>
         
-        <div id="uaconsumer" class="collapse">uaconsumer
+        <div id="uaconsumer" class="collapse"><p class="text-info"><b>uaconsumer</b></p>
             <div><input type="text" name="uaconsumer_token" id="uaconsumer_token" placeholder="token"/>
                 <select id="token_sel" onchange="token_select('token_sel','uaconsumer_token')">
                     <option value="" selected>tokens</option>
-                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">nomin</option>
+                    <option value="7900b7fe2e28fa86cda82cd11b204e13ae9097e2">Nomin</option>
                     <option value="83027b6ff8ba971fd07d48a3d67a544a6ee28104">DDISHTV</option>
                     <option value="74b799b979e77e54fbdd6bc3c2b4761e1a487be2">Monos UB</option>
                     <option value="747a67c09f665701e723e1652253394c2f32a11e">Unitel</option>
                     <option value="024164dc1a027029d3d59cfc988ef6f15231d94c">MetroExpress</option>
                     <option value="8b8a09a36f9e3e80ffadd81f8daed268800a470d">Univision</option>
-                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">ua</option>
+                    <option value="06be024370fca7aaf0a4c2aa9caa91f47da02e5c">UA</option>
                 </select>
                 <input type="button" value="[]" onclick="check_token('uaconsumer_token', 'uaconsumer_token_msg')"/><span id="uaconsumer_token_msg"></span></div>
             <div><input type="text" name="uaconsumer_mobile" id="uaconsumer_mobile" placeholder="mobile" onchange="check_mobile('uaconsumer_mobile', 'uaconsumer_mobile_msg')"/><input type="button" value="[]" onclick="check_mobile('uaconsumer_mobile', 'uaconsumer_mobile_msg')"/><span id="uaconsumer_mobile_msg"></span></div>
@@ -235,10 +235,10 @@
                 con_tokens = xhr.response.con_tokens; console.log('con_tokens', con_tokens)
                 mer_tokens = xhr.response.mer_tokens; console.log('mer_tokens', mer_tokens)
                 msg = document.getElementById(msgid); msg.innerHTML=''
-                if(con_tokens.length == 0 ) {msg.innerHTML = 'cons oldsongui.'} 
-                else { msg.innerHTML = `${con_tokens.length} cons oldloo. <a href='main?mobile='${con_tokens[0].mobile }'> ${con_tokens[0].mobile } </a>`;} 
-                if(mer_tokens.length == 0 ) {msg.innerHTML += ' mer_tokens oldsongui.'} 
-                else { msg.innerHTML += `${mer_tokens.length} mer oldloo. ${mer_tokens[0].name}`;} 
+                if(con_tokens.length == 0 ) {msg.innerHTML = 'Энэ утас дээр бүртгэлтэй хэрэглэгч олдсонгүй.'} 
+                else { msg.innerHTML = `&nbsp;${con_tokens.length}  Хэрэглэгч олдлоо. <a href='main?mobile='${con_tokens[0].mobile }'> ${con_tokens[0].mobile } </a>`;} 
+                if(mer_tokens.length == 0 ) {msg.innerHTML += ' mer_tokens олдсонгүй.'} 
+                else { msg.innerHTML += `&nbsp;${mer_tokens.length} mer олдлоо. ${mer_tokens[0].name}`;} 
             }
             xhr.send()
             
@@ -288,13 +288,13 @@
             xhr.onload = function () {
                 console.log('checkmoob', xhr.response)
                 msg = document.getElementById(msgid);    msg.innerHTML = '';              
-                if (xhr.response.cons.length === 0){msg.innerHTML = ` msg: энэ утас дээр бүртгэлтэй хэр олдсонгүй. `}
+                if (xhr.response.cons.length === 0){msg.innerHTML = ` Энэ утас дээр бүртгэлтэй хэр олдсонгүй. `}
                 else if (xhr.response.cons.length > 0){
-                    msg.innerHTML += `${xhr.response.cons.length} cons oldloo. cons: <a href='main?id=${xhr.response.cons[0]._id}' target="_blank">${xhr.response.cons[0]._id}</a>`
+                    msg.innerHTML += `&nbsp;${xhr.response.cons.length} Хэрэглэгч  олдлоо. cons: <a href='main?id=${xhr.response.cons[0]._id}' target="_blank">${xhr.response.cons[0]._id}</a>`
                 }
-                if (xhr.response.cards.length === 0){msg.innerHTML += ` msg: энэ утас дээр бүртгэлтэй карт олдсонгүй. `}
+                if (xhr.response.cards.length === 0){msg.innerHTML += ` Энэ утас дээр бүртгэлтэй карт олдсонгүй. `}
                 else if (xhr.response.cards.length > 0){
-                    msg.innerHTML += `${xhr.response.cards.length} cards oldloo. cards: <a href='card?id=${xhr.response.cards[0]._id['$oid']}' target="_blank">${xhr.response.cards[0]._id['$oid']}</a>`
+                    msg.innerHTML += `&nbsp;${xhr.response.cards.length}  Карт олдлоо. cards: <a href='card?id=${xhr.response.cards[0]._id['$oid']}' target="_blank">${xhr.response.cards[0]._id['$oid']}</a>`
                 }
             }
             xhr.send(null);
@@ -307,9 +307,9 @@
             xhr.onload = function () {
                 console.log('checregno', xhr.response)
                 msg = document.getElementById(msgid);     msg.innerHTML = ''; 
-                if (xhr.response.cons.length === 0){msg.innerHTML = ` msg: энэ рег дээр бүртгэлтэй хэр олдсонгүй. `}
+                if (xhr.response.cons.length === 0){msg.innerHTML = ` Энэ РД дээр бүртгэлтэй хэр олдсонгүй. `}
                 else if (xhr.response.cons.length > 0){
-                    msg.innerHTML += `${xhr.response.cons.length} cons oldloo. cons: <a href='main?id=${xhr.response.cons[0]._id}' target="_blank">${xhr.response.cons[0]._id}</a>`
+                    msg.innerHTML += `&nbsp;${xhr.response.cons.length} Хэрэглэгч  олдлоо.  cons: <a href='main?id=${xhr.response.cons[0]._id}' target="_blank">${xhr.response.cons[0]._id}</a>`
                 }
             }
             xhr.send(null);
@@ -322,12 +322,12 @@
             xhr.onload = function () {
                 console.log('checknum', xhr.response)
                 msg = document.getElementById(msgid);   msg.innerHTML = '';                 
-                if (xhr.response.cards.length === 0){msg.innerHTML = ` msg: энэ дугаар дээр бүртгэлтэй карт олдсонгүй. `}
+                if (xhr.response.cards.length === 0){msg.innerHTML = ` Энэ дугаар дээр бүртгэлтэй карт олдсонгүй.. `}
                 else if (xhr.response.cards.length > 0){
-                    msg.innerHTML += `${xhr.response.cards.length} cards oldloo. cards: <a href='card?id=${xhr.response.cards[0]._id['$oid']}' target="_blank">${xhr.response.cards[0]._id['$oid']}</a>`
-                    if (xhr.response.cards[0].cons.length === 0){msg.innerHTML += ` msg: энэ дугаар дээр бүртгэлтэй хэр олдсонгүй. `}
+                    msg.innerHTML += `&nbsp;${xhr.response.cards.length}  Карт олдлоо. cards: <a href='card?id=${xhr.response.cards[0]._id['$oid']}' target="_blank">${xhr.response.cards[0]._id['$oid']}</a>`
+                    if (xhr.response.cards[0].cons.length === 0){msg.innerHTML += ` Энэ дугаар дээр бүртгэлтэй хэр олдсонгүй. `}
                     else if (xhr.response.cards[0].cons.length > 0){
-                        msg.innerHTML += `${xhr.response.cards[0].cons.length} cons oldloo. cons: <a href='main?id=${xhr.response.cards[0].cons[0]._id}' target="_blank">${xhr.response.cards[0].cons[0]._id}</a>`
+                        msg.innerHTML += `&nbsp;${xhr.response.cards[0].cons.length} Хэрэглэгч  олдлоо. cons: <a href='main?id=${xhr.response.cards[0].cons[0]._id}' target="_blank">${xhr.response.cards[0].cons[0]._id}</a>`
                     }
                 }
             }
@@ -341,9 +341,9 @@
             xhr.onload = function () {
                 console.log('checkfum', xhr.response.fam)
                 msg = document.getElementById(msgid);   msg.innerHTML = '';                 
-                if (!xhr.response.fam ){msg.innerHTML = ` msg: энэ дугаар дээр family олдсонгүй `}
+                if (!xhr.response.fam ){msg.innerHTML = ` Энэ дугаар дээр family олдсонгүй `}
                 else {
-                    msg.innerHTML = ` bal: ${xhr.response.fam.balance}. group member cnt: ${xhr.response.fam.cfcnt} `
+                    msg.innerHTML = ` bal: &nbsp;${xhr.response.fam.balance}. group member cnt: &nbsp;${xhr.response.fam.cfcnt} `
                 }
             }
             xhr.send(null);
@@ -374,44 +374,49 @@
                 d = res.data;
                 let aa1 = document.getElementById("aa1")    //                
                 aa1.innerHTML = `<p><b>Хэрэглэгчийн мэдээлэл</b></p>
-                <table class="table table-striped table-bordered">
-                    <tr><th>msg:</th><th>_id:</th><th>mob:</th><th>cardslen:</th><th>token:</th><th>bal:</th><th>bs:</th><th>isfam:</th><th>regno:</th></tr>
+                <table class="table span12 table-striped table-bordered">
+                    <tr><th>msg:</th><th>_id:</th><th>regno:</th><th>mob:</th><th>cardslen:</th><th>token:</th><th>bal:</th><th>bs:</th><th>isfam:</th></tr>
                     <tr>                                
-                        <td>${res.msg}</td>
-                        <td>${d._id}</td>
-                        <td>${d.mobile}</td>
+                        <td style="width: 5%">${res.msg}</td>
+                        <td style="width: 15%">${d._id}</td>
+                        <td style="width: 20%">${d.profile.registration_number}</td>
+                        <td style="width: 15%">${d.mobile}</td>
                         <td>${d.cards.length}</td>
                         <td>${d.token}</td>
-                        <td>${d.balance}</td>
+                        <td style="width: 10%">${d.balance}</td>
                         <td>${d.balance_status}</td>
                         <td>${d.is_family}</td>
-                        <td>${d.profile.registration_number}</td> 
                     </tr>
                 </table>`
                 if (res.data.collective ){
                     c = res.data.collective;
-                    cstring = `bal: ${c.balance} fam_name: ${c.family_name} fam_id: ${c.family_id}`
+                    cstring = `<p><b>Family_group</b></p><table class="table span12 table-striped table-hover table-bordered"><tr><th>fam_id: </th><th>fam_name: </th><th>bal: </th></tr>
+                        <tr>
+                            <td style="width: 20%">${c.family_id}</td>
+                            <td style="width: 20%">${c.family_name}</td>
+                            <td>${c.balance}</td>
+                        </tr></table>`
                     if( c.congroups && c.congroups.length>0){
-                        cstring += '<br>consuemr_family<table class="table table-striped table-bordered"><tr><th>isadmin: </th><th>group: </th><th>consumer: </th></tr>'
+                        cstring +='<p><b>Consumer_family</b></p><table class="table span12 table-striped table-hover table-bordered"><tr><th>group: </th><th>isadmin: </th><th>consumer: </th></tr>'
                         for(let g=0; g<c.congroups.length; g++){      
                             cstring += `
-                            <tr>
-                                <td>${c.congroups[g].is_admin}</td>
-                                <td>${c.congroups[g].group['$oid']}</td>
-                                <td>${ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : '<a href="/main?id='+c.congroups[g].consumer+'" target="_blank">' + c.congroups[g].consumer  + '</a>'}</td>                         
-                            </tr>`
+                        <tr>                            
+                            <td style="width: 20%">${c.congroups[g].group['$oid']}</td>
+                            <td style="width: 20%">${c.congroups[g].is_admin}</td>
+                            <td>${ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : '<a href="/main?id='+c.congroups[g].consumer+'" target="_blank">' + c.congroups[g].consumer  + '</a>'}</td>                        
+                        </tr>`
                         }
                         cstring += '</table>'
                     }
                     
                     if(c.gr_req.length >0 ){
-                        gr_req_string = `group_request<table class="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>st: </th><th>conid: </th></tr>`;
+                        gr_req_string =  `<p><b>Group_request</b></p><table class="table span12 table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>st: </th><th>conid: </th></tr>`;
                         for(let h=0; h<c.gr_req.length; h++){ 
                             // gr_req_string += `<div>cr_at: ${c.gr_req[h].created_at['$date']} st: ${c.gr_req[h].status} conid: ${c.gr_req[h].consumer}</div>`
                             gr_req_string += `
                             <tr>
-                                <td>${c.gr_req[h].created_at['$date']}</td>
-                                <td>${c.gr_req[h].status}</td>
+                                <td style="width: 20%">${c.gr_req[h].created_at['$date']}</td>
+                                <td style="width: 20%">${c.gr_req[h].status}</td>
                                 <td>${c.gr_req[h].consumer}</td>                            
                             </tr>`
                         }
