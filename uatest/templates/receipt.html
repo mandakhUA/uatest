@@ -98,13 +98,10 @@
             const [internum, setInternum] = useState();
 
             const [items, setItems] = useState([Items,Items,Items ]);
-            // const items = [];
             
 
             function handleCheckboxChange(t){
-              console.log('v', t)
-              // items.push(<Items/>)
-              setItems(oldArray => [...oldArray, <Items/>])
+              
             }
 
 
@@ -121,7 +118,7 @@
               <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='terid' value={terid} placeholder='terid' onChange={(e) => {setTerid(e.target.value)}}/> <span>{terid}</span> </div>
               <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='internum' value={internum} placeholder='internum' onChange={(e) => {setInternum(e.target.value)}}/> <span>{internum}</span> </div>
               {items} 
-              <input type='checkbox' value='items' onChange={e=>handleCheckboxChange(e.target.value)}/>
+              <input type='checkbox' value='items' onChange={()=>setItems(o => [...o, <Items/>])}/>
             </div>
         
         }
