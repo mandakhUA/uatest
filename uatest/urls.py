@@ -5,7 +5,8 @@ from . import views
 urlpatterns = [
     path('test', views.test),
     path('main', views.maintest),
-    path('main1', views.maintest1),
+    path('receipt', views.receipt),
+    path('cardlist', views.cardlist),
     path('createpc/', views.createpc),
 
     path('api/sendurl/<func_name>', views.sendurl),

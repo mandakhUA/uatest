@@ -30,8 +30,8 @@ def getMongoClient():
     # client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
     # client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
     # client = MongoClient(host="10.10.10.29", port=int(27017), username="mandakh", password="soeKZH4fEt3LxxFNu1o0", tls=True)
-    client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
-    # client = MongoClient(host="localhost", port=int(27017), username="", password="")
+    # client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
+    client = MongoClient(host="localhost", port=int(27017), username="", password="")
     return client
  
  
@@ -242,7 +242,6 @@ def check_mobile(request):
     for c in db.card.find( {'mobile': mobile}):
         cards.append(c)
     return JsonResponse({'cons': json.loads(json_util.dumps(cons)), 'cards': json.loads(json_util.dumps(cards))     })
-   
 @csrf_exempt
 def check_regno(request):
     regno = request.GET['regno']
@@ -324,3 +323,28 @@ def sendurl(request, func_name):
     print('content', response.content)
     r = json.loads(response.content)
     return JsonResponse({'data':r})
+
+def receipt(request):
+    return render(request, "receipt.html")
+
+def cardlist(request):
+
+    client = getMongoClient()
+    db = client.nut
+    fcnt = db.card.count_documents( {} )
+    f = db.card.find_one( {} ) 
+    return render(request, "cardlist.html", {'fcnt':fcnt, 'f':f})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
