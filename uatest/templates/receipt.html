@@ -45,24 +45,24 @@
           </div>
         }
         function MobileInputComp(){
-          const [mobile, setMobile] = useState("");
+          const [val, setVal] = useState("");
           const [msg, setMsg] = useState("");
           function initmsg(d){
-            let m = []
-            if (d.cards && d.cards.length === 0)
-                  m.push(  <span>msg энэ дугаар дээр бүртгэлтэй карт олдсонгүй. </span>)
+            let m = []     
+            if (d.cons && d.cons.length === 0)
+                  m.push(  <span>msg энэ дугаар дээр бүртгэлтэй хэр олдсонгүй. </span>)
+            else if (d.cons.length > 0){
+                  m.push(  <span> {d.cons.length} cons oldloo. cons: <a href={`main?id=${d.cons[0]._id}`} target="_blank">{d.cons[0]._id}</a></span> )
+            }
+            if (d.cards.length === 0){m.push( <span> msg: энэ утас дээр бүртгэлтэй карт олдсонгүй. </span>)}
             else if (d.cards.length > 0){
-                  m.push(  <span> {d.cards[0].cons.length} cards oldloo. cards: <a href={`card?id=${d.cards[0]._id['$oid']}`} target="_blank">{d.cards[0]._id['$oid']}</a></span> )
-                  if (d.cards[0].cons.length === 0){m.push( <span> msg: энэ дугаар дээр бүртгэлтэй хэр олдсонгүй. </span>)}
-                  else if (d.cards[0].cons.length > 0){
-                    m.push(<span> {d.cards[0].cons.length} cons oldloo. cons: <a href={`main?id=${d.cards[0].cons[0]._id}`} target="_blank">{d.cards[0].cons[0]._id}</a> </span>)
-                  }
+              m.push(<span> {d.cards.length} cards oldloo. cons: <a href={`card?id=${d.cards[0]._id['$oid']}`} target="_blank">{d.cards[0]._id['$oid']}</a> </span>)
             }
             setMsg(m)
           }
           return <div>
-            <input type='text' name='num' value={num} placeholder='num' onChange={(e) => {setNum(e.target.value)}}/>            
-            <input type="button" value="[]" onClick={()=>check_num(num,  initmsg)}/> 
+            <input type='text' name='mobile' value={val} placeholder='mobile' onChange={(e) => {setVal(e.target.value)}}/>            
+            <input type="button" value="[]" onClick={()=>check_mobile(val,  initmsg)}/> 
             {msg}
           </div>
         }
