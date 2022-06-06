@@ -87,7 +87,8 @@
             const [terid, setTerid] = useState();
             const [internum, setInternum] = useState();
 
-            const [items, setItems] = useState([Items,Items,Items ]);
+            // const [items, setItems] = useState([Items,Items,Items ]);
+            const items = [<Items/>,<Items/>,<Items/> ];
             
 
             function handleCheckboxChange(t){
@@ -108,7 +109,7 @@
               <input type='text' name='ca' value={ca} placeholder='ca' onChange={(e) => {setCa(e.target.value)}}/> <span>{ca}</span> 
               <input type='text' name='terid' value={terid} placeholder='terid' onChange={(e) => {setTerid(e.target.value)}}/> <span>{terid}</span> 
               <input type='text' name='internum' value={internum} placeholder='internum' onChange={(e) => {setInternum(e.target.value)}}/> <span>{internum}</span> 
-              {items}
+              {items} 
               <input type='checkbox' value='items' onChange={e=>handleCheckboxChange(e.target.value)}/>
             </div>
         
