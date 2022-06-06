@@ -66,7 +66,12 @@
             {msg}
           </div>
         }
-
+        function Items(){
+          const [code, setCode] = useState();
+          return <div>
+            <input type='text' name='code' value={code} placeholder='code' onChange={(e) => {setCode(e.target.value)}}/> <span>{setCode}</span> 
+            </div>
+        }
         function MyApp() {
           var today = new Date();
           var cc = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
@@ -85,6 +90,19 @@
           return <div>
               <NumInputComp/>
               <MobileInputComp/>
+              <input type='date' name='ognoo' value={cc} placeholder='ognoo' onChange={(e) => {setDate(e.target.value)}}/> <span>{date}</span> 
+              <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setBillno(e.target.value)}}/> <span>{billno}</span> 
+              <input type='text' name='spam' value={spam} placeholder='spam' onChange={(e) => {setBam(e.target.value)}}/> <span>{spam}</span> 
+              <input type='text' name='bam' value={bam} placeholder='bam' onChange={(e) => {setBam(e.target.value)}}/> <span>{bam}</span> 
+              <input type='text' name='bp' value={bp} placeholder='bp' onChange={(e) => {setBp(e.target.value)}}/> <span>{bp}</span> 
+              <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
+              <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
+              <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
+              <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
+              <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
+              <input type='text' name='billno' value={billno} placeholder='billno' onChange={(e) => {setDate(e.target.value)}}/> <span>{billno}</span> 
+
+              <Items/>
             </div>
         
         }
