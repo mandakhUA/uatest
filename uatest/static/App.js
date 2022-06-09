@@ -78,20 +78,20 @@ function MyApp() {
     const [internum, setInternum] = useState();
     const [items, setItems] = useState([Items,Items,Items ]);   
 
-    return <div>
+    return <div>          
         <NumInputComp/>
         <MobileInputComp/>
-        <div class="input-group mb-3"><input type='date' name='ognoo' value={cc} placeholder='ognoo' onChange={(e) => {setDate(e.target.value)}}/> <span>{date}</span> </div>
-        <div class="input-group mb-3"><input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='billno' value={billno} placeholder='billno' onChange={(e) => {setBillno(e.target.value)}}/> <span>{billno}</span></div> 
-        <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='spam' value={spam} placeholder='spam' onChange={(e) => {setBam(e.target.value)}}/> <span>{spam}</span> </div>
-        <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='bam' value={bam} placeholder='bam' onChange={(e) => {setBam(e.target.value)}}/> <span>{bam}</span> </div>
-        <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='bp' value={bp} placeholder='bp' onChange={(e) => {setBp(e.target.value)}}/> <span>{bp}</span> </div>
-        <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='ta' value={ta} placeholder='ta' onChange={(e) => {setTa(e.target.value)}}/> <span>{ta}</span> </div>
-        <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='ca' value={ca} placeholder='ca' onChange={(e) => {setCa(e.target.value)}}/> <span>{ca}</span> </div>
-        <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='terid' value={terid} placeholder='terid' onChange={(e) => {setTerid(e.target.value)}}/> <span>{terid}</span> </div>
-        <div class="input-group mb-3"><input type='text' class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  name='internum' value={internum} placeholder='internum' onChange={(e) => {setInternum(e.target.value)}}/> <span>{internum}</span> </div>
+        <input type='date' class="form-control" name='ognoo' value={cc} placeholder='ognoo' onChange={(e) => {setDate(e.target.value)}}/> <span>{date}</span> 
+        <input type="text" class="form-control" name='billno' value={billno} placeholder='billno' onChange={(e) => {setBillno(e.target.value)}}/> <span>{billno}</span> 
+        <input type='text' class="form-control" name='spam' value={spam} placeholder='spam' onChange={(e) => {setBam(e.target.value)}}/> <span>{spam}</span> 
+        <input type='text' class="form-control" name='bam' value={bam} placeholder='bam' onChange={(e) => {setBam(e.target.value)}}/> <span>{bam}</span> 
+        <input type='text' class="form-control" name='bp' value={bp} placeholder='bp' onChange={(e) => {setBp(e.target.value)}}/> <span>{bp}</span>
+        <input type='text' class="form-control" name='ta' value={ta} placeholder='ta' onChange={(e) => {setTa(e.target.value)}}/> <span>{ta}</span> 
+        <input type='text' class="form-control" name='ca' value={ca} placeholder='ca' onChange={(e) => {setCa(e.target.value)}}/> <span>{ca}</span> 
+        <input type='text' class="form-control" name='terid' value={terid} placeholder='terid' onChange={(e) => {setTerid(e.target.value)}}/> <span>{terid}</span> 
+        <input type='text' class="form-control" name='internum' value={internum} placeholder='internum' onChange={(e) => {setInternum(e.target.value)}}/> <span>{internum}</span> 
         {items} 
-        <input type='checkbox' value='items' onChange={()=>setItems(o => [...o, <Items/>])}/>
+        <input type='checkbox' value='items' onChange={()=>setItems(o => [...o, <Items/>])}/>         
     </div>
 
 }
