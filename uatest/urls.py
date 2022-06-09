@@ -4,11 +4,13 @@ from . import views
 
 urlpatterns = [
     path('test', views.test),
-    path('main', views.maintest),
+    path('con', views.contest),
+    path('card', views.cardtest),
     path('receipt', views.receipt),
     path('cardlist', views.cardlist),
-    path('createpc/', views.createpc),
 
+
+    path('api/receipt', views.getreceipt),
     path('api/sendurl/<func_name>', views.sendurl),
     path('api/check_mobile', views.check_mobile),
     path('api/check_regno', views.check_regno),

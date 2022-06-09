@@ -30,62 +30,18 @@ def getMongoClient():
     # client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
     # client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
     # client = MongoClient(host="10.10.10.29", port=int(27017), username="mandakh", password="soeKZH4fEt3LxxFNu1o0", tls=True)
-    # client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
-    client = MongoClient(host="localhost", port=int(27017), username="", password="")
+    client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
+    # client = MongoClient(host="localhost", port=int(27017), username="", password="")
     return client
  
  
-def maintest(request):
+def contest(request):
     return render(request, "main.html")
 def maintest1(request):
     return render(request, "main1.html")
- 
-def createpc(request):
-    msg = ""
-    reg_no='УП95061231' #УП95061231 bga         #УП95061234 bhq
-    card_no = '10'
-    token = tokens['nomin']
- 
-    client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
-    db = client.nut
-    # print(db.list_collection_names())
-    con = db.consumer.find_one({'profile.registration_number': re.compile(reg_no, re.IGNORECASE) })
-    print('cons', con)
-    if con :
-        msg = msg + " <br>Хэрэглэгч олдлоо" + " bs:" + str(con["balance_status"])  + " balance:" + str(con["balance"]) + " mob:" + con["mobile"] + " cardslen:" + str(len(con["cards"]))
-        if "is_family" in con:
-            msg = msg + " isfam:" + str(con["is_family"])
-        else :
-            msg = msg + " isfam: Байхгүй"
-       
-        con_cards = con['cards']
-        print('con_cards', len(con_cards) ,con_cards, con_cards[0], con_cards[1])
-        cards= []
-        for card_id in con_cards:
-            print("_id", card_id)
-            card = db.card.find_one({'_id': ObjectId(card_id)  })
-            cards.append(card)
-            msg = msg + " <br>" + "num:"+ str(card['number']) + " ct:"+ str(card['card_type']) + " ass:" + str(card['assigned_date']) + " bal:"+ str(card['balance']) + " st:"+ str(card['status']) + " mob:" + str(card['mobile'])
-        # print('aa', cards)
-        # for card in db.card.find({'profile.registration_number': )
-    else:
-        msg = msg + " <br>Хэрэглэгч олдсонгүй"
-    card = db.card.find_one({'number': card_no})
-    if card :
-        msg = msg + " <br>Карт олдлоо" + " ct:" + str(card["card_type"]) + " mob:" + card["mobile"] + " bal:" + str(card["balance"])
-    else:
-        msg = msg + " <br>Карт олдсонгүй"
-    print(card)
-    response = requests.post('http://66.181.175.8:8000/transaction/consumer/create_partnercard/', data=json.dumps({"card_no": card_no,   "reg_no": reg_no, "card_serial":"", "nfc_no":""}), headers={"Content-Type":"application/json", "Authorization":"Token " + token})
-    # print(response.content)
-    r = json.loads(response.content)
-    if 'message' in r :
-        msg = msg + " <br>Алдаа гарлаа " + " message:" + r["message"] + " result:" + str(r["result"])
-    else:
-        msg = msg + " <br> Амжилттай"
-    print(r)
-    # return HttpResponse(response.content)
-    return HttpResponse("createpc==" + msg + "<br>" + str(r))
+def cardtest(request):
+    return render(request, "card.html")
+
  
  
 def test(request):  
@@ -130,15 +86,15 @@ def getcons(request):
         val = request.GET['id']
         con = getCon({"_id": Int64(val) })       
         conCnt = getConCnt({"_id": Int64(val)  })
-      
-    concards = [] 
+    print('conCnt=============>', conCnt, type(conCnt))
+     
     if conCnt == 0:
         msg=' Хэрэглэгч олдсонгүй'
     elif conCnt>1:
         msg = str(conCnt)+' Хэрэглэгч олдлоо!!!'
-    elif conCnt == 1:
-        con['collective']= getcollective(con['_id'])
-             
+    elif conCnt == 1:        
+        concards = []
+        con['collective']= getcollective(con['_id'])             
         for c in con['cards']:
             c1 = getcard(c)        
             receipts = []
@@ -151,7 +107,7 @@ def getcons(request):
             c1['receipts']=receipts
             c1['receiptsCnt'] = getreceiptCnt({'card_number':c1['number']})
             concards.append(c1)
-    con['concards'] = concards
+        con['concards'] = concards
     return JsonResponse({'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
  
  
@@ -323,8 +279,30 @@ def sendurl(request, func_name):
     print('content', response.content)
     r = json.loads(response.content)
     return JsonResponse({'data':r})
+@csrf_exempt
+def getreceipt():
+    if 'mobile' in request.POST: 
+        val = request.GET['mobile']
+        con = getreceipts({"mobile": val })
+        conCnt = getConCnt({"mobile": val })
+    #  for c in con['cards']:
+    #         c1 = getcard(c)        
+    #         receipts = []
+    #         for r in getreceipts({'card_number':c1['number']}):
+    #             rec_return = []
+    #             for ret in getreceiptreturn({'receipt':r['_id']}):
+    #                 rec_return.append(ret)
+    #             r['rec_return']=rec_return
+    #             receipts.append(r)
+    #         c1['receipts']=receipts
+    #         c1['receiptsCnt'] = getreceiptCnt({'card_number':c1['number']})
+    #         concards.append(c1)
+    return JsonResponse({}  )
+    # return JsonResponse({'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
+
 
 def receipt(request):
+
     return render(request, "receipt.html")
 
 def cardlist(request):
