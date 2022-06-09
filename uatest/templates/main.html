@@ -371,8 +371,12 @@
             xhr.responseType= "json"
             xhr.onload = function () {
                 let res = xhr.response; console.log('res', res); 
+                let aa1 = document.getElementById("aa1") 
+                if(!res.data){//hereglegch oldoq bol
+                    aa1.innerHTML = `<p><b>Системд бүртгэлгүй хэрэглэгч</b></p>`
+                } else {  //hereglegch oldson bol      
                 d = res.data;
-                let aa1 = document.getElementById("aa1")    //                
+                   //                
                 aa1.innerHTML = `<p><b>Хэрэглэгчийн мэдээлэл</b></p>
                 <table class="table span12 table-striped table-bordered">
                     <tr><th>msg:</th><th>_id:</th><th>regno:</th><th>mob:</th><th>cardslen:</th><th>token:</th><th>bal:</th><th>bs:</th><th>isfam:</th></tr>
@@ -491,6 +495,7 @@
                     accdiv.innerHTML = concards_str
                        
                 }
+            }
             };
             xhr.send(null);
         }
