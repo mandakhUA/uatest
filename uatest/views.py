@@ -30,8 +30,8 @@ def getMongoClient():
     # client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
     # client = MongoClient("mongodb://mandakh:soeKZH4fEt3LxxFNu1o0@10.10.10.29:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1&3t.uriVersion=3&3t.connection.name=prod&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true")
     # client = MongoClient(host="10.10.10.29", port=int(27017), username="mandakh", password="soeKZH4fEt3LxxFNu1o0", tls=True)
-    # client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
-    client = MongoClient(host="localhost", port=int(27017), username="", password="")
+    client = MongoClient(host="66.181.175.8", port=int(27017), username="", password="")
+    # client = MongoClient(host="localhost", port=int(27017), username="", password="")
     return client
  
  
