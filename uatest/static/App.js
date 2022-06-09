@@ -11,7 +11,7 @@ function NumInputComp(){
     if (d.cards && d.cards.length === 0)
             m.push(  <span>msg энэ дугаар дээр бүртгэлтэй карт олдсонгүй. </span>)
     else if (d.cards.length > 0){
-            m.push(  <span> {d.cards[0].cons.length} cards oldloo. cards: <a href={`card?id=${d.cards[0]._id['$oid']}`} target="_blank">{d.cards[0]._id['$oid']}</a></span> )
+            m.push(  <span> {d.cards[0].length} cards oldloo. cards: <a href={`card?id=${d.cards[0]._id['$oid']}`} target="_blank">{d.cards[0]._id['$oid']}</a></span> )
             if (d.cards[0].cons.length === 0){m.push( <span> msg: энэ дугаар дээр бүртгэлтэй хэр олдсонгүй. </span>)}
             else if (d.cards[0].cons.length > 0){
             m.push(<span> {d.cards[0].cons.length} cons oldloo. cons: <a href={`main?id=${d.cards[0].cons[0]._id}`} target="_blank">{d.cards[0].cons[0]._id}</a> </span>)
