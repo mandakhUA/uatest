@@ -86,8 +86,6 @@ def getcons(request):
         val = request.GET['id']
         con = getCon({"_id": Int64(val) })       
         conCnt = getConCnt({"_id": Int64(val)  })
-    print('conCnt=============>', conCnt, type(conCnt))
-     
     if conCnt == 0:
         msg=' Хэрэглэгч олдсонгүй'
     elif conCnt>1:
@@ -105,7 +103,6 @@ def getcons(request):
                 r['rec_return']=rec_return
                 receipts.append(r)
             c1['receipts']=receipts
-            c1['receiptsCnt'] = getreceiptCnt({'card_number':c1['number']})
             concards.append(c1)
         con['concards'] = concards
     return JsonResponse({'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
