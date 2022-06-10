@@ -488,37 +488,15 @@
                 for (let i=0; i<c.length; i++){//tuhain consumeriin cards-n toogoor davtana.
                     cardid=d.cards[i]['$oid'];  //card buriin id ni cardid-d onoogdono.
                     receipt_str = ''
-                    if(c[i].receipts.length >0){    //tuhain card receipttei eseh
-                        let receipts = c[i].receipts; 
-                        receipt_str += `<table border=1><tr><th>billno:</th><th>cDate:</th><th>card_no:</th><th>samo:</th><th>bamo:</th><th>tamo:</th><th>camo:</th><th>bonamo:</th><th>tertoken:</th><th>custoken:</th><th>totpoint:</th><th>befbal:</th><th>poibal:</th><th>cusmob:</th><th>is_returnCnt</th></tr>`
-                        for(let j=0; j<receipts.length; j++){
-                            receipt_str += `<tr><td>${receipts[j].bill_number}</td><td> ${receipts[j].created_at['$date']}</td><td> ${receipts[j].card_number}</td><td> ${receipts[j].spend_amount}</td><td> ${receipts[j].bonus_amount}</td><td> ${receipts[j].total_amount}</td><td> ${receipts[j].cash_amount}</td><td> ${receipts[j].bonus_amount}</td><td> ${receipts[j].terminal_token}</td><td> ${receipts[j].customer_token}</td><td> ${receipts[j].total_point}</td><td> ${receipts[j].before_balance}</td><td> ${receipts[j].point_balance}</td><td> ${receipts[j].customer_mobile} </td><td>${receipts[j].rec_return.length}</td></tr>`;
-                            let rec_return_str = ``
-                            if(c[i].receipts[j].rec_return.length >0){    //tuhain receipt returntei eseh
-                                let rec_return =  c[i].receipts[j].rec_return;                                
-                                for(let p=0; p<rec_return.length; p++){
-                                    rec_return_str += `bef_bal:${rec_return[p].before_balance} bpt_bal:${rec_return[p].point_balance} `
-                                }                                
-                            } else {rec_return_str = ` rec return len = ${receipts[j].rec_return.length}`}      
-                            receipt_str += `<tr><td colspan=15>${rec_return_str}<td></tr>`                     
-                        }
-                        receipt_str +='</table>'
-                    }
-
                     concards_str += `
                     <div class="card">
                         <div class="card-header" id="heading${i}">
                         <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">
-                                card#${i+1} _id: ${cardid} num: ${c[i].number} ct: ${c[i].card_type} bal: ${c[i].balance} st: ${c[i].status}  mobile: ${c[i].mobile}  <span class="badge badge-light">receiptCnt: ${c[i].receipts.length}</span>
-                            </button>
+                            card#${i+1} _id: <a href='card?id=${cardid}'>${cardid}</a> num: ${c[i].number} ct: ${c[i].card_type} bal: ${c[i].balance} st: ${c[i].status}  mobile: ${c[i].mobile} 
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}" onclick="getreceipt(${c[i].number}, 'collapse${i}')"><span class="badge badge-light">receiptCnt</span></button>
                         </h5>
                         </div>
-                        <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordion">
-                        <div class="card-body">
-                           ${receipt_str}
-                        </div>
-                        </div>
+                        <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordion">receipt haij bn.</div>
                     </div>
                     `
                     accdiv = document.getElementById('accordion');
@@ -528,6 +506,37 @@
             }
             };
             xhr.send(null);
+        }
+        //<span class="badge badge-light">receiptCnt: ${c[i].data.length}</span>
+        function getreceipt(cnum, id){console.log('getreceipt', cnum, id); 
+            const myInterval = setInterval(incProgbar, 1000);
+            var xhr = new XMLHttpRequest(); 
+            xhr.open('POST', '/api/receipt', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.responseType= "json"
+            xhr.onload = function () {
+                clearInterval(myInterval); pbx = 0; pb.style=`width: 0%`; pb.setAttribute('aria-valuenow',0)
+                let data = xhr.response; console.log('res->getreceipt', xhr.response); 
+                receipt_str = ''
+                if(data.length >0){    //tuhain card receipttei eseh
+                    receipt_str += `<table border=1><tr><th>billno:</th><th>cDate:</th><th>card_no:</th><th>samo:</th><th>bamo:</th><th>tamo:</th><th>camo:</th><th>bonamo:</th><th>tertoken:</th><th>custoken:</th><th>totpoint:</th><th>befbal:</th><th>poibal:</th><th>cusmob:</th><th>is_returnCnt</th></tr>`
+                    for(let j=0; j<data.length; j++){
+                        receipt_str += `<tr><td>${data[j].bill_number}</td><td> ${data[j].created_at['$date']}</td><td> ${data[j].card_number}</td><td> ${data[j].spend_amount}</td><td> ${data[j].bonus_amount}</td><td> ${data[j].total_amount}</td><td> ${data[j].cash_amount}</td><td> ${data[j].bonus_amount}</td><td> ${data[j].terminal_token}</td><td> ${data[j].customer_token}</td><td> ${data[j].total_point}</td><td> ${data[j].before_balance}</td><td> ${data[j].point_balance}</td><td> ${data[j].customer_mobile} </td><td>${data[j].rec_return.length}</td></tr>`;
+                        let rec_return_str = ``
+                        // if(data[j].rec_return.length >0){    //tuhain receipt returntei eseh
+                        //     let rec_return =  c[i].data[j].rec_return;                                
+                        //     for(let p=0; p<rec_return.length; p++){
+                        //         rec_return_str += `bef_bal:${rec_return[p].before_balance} bpt_bal:${rec_return[p].point_balance} `
+                        //     }                                
+                        // } else {rec_return_str = ` rec return len = ${data[j].rec_return.length}`}      
+                        receipt_str += `<tr><td colspan=15>${rec_return_str}<td></tr>`                     
+                    }
+                    receipt_str +='</table>'                    
+                }
+                document.getElementById(id).innerHTML = receipt_str
+                
+            }
+            xhr.send(`cnum=${cnum}`);
         }
     </script>
 

@@ -94,15 +94,7 @@ def getcons(request):
         concards = []
         con['collective']= getcollective(con['_id'])             
         for c in con['cards']:
-            c1 = getcard(c)        
-            receipts = []
-            for r in getreceipts({'card_number':c1['number']}):
-                rec_return = []
-                for ret in getreceiptreturn({'receipt':r['_id']}):
-                    rec_return.append(ret)
-                r['rec_return']=rec_return
-                receipts.append(r)
-            c1['receipts']=receipts
+            c1 = getcard(c)   
             concards.append(c1)
         con['concards'] = concards
     return JsonResponse({'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
@@ -277,25 +269,19 @@ def sendurl(request, func_name):
     r = json.loads(response.content)
     return JsonResponse({'data':r})
 @csrf_exempt
-def getreceipt():
-    if 'mobile' in request.POST: 
-        val = request.GET['mobile']
-        con = getreceipts({"mobile": val })
-        conCnt = getConCnt({"mobile": val })
-    #  for c in con['cards']:
-    #         c1 = getcard(c)        
-    #         receipts = []
-    #         for r in getreceipts({'card_number':c1['number']}):
-    #             rec_return = []
-    #             for ret in getreceiptreturn({'receipt':r['_id']}):
-    #                 rec_return.append(ret)
-    #             r['rec_return']=rec_return
-    #             receipts.append(r)
-    #         c1['receipts']=receipts
-    #         c1['receiptsCnt'] = getreceiptCnt({'card_number':c1['number']})
-    #         concards.append(c1)
-    return JsonResponse({}  )
-    # return JsonResponse({'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
+def getreceipt(request):
+    # print('getrec', request.POST, request.method)
+    if 'cnum' in request.POST: 
+        val = request.POST['cnum']
+        print('val', val)     
+        receipts = []
+        for r in getreceipts({'card_number':val}):
+            rec_return = []
+            for ret in getreceiptreturn({'receipt':r['_id']}):
+                rec_return.append(ret)
+            r['rec_return']=rec_return
+            receipts.append(r)
+    return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
 
 
 def receipt(request):
