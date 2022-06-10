@@ -80,12 +80,12 @@ function MyApp() {
 
     function sendreceipt(id){
         let ab;    
-        if(bb) ab = bb;
-        else ab = id;
+        // if(bb) ab = bb;
+        // else ab = id;
         fetch('/api/receipt', {
         headers: {"Content-Type": "application/json",},
         method: "post",
-        body: JSON.stringify({a: 1, b: 'Textual content'})      
+        body: JSON.stringify({a: 1, cnum: '5865447384731975'})      
         })          
         .then(response => response.json())	//json(), blob(), formData() and arrayBuffer()
         .then(data => {
@@ -111,7 +111,7 @@ function MyApp() {
         <input type='text' class="form-control" name='internum' value={internum} placeholder='internum' onChange={(e) => {setInternum(e.target.value)}}/> <span>{internum}</span> 
         {items} 
         <input type='checkbox' value='items' onChange={()=>setItems(o => [...o, <Items/>])}/>      
-        <input type="button" value="send" onclick="sendreceipt()"/>     
+        <input type="button" value="send" onClick={sendreceipt}/>     
     </div>
 
 }
