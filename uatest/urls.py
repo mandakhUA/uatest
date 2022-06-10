@@ -18,6 +18,6 @@ urlpatterns = [
     path('api/check_token/<token>', views.check_token),
     path('api/check_fam', views.check_fam),
     path('api/cons', views.getcons),
-    path('api/cards/<id>', views.getcards),
+    path('api/card', views.getcard),
     path('admin/', admin.site.urls),
 ]

@@ -40,6 +40,7 @@ def contest(request):
 def maintest1(request):
     return render(request, "main1.html")
 def cardtest(request):
+    print('card gichii')
     return render(request, "card.html")
 
  
@@ -94,7 +95,7 @@ def getcons(request):
         concards = []
         con['collective']= getcollective(con['_id'])             
         for c in con['cards']:
-            c1 = getcard(c)   
+            c1 = getcardById(c)   
             concards.append(c1)
         con['concards'] = concards
     return JsonResponse({'data': json.loads(json_util.dumps(con)), 'msg':msg}  )
@@ -155,24 +156,23 @@ def getreceipts(expr):
     db = client.nut
     return db.receipt.find(expr).sort("created_at",-1).limit(5)
  
-def getcard(id):
-    client = getMongoClient()
-    db = client.nut
-    return db.card.find_one({'_id': ObjectId(id) })
+
  
 def getreceiptreturn(expr):
     client = getMongoClient()
     db = client.nut
     return db.receipt_return.find(expr)
  
- 
+def getcardById(id):
+    client = getMongoClient()
+    db = client.nut
+    return db.card.find_one({'_id': ObjectId(id) })
 @csrf_exempt
-def getcards(request, id):  
-    print(id)
-    msg = ''
-    card = getcard(id)
-    print('card', card)
-    return JsonResponse( {'data': json.loads(json_util.dumps(card)), 'msg':msg}  )
+def getcard(request):  
+    print('getcad', request.POST['id'], request.method)
+    if 'id' in request.POST:
+        card = getcardById(request.POST['id'])
+    return JsonResponse( {'data': json.loads(json_util.dumps(card))}  )
    
  
 @csrf_exempt
