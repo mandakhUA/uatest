@@ -381,7 +381,7 @@
             }
             
         }
-        
+
         let pbx = 0;
         let pb = document.getElementsByClassName('progress-bar')[0]
         function incProgbar(){
@@ -487,8 +487,7 @@
                 c = res.data.concards; //    //
                 concards_str = ''
                 for (let i=0; i<c.length; i++){//tuhain consumeriin cards-n toogoor davtana.
-                    cardid=d.cards[i]['$oid'];  //card buriin id ni cardid-d onoogdono.
-                    receipt_str = ''
+                    cardid=d.cards[i]['$oid'];  //card buriin id ni cardid-d onoogdono.                   
                     concards_str += `
                     <div class="card">
                         <div class="card-header" id="heading${i}">
@@ -512,8 +511,8 @@
         function getreceipt(cnum, id){console.log('getreceipt', cnum, id); 
             const myInterval = setInterval(incProgbar, 1000);
             var xhr = new XMLHttpRequest(); 
-            xhr.open('POST', '/api/receipt', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.open('GET', `/api/receipt?cnum=${cnum}`, true);
+            // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.responseType= "json"
             xhr.onload = function () {
                 clearInterval(myInterval); pbx = 0; pb.style=`width: 0%`; pb.setAttribute('aria-valuenow',0)
@@ -537,9 +536,15 @@
                 document.getElementById(id).innerHTML = receipt_str
                 
             }
-            xhr.send(`cnum=${cnum}`);
+            xhr.send();
         }
     </script>
 
 </body>
 </html>
+
+
+
+
+
+

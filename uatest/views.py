@@ -271,18 +271,31 @@ def sendurl(request, func_name):
 @csrf_exempt
 def getreceipt(request):
     # print('getrec', request.POST, request.method)
-    if 'cnum' in request.POST: 
-        val = request.POST['cnum']
-        print('val', val)     
-        receipts = []
-        for r in getreceipts({'card_number':val}):
-            rec_return = []
-            for ret in getreceiptreturn({'receipt':r['_id']}):
-                rec_return.append(ret)
-            r['rec_return']=rec_return
-            receipts.append(r)
-    return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
-
+    # print()
+    if request.method == 'GET':       #receipt cnum-r haij avna. 
+        if 'cnum' in request.GET: 
+            val = request.GET['cnum']
+            print('val', val)     
+            receipts = []
+            for r in getreceipts({'card_number':val}):
+                rec_return = []
+                for ret in getreceiptreturn({'receipt':r['_id']}):
+                    rec_return.append(ret)
+                r['rec_return']=rec_return
+                receipts.append(r)
+        return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
+    elif request.method == 'POST':  #receipt send hiine.
+        if 'cnum' in request.POST: 
+            val = request.POST['cnum']
+            print('val', val)     
+            receipts = []
+            for r in getreceipts({'card_number':val}):
+                rec_return = []
+                for ret in getreceiptreturn({'receipt':r['_id']}):
+                    rec_return.append(ret)
+                r['rec_return']=rec_return
+                receipts.append(r)
+        return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
 
 def receipt(request):
 

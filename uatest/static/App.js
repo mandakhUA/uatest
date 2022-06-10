@@ -78,6 +78,25 @@ function MyApp() {
     const [internum, setInternum] = useState();
     const [items, setItems] = useState([Items,Items,Items ]);   
 
+    function sendreceipt(id){
+        let ab;    
+        if(bb) ab = bb;
+        else ab = id;
+        fetch('/api/receipt', {
+        headers: {"Content-Type": "application/json",},
+        method: "post",
+        body: JSON.stringify({a: 1, b: 'Textual content'})      
+        })          
+        .then(response => response.json())	//json(), blob(), formData() and arrayBuffer()
+        .then(data => {
+            console.log('fetch', data.data)
+            //let d = data.data;  
+            //let link = <a href={"card?id=" + d._id['$oid']}>{d._id['$oid']}</a>
+            //setSearchmsg(<div> _id: {link} bal: {d.balance} ct: {d.card_type} mob: {d.mobile} num: {d.number} st: {d.status}</div>)
+        })
+        .catch(error => {console.log('aldaa garalaa', error) });
+    }
+
     return <div>          
         <NumInputComp/>
         <MobileInputComp/>
@@ -91,7 +110,8 @@ function MyApp() {
         <input type='text' class="form-control" name='terid' value={terid} placeholder='terid' onChange={(e) => {setTerid(e.target.value)}}/> <span>{terid}</span> 
         <input type='text' class="form-control" name='internum' value={internum} placeholder='internum' onChange={(e) => {setInternum(e.target.value)}}/> <span>{internum}</span> 
         {items} 
-        <input type='checkbox' value='items' onChange={()=>setItems(o => [...o, <Items/>])}/>         
+        <input type='checkbox' value='items' onChange={()=>setItems(o => [...o, <Items/>])}/>      
+        <input type="button" value="send" onclick="sendreceipt()"/>     
     </div>
 
 }
