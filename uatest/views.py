@@ -291,20 +291,20 @@ def receipt(request):
         print('post irlee', p)
         if 'cnum' in p:  
 
-            # print("1",p['cnum'], p['inum'], p['mobile'],p['date'],p['bill_number'], p['spend_amount'],p['bonus_amount'], p['bonus_point'],p['total_amount'],p['cash_amount'], p['terminal_id'])
+            print("1",p['cnum'], p['inum'], p['mobile'],p['date'],p['bnum'], p['spam'],p['bam'], p['bp'],p['ta'],p['ca'], p['terid'])
             response = requests.post(url + '/transaction/thirdparty/process_transaction/'
             , data=json.dumps({  
                 "card_number": p['cnum'],
                 "inter_number": p['inum'], 
                 "mobile": p['mobile'],                 
                 "date": p['date'],
-                "bnum": p['bill_number'],
-                "spam": p['spend_amount'],
-                "bam": p['bonus_amount'],
-                "bp": p['bonus_point'],
-                "ta": p['total_amount'],
-                "ca": p['cash_amount'],
-                "terid": p['terminal_id'],
+                "bill_number": p['bnum'],
+                "spend_amount": p['spam'],
+                "bonus_amount": p['bam'],
+                "bonus_point": p['bp'],
+                "total_amount": p['ta'],
+                "cash_amount": p['ca'],
+                "terminal_id": p['terid']
                 })
             , headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
             print('content', response.content)
