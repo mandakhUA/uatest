@@ -98,7 +98,7 @@ function MyApp() {
     const [mobile, setMobile] = useState("");
     const [num, setNum] = useState("4850345233527525");
     const [date, setDate] = useState(cc);
-    const [billno, setBillno] = useState("test2750187872");
+    const [billno, setBillno] = useState("test275018785");
     const [spam, setSpam] = useState(0);
     const [bam, setBam] = useState(3750);
     const [bp, setBp] = useState(113);
