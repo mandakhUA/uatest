@@ -210,7 +210,8 @@ def check_num(request):
         cards.append(c)              
     return JsonResponse({'cards': json.loads(json_util.dumps(cards))})
 @csrf_exempt
-def check_token(request, token):
+def check_token(request):
+    token = request.GET['token']
     print('token', token)
     client = getMongoClient()
     db = client.nut
@@ -268,8 +269,9 @@ def sendurl(request, func_name):
     print('content', response.content)
     r = json.loads(response.content)
     return JsonResponse({'data':r})
+
 @csrf_exempt
-def getreceipt(request):
+def receipt(request):
     # print('getrec', request.POST, request.method)
     # print()
     if request.method == 'GET':       #receipt cnum-r haij avna. 
@@ -285,19 +287,25 @@ def getreceipt(request):
                 receipts.append(r)
         return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
     elif request.method == 'POST':  #receipt send hiine.
-        json_data = json.loads(request.body) 
-        print('post irlee', json_data)
-        if 'cnum' in json_data: 
-            val = json_data['cnum']
-            print('val', val)     
-            receipts = []
-            # for r in getreceipts({'card_number':val}):
-            #     rec_return = []
-            #     # for ret in getreceiptreturn({'receipt':r['_id']}):
-            #     #     rec_return.append(ret)
-            #     # r['rec_return']=rec_return
-            #     receipts.append(r)
-        return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
+        p = json.loads(request.body) 
+        print('post irlee', p)
+        if 'cnum' in p: 
+            val = p['cnum']
+            print('val', val)  
+
+            response = requests.post(url + '/transaction/thirdparty/process_transaction/'
+            , data=json.dumps({  
+                "mobile": p['mobile'], 
+                
+                })
+            , headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
+            print('content', response.content)
+            r = json.loads(response.content)
+            return JsonResponse({'data':r})
+
+
+
+       
 
 def receipt(request):
 

@@ -7,6 +7,17 @@ function check_billno(billno, callback){
     msg = 'billno'  
     callback(msg) ;
 }
+
+function check_token(token, callback){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/check_token?token=' + token, true);
+    xhr.responseType= "json"
+    xhr.onload = function () {console.log('check_token', xhr.response)
+        callback(xhr.response)
+    }
+    xhr.send()    
+}
+
 function check_mobile(mobile, callback){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/check_mobile?mobile='+mobile, true);
