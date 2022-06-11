@@ -288,7 +288,7 @@ def receipt(request):
         return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
     elif request.method == 'POST':  #receipt send hiine.
         p = json.loads(request.body) 
-        print('post irlee', p)
+        print('post irlee', p['ivalues'])
         if 'cnum' in p:  
 
             print("1",p['cnum'], p['inum'], p['mobile'],p['date'],p['bnum'], p['spam'],p['bam'], p['bp'],p['ta'],p['ca'], p['terid'])
@@ -304,7 +304,8 @@ def receipt(request):
                 "bonus_point": p['bp'],
                 "total_amount": p['ta'],
                 "cash_amount": p['ca'],
-                "terminal_id": p['terid']
+                "terminal_id": p['terid'],
+                "items":p['ivalues']
                 })
             , headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
             print('content', response.content)

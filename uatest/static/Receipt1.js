@@ -1,4 +1,4 @@
-const {useState} = React
+const {useState, useEffect, useRef, useImperativeHandle} = React
         
 
   
@@ -74,23 +74,27 @@ function MobileInputComp({mobile, setMobile}){
     {msg}
     </div>
 }
-function Items(){
-    const [code, setCode] = useState();
-    const [name, setName] = useState();
-    const [quantity, setQuantity] = useState();
-    const [price, setPrice] = useState();
-    const [unit, setUnit] = useState();
-    const [total_price, setTotal_price] = useState();
+const Items =  React.forwardRef((props, ref) => {
+    const [code, setCode] = useState(1);
+    const [name, setName] = useState(2);    
+    const [quantity, setQuantity] = useState(3);
+    const [price, setPrice] = useState(4);
+    const [unit, setUnit] = useState(5);
+    const [total_price, setTotal_price] = useState(6);
+    useImperativeHandle(ref, () => ({getMyState: () => {return {name, code, quantity, price, unit, total_price}}}), [name, code, quantity, price, unit, total_price]);
     return <div>
-    <input type='text' name='code' value={code} placeholder='code' onChange={(e) => {setCode(e.target.value)}}/> <span>{setCode}</span> 
-    <input type='text' name='name' value={name} placeholder='name' onChange={(e) => {setName(e.target.value)}}/> <span>{setName}</span>
-    <input type='text' name='quantity' value={quantity} placeholder='quantity' onChange={(e) => {setQuantity(e.target.value)}}/> <span>{setQuantity}</span>
-    <input type='text' name='price' value={price} placeholder='price' onChange={(e) => {setPrice(e.target.value)}}/> <span>{setPrice}</span>
-    <input type='text' name='unit' value={unit} placeholder='unit' onChange={(e) => {setUnit(e.target.value)}}/> <span>{setUnit}</span>
-    <input type='text' name='total_price' value={total_price} placeholder='total_price' onChange={(e) => {setTotal_price(e.target.value)}}/> <span>{setTotal_price}</span>
+    <input type='text' name='code' value={code} placeholder='code' onChange={(e) => {setCode(e.target.value)}}/> <span>vvv{code}</span> 
+    <input type='text' name='name' value={name} placeholder='name' onChange={(e) => {setName(e.target.value)}}/> <span>ddd{name}</span>
+    <input type='text' name='quantity' value={quantity} placeholder='quantity' onChange={(e) => {setQuantity(e.target.value)}}/> <span>{quantity}</span>
+    <input type='text' name='price' value={price} placeholder='price' onChange={(e) => {setPrice(e.target.value)}}/> <span>{price}</span>
+    <input type='text' name='unit' value={unit} placeholder='unit' onChange={(e) => {setUnit(e.target.value)}}/> <span>{unit}</span>
+    <input type='text' name='total_price' value={total_price} placeholder='total_price' onChange={(e) => {setTotal_price(e.target.value)}}/> <span>{total_price}</span>
     </div>
-}
+})
 function MyApp() {
+    // const [rf, setRf] = useState(React.createRef());
+    const myRefs= useRef([]);
+
     var today = new Date();
     var cc = today.getFullYear() + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + ('0' + today.getDate()).slice(-2);
     
@@ -106,13 +110,20 @@ function MyApp() {
     const [ca, setCa] = useState(3750);
     const [terid, setTerid] = useState(123);
     const [internum, setInternum] = useState("");
-    const [items, setItems] = useState([Items,Items,Items ]);   
+    const [items, setItems] = useState([]);   
 
 
    
-    function sendreceipt(id){
+    function sendreceipt(id){//console.log('aabb 123')
         let ab;  
-        console.log(token,mobile,num,date,billno,spam,bam,bp,ta,ca,terid,internum,items)  
+        // console.log(token,mobile,num,date,billno,spam,bam,bp,ta,ca,terid,internum,items)  
+        let ivalues = []
+        console.log('myRefs', myRefs)
+        for (let i=0; i< myRefs.current.length; i++){
+            console.log('aabb 321', myRefs.current[i].getMyState() ,  )//items[i].ref.current.getMyState() rf.current.state.name
+            ivalues.push(myRefs.current[i].getMyState())
+        }
+        console.log('ivalues', ivalues)
         // if(bb) ab = bb;
         // else ab = id;
         fetch('/api/receipt', {
@@ -120,7 +131,7 @@ function MyApp() {
         method: "post",
         body: JSON.stringify({  
             token:token,          
-            "cnum": num,
+            cnum: num,
             mobile: mobile,
             inum:internum,
             date:date + " 00:00:00",
@@ -130,7 +141,8 @@ function MyApp() {
             bp:bp,
             ta:ta,
             ca:ca,
-            terid:terid
+            terid:terid,
+            ivalues: ivalues
             })      
         })          
         .then(response => response.json())	//json(), blob(), formData() and arrayBuffer()
@@ -142,6 +154,9 @@ function MyApp() {
         })
         .catch(error => {console.log('aldaa garalaa', error) });
     }
+    useEffect(() => {
+        // rf = React.createRef();
+    },[]);
 
     return <div>          
         <TokenInputComp token={token} setToken={setToken}/>
@@ -157,7 +172,7 @@ function MyApp() {
         <input type='text' class="form-control" name='terid' value={terid} placeholder='terid' onChange={(e) => {setTerid(e.target.value)}}/> <span>{terid}</span> 
         <input type='text' class="form-control" name='internum' value={internum} placeholder='internum' onChange={(e) => {setInternum(e.target.value)}}/> <span>{internum}</span> 
         {items} 
-        <input type='checkbox' value='items' onChange={()=>setItems(o => [...o, <Items/>])}/>      
+        <input type='checkbox' value='items' onChange={()=>setItems(o => [...o, <Items ref={el => (myRefs.current[o.length] = el)}  />])}/>      
         <input type="button" value="send" onClick={sendreceipt}/>     
     </div>
 
