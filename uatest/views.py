@@ -289,10 +289,9 @@ def receipt(request):
     elif request.method == 'POST':  #receipt send hiine.
         p = json.loads(request.body) 
         print('post irlee', p)
-        if 'cnum' in p: 
-            val = p['cnum']
-            print('val', val)  
+        if 'cnum' in p:  
 
+            print("1",p['cnum'], p['inum'], p['mobile'],p['date'],p['bill_number'], p['spend_amount'],p['bonus_amount'], p['bonus_point'],p['total_amount'],p['cash_amount'], p['terminal_id'])
             response = requests.post(url + '/transaction/thirdparty/process_transaction/'
             , data=json.dumps({  
                 "card_number": p['cnum'],
