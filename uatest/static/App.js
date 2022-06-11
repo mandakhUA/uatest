@@ -117,7 +117,16 @@ function MyApp() {
         method: "post",
         body: JSON.stringify({            
             cnum: num,
-            garuas: mobile,
+            mobile: mobile,
+            inum:internum,
+            date:date,
+            bnum:billno,
+            spam:spam,
+            bam:bam,
+            bp:bp,
+            ta:ta,
+            ca:ca,
+            terid:terid
             })      
         })          
         .then(response => response.json())	//json(), blob(), formData() and arrayBuffer()
