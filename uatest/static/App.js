@@ -94,39 +94,41 @@ function MyApp() {
     var today = new Date();
     var cc = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     
-    const [token, setToken] = useState("")
+    const [token, setToken] = useState("7900b7fe2e28fa86cda82cd11b204e13ae9097e2")
     const [mobile, setMobile] = useState("");
-    const [num, setNum] = useState("");
+    const [num, setNum] = useState("4850345233527525");
     const [date, setDate] = useState(cc);
     const [billno, setBillno] = useState("test2750187872");
-    const [spam, setSpam] = useState();
-    const [bam, setBam] = useState();
-    const [bp, setBp] = useState();
-    const [ta, setTa] = useState();
-    const [ca, setCa] = useState();
-    const [terid, setTerid] = useState();
-    const [internum, setInternum] = useState();
+    const [spam, setSpam] = useState(0);
+    const [bam, setBam] = useState(3750);
+    const [bp, setBp] = useState(113);
+    const [ta, setTa] = useState(3750);
+    const [ca, setCa] = useState(3750);
+    const [terid, setTerid] = useState(123);
+    const [internum, setInternum] = useState("");
     const [items, setItems] = useState([Items,Items,Items ]);   
 
     function sendreceipt(id){
-        let ab;    
+        let ab;  
+        console.log(token,mobile,num,date,billno,spam,bam,bp,ta,ca,terid,internum,items)  
         // if(bb) ab = bb;
         // else ab = id;
         fetch('/api/receipt', {
         headers: {"Content-Type": "application/json",},
         method: "post",
-        body: JSON.stringify({            
-            cnum: num,
-            mobile: mobile,
-            inum:internum,
-            date:date,
-            bnum:billno,
-            spam:spam,
-            bam:bam,
-            bp:bp,
-            ta:ta,
-            ca:ca,
-            terid:terid
+        body: JSON.stringify({  
+            // token:token,          
+            cnum: 123,
+            // mobile: mobile,
+            // inum:internum,
+            // date:date,
+            // bnum:billno,
+            // spam:spam,
+            // bam:bam,
+            // bp:bp,
+            // ta:ta,
+            // ca:ca,
+            // terid:terid
             })      
         })          
         .then(response => response.json())	//json(), blob(), formData() and arrayBuffer()
@@ -142,10 +144,10 @@ function MyApp() {
     return <div>          
         <TokenInputComp token={token} setToken={setToken}/>
         <NumInputComp num={num} setNum={setNum}/>
-        <MobileInputComp val={val} setVal={setVal}/>
+        <MobileInputComp mobile={mobile} setMobile={setMobile}/>
         <input type='date' class="form-control" name='ognoo' value={cc} placeholder='ognoo' onChange={(e) => {setDate(e.target.value)}}/> <span>{date}</span> 
         <input type="text" class="form-control" name='billno' value={billno} placeholder='billno' onChange={(e) => {setBillno(e.target.value)}}/> <span>{billno}</span> 
-        <input type='text' class="form-control" name='spam' value={spam} placeholder='spam' onChange={(e) => {setBam(e.target.value)}}/> <span>{spam}</span> 
+        <input type='text' class="form-control" name='spam' value={spam} placeholder='spam' onChange={(e) => {setSpam(e.target.value)}}/> <span>{spam}</span> 
         <input type='text' class="form-control" name='bam' value={bam} placeholder='bam' onChange={(e) => {setBam(e.target.value)}}/> <span>{bam}</span> 
         <input type='text' class="form-control" name='bp' value={bp} placeholder='bp' onChange={(e) => {setBp(e.target.value)}}/> <span>{bp}</span>
         <input type='text' class="form-control" name='ta' value={ta} placeholder='ta' onChange={(e) => {setTa(e.target.value)}}/> <span>{ta}</span> 
