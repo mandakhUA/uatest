@@ -92,7 +92,7 @@ function Items(){
 }
 function MyApp() {
     var today = new Date();
-    var cc = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    var cc = today.getFullYear() + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + ('0' + today.getDate()).slice(-2);
     
     const [token, setToken] = useState("7900b7fe2e28fa86cda82cd11b204e13ae9097e2")
     const [mobile, setMobile] = useState("");
@@ -123,7 +123,7 @@ function MyApp() {
             "cnum": num,
             mobile: mobile,
             inum:internum,
-            date:date,
+            date:date + " 00:00:00",
             bnum:billno,
             spam:spam,
             bam:bam,
