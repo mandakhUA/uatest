@@ -142,7 +142,7 @@ function MyApp() {
     return <div>          
         <TokenInputComp token={token} setToken={setToken}/>
         <NumInputComp num={num} setNum={setNum}/>
-        <MobileInputComp val={val} setVal={setVal}/>
+        <MobileInputComp mobile={mobile} setMobile={setMobile}/>
         <input type='date' class="form-control" name='ognoo' value={cc} placeholder='ognoo' onChange={(e) => {setDate(e.target.value)}}/> <span>{date}</span> 
         <input type="text" class="form-control" name='billno' value={billno} placeholder='billno' onChange={(e) => {setBillno(e.target.value)}}/> <span>{billno}</span> 
         <input type='text' class="form-control" name='spam' value={spam} placeholder='spam' onChange={(e) => {setBam(e.target.value)}}/> <span>{spam}</span> 
