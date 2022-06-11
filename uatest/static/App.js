@@ -116,8 +116,8 @@ function MyApp() {
         headers: {"Content-Type": "application/json",},
         method: "post",
         body: JSON.stringify({            
-            cnum: num
-            ,
+            cnum: num,
+            garuas: mobile,
             })      
         })          
         .then(response => response.json())	//json(), blob(), formData() and arrayBuffer()
