@@ -6,7 +6,7 @@ urlpatterns = [
     path('test', views.test),
     path('con', views.contest),
     path('card', views.cardtest),
-    path('receipt', views.receipt),
+    path('receipt', views.receipttest),
     path('cardlist', views.cardlist),
 
 

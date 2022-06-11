@@ -291,7 +291,7 @@ def receipt(request):
         print('post irlee', p)
         if 'cnum' in p:  
 
-            print("1",p['cnum'], p['inum'], p['mobile'],p['date'],p['bill_number'], p['spend_amount'],p['bonus_amount'], p['bonus_point'],p['total_amount'],p['cash_amount'], p['terminal_id'])
+            # print("1",p['cnum'], p['inum'], p['mobile'],p['date'],p['bill_number'], p['spend_amount'],p['bonus_amount'], p['bonus_point'],p['total_amount'],p['cash_amount'], p['terminal_id'])
             response = requests.post(url + '/transaction/thirdparty/process_transaction/'
             , data=json.dumps({  
                 "card_number": p['cnum'],
@@ -315,7 +315,7 @@ def receipt(request):
 
        
 
-def receipt(request):
+def receipttest(request):
 
     return render(request, "receipt.html")
 

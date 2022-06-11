@@ -108,6 +108,8 @@ function MyApp() {
     const [internum, setInternum] = useState("");
     const [items, setItems] = useState([Items,Items,Items ]);   
 
+
+   
     function sendreceipt(id){
         let ab;  
         console.log(token,mobile,num,date,billno,spam,bam,bp,ta,ca,terid,internum,items)  
@@ -117,18 +119,18 @@ function MyApp() {
         headers: {"Content-Type": "application/json",},
         method: "post",
         body: JSON.stringify({  
-            // token:token,          
-            cnum: 123,
-            // mobile: mobile,
-            // inum:internum,
-            // date:date,
-            // bnum:billno,
-            // spam:spam,
-            // bam:bam,
-            // bp:bp,
-            // ta:ta,
-            // ca:ca,
-            // terid:terid
+            token:token,          
+            "cnum": num,
+            mobile: mobile,
+            inum:internum,
+            date:date,
+            bnum:billno,
+            spam:spam,
+            bam:bam,
+            bp:bp,
+            ta:ta,
+            ca:ca,
+            terid:terid
             })      
         })          
         .then(response => response.json())	//json(), blob(), formData() and arrayBuffer()
