@@ -295,8 +295,17 @@ def receipt(request):
 
             response = requests.post(url + '/transaction/thirdparty/process_transaction/'
             , data=json.dumps({  
-                "mobile": p['mobile'], 
-                
+                "card_number": p['cnum'],
+                "inter_number": p['inum'], 
+                "mobile": p['mobile'],                 
+                "date": p['date'],
+                "bnum": p['bill_number'],
+                "spam": p['spend_amount'],
+                "bam": p['bonus_amount'],
+                "bp": p['bonus_point'],
+                "ta": p['total_amount'],
+                "ca": p['cash_amount'],
+                "terid": p['terminal_id'],
                 })
             , headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
             print('content', response.content)

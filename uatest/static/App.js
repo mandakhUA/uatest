@@ -117,6 +117,7 @@ function MyApp() {
         method: "post",
         body: JSON.stringify({            
             cnum: num,
+            mobile: mobile,
             inum:internum,
             date:date,
             bnum:billno,
