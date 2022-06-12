@@ -3,9 +3,15 @@ function check_terminal(terminal, callback){
     msg = 'terminal'  
     callback(msg) ;
 }
-function check_billno(billno, callback){
-    msg = 'billno'  
-    callback(msg) ;
+
+function check(url,callback){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType= "json"
+    xhr.onload = function () {console.log('check', xhr.response)
+        callback(xhr.response)
+    }
+    xhr.send() 
 }
 
 function check_token(token, callback){

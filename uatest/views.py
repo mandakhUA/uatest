@@ -40,7 +40,6 @@ def contest(request):
 def maintest1(request):
     return render(request, "main1.html")
 def cardtest(request):
-    print('card gichii')
     return render(request, "card.html")
 
  
@@ -167,14 +166,41 @@ def getcardById(id):
     client = getMongoClient()
     db = client.nut
     return db.card.find_one({'_id': ObjectId(id) })
+def getcardByNum(num):
+    client = getMongoClient()
+    db = client.nut
+    return db.card.find_one({'number': num })
 @csrf_exempt
 def getcard(request):  
-    print('getcad', request.POST['id'], request.method)
-    if 'id' in request.POST:
-        card = getcardById(request.POST['id'])
+    if 'searchval' not in request.POST:
+        print('searchval bhq.', request.POST)
+    print('getcad', request.POST['searchval'], request.POST['val'], request.method)
+    if request.POST['searchval'] == 'id' :
+        card = getcardById(request.POST['val'])
+    elif request.POST['searchval'] == 'num' :
+        card = getcardByNum(request.POST['val'])
     return JsonResponse( {'data': json.loads(json_util.dumps(card))}  )
-   
- 
+
+@csrf_exempt
+def check_receipt(request):
+    val = request.GET['receipt']
+    client = getMongoClient()
+    db = client.nut
+    receipt = []
+    for c in db.receipt.find( {'_id': ObjectId(val)}):
+        receipt.append(c)   
+    return JsonResponse({'receipt': json.loads(json_util.dumps(receipt))   }) 
+
+@csrf_exempt
+def check_billno(request):
+    billno = request.GET['billno']
+    client = getMongoClient()
+    db = client.nut
+    receipt = []
+    for c in db.receipt.find( {'bill_number': billno}):
+        receipt.append(c)   
+    return JsonResponse({'receipt': json.loads(json_util.dumps(receipt))   }) 
+
 @csrf_exempt
 def check_mobile(request):
     mobile = request.GET['mobile']
@@ -289,29 +315,59 @@ def receipt(request):
     elif request.method == 'POST':  #receipt send hiine.
         p = json.loads(request.body) 
         print('post irlee', p['ivalues'])
-        if 'cnum' in p:  
+        # print("1",p['cnum'], p['inum'], p['mobile'],p['date'],p['bnum'], p['spam'],p['bam'], p['bp'],p['ta'],p['ca'], p['terid'])
+        response = requests.post(url + '/transaction/thirdparty/process_transaction/'
+        , data=json.dumps({  
+            "card_number": p['cnum'],
+            "inter_number": p['inum'], 
+            "mobile": p['mobile'],                 
+            "date": p['date'],
+            "bill_number": p['bnum'],
+            "spend_amount": p['spam'],
+            "bonus_amount": p['bam'],
+            "bonus_point": p['bp'],
+            "total_amount": p['ta'],
+            "cash_amount": p['ca'],
+            "terminal_id": p['terid'],
+            "items":p['ivalues']
+            })
+        , headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
+        print('content', response.content)
+        r = json.loads(response.content)
+        return JsonResponse({'data':r})
 
-            print("1",p['cnum'], p['inum'], p['mobile'],p['date'],p['bnum'], p['spam'],p['bam'], p['bp'],p['ta'],p['ca'], p['terid'])
-            response = requests.post(url + '/transaction/thirdparty/process_transaction/'
-            , data=json.dumps({  
-                "card_number": p['cnum'],
-                "inter_number": p['inum'], 
-                "mobile": p['mobile'],                 
-                "date": p['date'],
-                "bill_number": p['bnum'],
-                "spend_amount": p['spam'],
-                "bonus_amount": p['bam'],
-                "bonus_point": p['bp'],
-                "total_amount": p['ta'],
-                "cash_amount": p['ca'],
-                "terminal_id": p['terid'],
-                "items":p['ivalues']
-                })
-            , headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
-            print('content', response.content)
-            r = json.loads(response.content)
-            return JsonResponse({'data':r})
-
+@csrf_exempt
+def retrn(request):
+    # print('getrec', request.POST, request.method)
+    # print()
+    if request.method == 'GET':       #receipt cnum-r haij avna. 
+        pass
+        # if 'cnum' in request.GET: 
+        #     val = request.GET['cnum']
+        #     print('val', val)     
+        #     receipts = []
+        #     for r in getreceipts({'card_number':val}):
+        #         rec_return = []
+        #         for ret in getreceiptreturn({'receipt':r['_id']}):
+        #             rec_return.append(ret)
+        #         r['rec_return']=rec_return
+        #         receipts.append(r)
+        # return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
+    elif request.method == 'POST':  #receipt send hiine.
+        p = json.loads(request.body) 
+        print('post irlee', p['ivalues'])
+        response = requests.post(url + '/transaction/thirdparty/return_transaction/'
+        , data=json.dumps({  
+            "receipt_id": p['receipt'],
+            "refund_spend_amount": p['spam'],
+            "refund_bonus_amount": p['bam'],            
+            "refund_cash_amount": p['ca'],
+            "items":p['ivalues']
+            })
+        , headers={"Content-Type":"application/json", "Authorization":"Token " + p['token']})
+        print('content', response.content)
+        r = json.loads(response.content)
+        return JsonResponse({'data':r})
 
 
        
