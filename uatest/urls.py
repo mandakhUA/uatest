@@ -3,11 +3,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.index),
     path('test', views.test),
     path('con', views.contest),
     path('card', views.cardtest),
-    path('receipt', views.receipttest),
-    path('cardlist', views.cardlist),
 
 
     path('api/receipt', views.receipt),

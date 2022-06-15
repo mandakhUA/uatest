@@ -34,7 +34,8 @@ def getMongoClient():
     # client = MongoClient(host="localhost", port=int(27017), username="", password="")
     return client
  
- 
+def index(request):
+    return render(request, "index.html")
 def contest(request):
     return render(request, "main.html")
 def maintest1(request):
@@ -70,6 +71,7 @@ def test(request):
  
 @csrf_exempt
 def getcons(request):
+    
     msg = ''
     if 'mobile' in request.GET: #page der combobox-s mobile songood textbox der mobile bicheed ilgeesn bol end ajillan.
         val = request.GET['mobile']
@@ -80,8 +82,6 @@ def getcons(request):
         val = request.GET['regno']
         con = getCon({"profile.registration_number": re.compile(val, re.IGNORECASE) })
         conCnt = getConCnt({"profile.registration_number": re.compile(val, re.IGNORECASE) })
-        # con = db.consumer.find_one({"profile.registration_number": re.compile(val, re.IGNORECASE) })
-        # conCnt = db.consumer.count_documents({"profile.registration_number": re.compile(val, re.IGNORECASE) })
     elif 'id' in request.GET:
         val = request.GET['id']
         con = getCon({"_id": Int64(val) })       
@@ -90,10 +90,11 @@ def getcons(request):
         msg=' Хэрэглэгч олдсонгүй'
     elif conCnt>1:
         msg = str(conCnt)+' Хэрэглэгч олдлоо!!!'
-    elif conCnt == 1:        
-        concards = []
-        con['collective']= getcollective(con['_id'])             
+    elif conCnt == 1:    
+        con['collective']= getcollective(con['_id'])    
+        concards = []                
         for c in con['cards']:
+            # print('getcons', c)   
             c1 = getcardById(c)   
             concards.append(c1)
         con['concards'] = concards
@@ -119,30 +120,38 @@ def getcollective(id):
     if confamcnt < 1 and congrreqcnt < 1 :
         return None
     else :
-        famgr = {}
-        confam = {}
-        if confamcnt == 0 and (congrreqcnt > 0): #coll-nd orooguich huselt irsen eseh.    
-            
+        coll = {}
+        if confamcnt == 0 and (congrreqcnt > 0): #coll-nd orooguich huselt irsen eseh.               
             h = db.group_request.find_one({'consumer': Int64(id), 'status': 0 })
-            print('asdf', confamcnt, congrreqcnt, h)
-            confam['group'] = h['group']
+            coll['groupid'] = h['group']
+            gr_req=[] 
+            for h in  db.group_request.find({'group': ObjectId(coll['groupid']) }):
+                gr_req.append(h)    
+            coll['gr_req'] = gr_req
         elif confamcnt == 1 :
-            confam = db.consumer_family.find_one({'consumer': Int64(id) }) 
-        famgr = db.family_group.find_one({'_id': ObjectId(confam['group']) })
-        # print('famgr', famgr)
-        congroups = []
-        for g in db.consumer_family.find({'group': ObjectId(confam['group']) }):        
-            congroups.append(g)
-        famgr['congroups'] = congroups
-        gr_req=[] 
-        for h in  db.group_request.find({'group': ObjectId(confam['group']) }):
-            gr_req.append(h)    
-        famgr['gr_req'] = gr_req
-        con_coll=[]
-        for t in  db.consumer_collective.find({'sender': Int64(id) }):
-            con_coll.append(t)  
-        famgr['con_coll'] = con_coll
-        return famgr
+            coll['confam'] = db.consumer_family.find_one({'consumer': Int64(id) }) 
+            coll['groupid'] = coll['confam']['group']
+        
+        coll['famgr'] = db.family_group.find_one({'_id': ObjectId(coll['groupid']) })
+        #omno ni req irj bsnch ter yavuulsan group ni ustsan yed famgr ni null boldin bn.
+        if coll['famgr']:   
+            congroups = []
+            for g in db.consumer_family.find({'group': ObjectId(coll['groupid']) }):        
+                congroups.append(g)
+            coll['congroups'] = congroups
+            gr_req=[] 
+            for h in  db.group_request.find({'group': ObjectId(coll['groupid']) }):
+                gr_req.append(h)    
+            coll['gr_req'] = gr_req
+            con_coll=[]
+            for t in  db.consumer_collective.find({'sender': Int64(id) }):
+                con_coll.append(t)  
+            coll['con_coll'] = con_coll
+
+
+
+
+        return coll
         
  
 def getreceiptCnt(expr):
@@ -190,7 +199,6 @@ def check_receipt(request):
     for c in db.receipt.find( {'_id': ObjectId(val)}):
         receipt.append(c)   
     return JsonResponse({'receipt': json.loads(json_util.dumps(receipt))   }) 
-
 @csrf_exempt
 def check_billno(request):
     billno = request.GET['billno']
@@ -200,7 +208,6 @@ def check_billno(request):
     for c in db.receipt.find( {'bill_number': billno}):
         receipt.append(c)   
     return JsonResponse({'receipt': json.loads(json_util.dumps(receipt))   }) 
-
 @csrf_exempt
 def check_mobile(request):
     mobile = request.GET['mobile']
@@ -306,10 +313,10 @@ def receipt(request):
             print('val', val)     
             receipts = []
             for r in getreceipts({'card_number':val}):
-                rec_return = []
-                for ret in getreceiptreturn({'receipt':r['_id']}):
-                    rec_return.append(ret)
-                r['rec_return']=rec_return
+                # rec_return = []
+                # for ret in getreceiptreturn({'receipt':r['_id']}):
+                #     rec_return.append(ret)
+                # r['rec_return']=rec_return
                 receipts.append(r)
         return JsonResponse({'data': json.loads(json_util.dumps(receipts))}  )
     elif request.method == 'POST':  #receipt send hiine.
@@ -371,18 +378,6 @@ def retrn(request):
 
 
        
-
-def receipttest(request):
-
-    return render(request, "receipt.html")
-
-def cardlist(request):
-
-    client = getMongoClient()
-    db = client.nut
-    fcnt = db.card.count_documents( {} )
-    f = db.card.find_one( {} ) 
-    return render(request, "cardlist.html", {'fcnt':fcnt, 'f':f})
 
 
 
