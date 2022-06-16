@@ -73,27 +73,28 @@ def test(request):
 def getcons(request):
     
     msg = ''
+    con = {}
     if 'mobile' in request.GET: #page der combobox-s mobile songood textbox der mobile bicheed ilgeesn bol end ajillan.
         val = request.GET['mobile']
-        con = getCon({"mobile": val })
+        con['con'] = getCon({"mobile": val })
         conCnt = getConCnt({"mobile": val })
         # conCnt = db.consumer.count_documents({"mobile": val })
     elif 'regno' in request.GET:
         val = request.GET['regno']
-        con = getCon({"profile.registration_number": re.compile(val, re.IGNORECASE) })
+        con['con'] = getCon({"profile.registration_number": re.compile(val, re.IGNORECASE) })
         conCnt = getConCnt({"profile.registration_number": re.compile(val, re.IGNORECASE) })
     elif 'id' in request.GET:
         val = request.GET['id']
-        con = getCon({"_id": Int64(val) })       
+        con['con'] = getCon({"_id": Int64(val) })       
         conCnt = getConCnt({"_id": Int64(val)  })
     if conCnt == 0:
         msg=' Хэрэглэгч олдсонгүй'
     elif conCnt>1:
         msg = str(conCnt)+' Хэрэглэгч олдлоо!!!'
     elif conCnt == 1:    
-        con['collective']= getcollective(con['_id'])    
+        con['collective']= getcollective(con['con']['_id'])    
         concards = []                
-        for c in con['cards']:
+        for c in con['con']['cards']:
             # print('getcons', c)   
             c1 = getcardById(c)   
             concards.append(c1)

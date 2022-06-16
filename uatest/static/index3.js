@@ -312,35 +312,35 @@ function Receipt() {
 
 function NavComp({active}){
 
-    return <nav class="navbar navbar-expand-sm bg-light">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+    return <nav className="navbar navbar-expand-sm bg-light">
+            <div className="container-fluid">
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                    <Link class={`nav-link ${ active == 'home' ? 'active' : ''}`}   aria-current="page" to="/">Home </Link>
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                    <Link className={`nav-link ${ active == 'home' ? 'active' : ''}`}   aria-current="page" to="/">Home </Link>
                     </li>
-                    <li class="nav-item">
-                    <Link class={`nav-link ${ active == 'receipt' ? 'active' : ''}`} aria-current="page" to="/receipt">receipt </Link>
+                    <li className="nav-item">
+                    <Link className={`nav-link ${ active == 'receipt' ? 'active' : ''}`} aria-current="page" to="/receipt">receipt </Link>
                     </li>
-                    <li class="nav-item">
-                    <Link class={`nav-link ${ active == 'return' ? 'active' : ''}`} aria-current="page" to="/return">return </Link>
+                    <li className="nav-item">
+                    <Link className={`nav-link ${ active == 'return' ? 'active' : ''}`} aria-current="page" to="/return">return </Link>
                     </li>
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Dropdown
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"/></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a className="dropdown-item" href="#">Action</a></li>
+                        <li><a className="dropdown-item" href="#">Another action</a></li>
+                        <li><hr className="dropdown-divider"/></li>
+                        <li><a className="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
+                    <li className="nav-item">
+                    <a className="nav-link disabled">Disabled</a>
                     </li>
                 </ul>
                 
@@ -350,12 +350,12 @@ function NavComp({active}){
 }
 function ConsumerComp(){
     const [searchval, setSearchval] = useState("mobile")
-    const [bb, setBb] = useState("99665532")
-    const [con, setCon] = useState([]);
+    const [bb, setBb] = useState("99665532")    //89892525 olon colltoi 89667180  coll toi  99665532 receipttei
+    const [con, setCon] = useState();
     const [cards, setCards] = useState([])
+    const [coll, setColl] = useState()
 
     const [receipt, setReceipt] = useState();
-    const [cnt, setCnt] = useState(856367856436756);
 
     let intid = ""
     const pbref= useRef();  //pbref.current.stop(intid) 
@@ -376,211 +376,180 @@ function ConsumerComp(){
                     // } else {rec_return_str = ` rec return len = ${data[j].rec_return.length}`}      
                     // receipt_str += `<tr><td colspan=15>${rec_return_str}<td></tr>`                     
                 }
-                setReceipt(<div key={1} class="table-responsive"><table class="table table-bordered table-responsive"><thead class="table-light"><tr><th>billno:</th><th>cDate:</th><th>card_no:</th><th>samo:</th><th>bamo:</th><th>tamo:</th><th>camo:</th><th>bonamo:</th><th>tertoken:</th><th>custoken:</th><th>totpoint:</th><th>befbal:</th><th>poibal:</th><th>cusmob:</th><th>is_returnCnt</th></tr></thead>
+                setReceipt(<div key={1} className="table-responsive"><table className="table table-bordered table-responsive"><thead className="table-light"><tr><th>billno:</th><th>cDate:</th><th>card_no:</th><th>samo:</th><th>bamo:</th><th>tamo:</th><th>camo:</th><th>bonamo:</th><th>tertoken:</th><th>custoken:</th><th>totpoint:</th><th>befbal:</th><th>poibal:</th><th>cusmob:</th><th>is_returnCnt</th></tr></thead>
                 <tbody>{trs}</tbody></table></div>) 
                 // setReceipt( <div>asdbadsf</div>); setReceipt(<div>asdbadsf</div>); console.log('receipt123', receipt)
                 // setCnt((o)=>o + 10);console.log('setCnt', cnt)
             }
-        } 
-
-    function findcon(d){    console.log('findcon', d)    
-        d = d.data
-        pbref.current.stop(intid) 
-        if(!d)  { //setRen( (o)=>[...o, <div key={10} class="alert alert-secondary fw-bold" role="alert">Системд бүртгэлгүй хэрэглэгч</div>])
-        } 
-        else {  //hereglegch oldson bol               
-            // setRen((o)=>[...o, <div key={10}>
-            // <div class="alert alert-secondary fw-bold" role="alert">Хэрэглэгчийн мэдээлэл</div>
-            // <div class="table-responsive">
-            // <table class="table table-bordered">
-            //     <thead class="table-lidarkght"><tr><th>_id</th><th>regno</th><th>mob</th><th>cardslen</th><th>token</th><th>bal</th><th>bs</th><th>isfam</th></tr></thead>
-            //     <tbody>
-            //         <tr>                                
-            //             <td className='w-15' >{d._id}</td>
-            //             <td className='w-20' >{d.profile.registration_number}</td>
-            //             <td className='w-15' >{d.mobile}</td>
-            //             <td>{d.cards.length}</td>
-            //             <td>{d.token}</td>
-            //             <td className='w-10' >{d.balance}</td>
-            //             <td>{d.balance_status}</td>
-            //             <td>{d.is_family}</td>
-            //         </tr>
-            //     </tbody>
-            // </table>
-            // </div></div>])
+    } 
+    function renderConColl(){
+        let trs = [];
+        for(let g=0; g<coll.congroups.length; g++){  
+            trs.push( 
+                <tr key={g}>                            
+                    <td className="w-20">{coll.congroups[g].group['$oid']}</td>
+                    <td className="w-20">{coll.congroups[g].is_admin}</td>
+                    <td>{ coll.congroups[g].consumer == con._id ? coll.congroups[g].consumer : <a href={`/con?id=${coll.congroups[g].consumer}`} target="_blank">{coll.congroups[g].consumer}</a>}</td>                        
+                </tr>)
         }
-        if (d.collective ){
-            let c = d.collective;
-            let coll =[]
-            if (c.famgr){    //family_group-d burtgeltei eseh
-                coll.push( <div key={1}><p><b>Family_group</b></p>
-                    <table className="table span12 table-striped table-hover table-bordered">
-                        <thead><tr><th>fam_id: </th><th>fam_name: </th><th>bal: </th></tr></thead>
-                        <tbody><tr>
-                            <td class="w-20">{c.famgr.family_id}</td>
-                            <td class="w-20">{c.famgr.family_name}</td>
-                            <td>{c.famgr.balance}</td>
-                        </tr></tbody>
-                    </table>
-                    </div>
-                )
-            }
-            if( c.congroups && c.congroups.length>0){
-                let trs = [];
-                for(let g=0; g<c.congroups.length; g++){  
-                    trs.push( 
-                        <tr key={g}>                            
-                            <td class="w-20">{c.congroups[g].group['$oid']}</td>
-                            <td class="w-20">{c.congroups[g].is_admin}</td>
-                            <td>{ c.congroups[g].consumer == d._id ? c.congroups[g].consumer : <a href={`/con?id=${c.congroups[g].consumer}`} target="_blank">{c.congroups[g].consumer}</a>}</td>                        
-                        </tr>)
-                }
-                coll.push(  <div key={2}><p><b>Consumer_family</b></p>                
-                <table class="table span12 table-striped table-hover table-bordered"><thead><tr><th>group: </th><th>isadmin: </th><th>consumer: </th></tr></thead>
-                    <tbody>{trs}</tbody>
-                </table></div>
-                )
-            }
-            if(c.gr_req && c.gr_req.length >0 ){
-                let trs =[]
-                for(let h=0; h<c.gr_req.length; h++){   
-                    trs.push(
-                    <tr key={h}>
-                        <td className="w-20">{c.gr_req[h].created_at['$date']}</td>
-                        <td className="w-20">{c.gr_req[h].status}</td>
-                        <td>{c.gr_req[h].consumer}</td>                            
-                    </tr>)
-                }
-                coll.push( <div key={3}><p><b>Group_request</b></p>            
-                <table class="table span12 table-striped table-hover table-bordered"><thead><tr><th>cr_at: </th><th>st: </th><th>conid: </th></tr></thead>
-                    <tbody>{trs}</tbody>
-                </table></div>)
-            }
-            if (c.con_coll && c.con_coll.length>0){
-                let trs =[]
-                for(let k=0; k<c.con_coll.length; k++){ 
-                    trs.push(
-                    <tr key={k}>
-                        <td>{c.con_coll[k].created_at['$date']}</td>
-                        <td>{c.con_coll[k].sender}</td>
-                        <td>{c.con_coll[k].sender_mobile}</td>    
-                        <td>{c.con_coll[k].is_sender}</td>
-                        <td>{c.con_coll[k].receiver}</td>
-                        <td>{c.con_coll[k].receiver_mobile}</td>
-                        <td>{c.con_coll[k].is_receiver}</td>
-                        <td>{c.con_coll[k].group['$oid']}</td>
-                        <td>{c.con_coll[k].group_id}</td>
-                    </tr>)
-                }            
-                coll.push( <div key={4}> <span>consumer_collection</span>
-                <div className="table-responsive">
-               <table class="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>sender:</th><th>sender_mobile:</th><th>sender_mobile:</th><th>is_sender:</th><th>receiver: </th><th>receiver_mobile:</th><th>is_receiver</th><th>group</th><th>group_id</th></tr>
-                    {trs}
-                </table></div></div>)
-            }   
-            setRen((o)=>[...o, <span key={11}>
-                <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#collective">collective({c && c.congroups && c.congroups.length || 0})</button>
-                <div id="collective" class="collapse">{coll}</div>
-                </span>
-            ])  
-
-             
-        }        
-        //else {setRen( <button type="button" class="btn btn-info" disabled>collective(0)</button>)}  //collective bhq bol. gehdee yamr neg data zaaval irheer programchilsan uchir ene else hereggui bollo
-
-        let ca = d.concards; 
-        
+        return trs;
+    }
+    function rendergr_req(){
+        let trs = [];
+        for(let h=0; h<coll.gr_req.length; h++){   
+            trs.push(
+            <tr key={h}>
+                <td className="w-20">{coll.gr_req[h].created_at['$date']}</td>
+                <td className="w-20">{coll.gr_req[h].status}</td>
+                <td>{coll.gr_req[h].consumer}</td>                            
+            </tr>)
+        }
+        return trs;
+    }    
+    function rendercon_coll(){
+        let trs =[]
+        for(let k=0; k<coll.con_coll.length; k++){ 
+            trs.push(
+            <tr key={k}>
+                <td>{coll.con_coll[k].created_at['$date']}</td>
+                <td>{coll.con_coll[k].sender}</td>
+                <td>{coll.con_coll[k].sender_mobile}</td>    
+                <td>{coll.con_coll[k].is_sender}</td>
+                <td>{coll.con_coll[k].receiver}</td>
+                <td>{coll.con_coll[k].receiver_mobile}</td>
+                <td>{coll.con_coll[k].is_receiver}</td>
+                <td>{coll.con_coll[k].group['$oid']}</td>
+                <td>{coll.con_coll[k].group_id}</td>
+            </tr>)
+        }       
+        return trs
+    }
+    function renderCards(){
+        let ca = cards;      
+        let acc_items = []   
         for (let i=0; i<ca.length; i++){//tuhain consumeriin cards-n toogoor davtana. 
-            // console.log('ca', ca[i].number)
-            let cardid=d.cards[i]['$oid'];  //card buriin id ni cardid-d onoogdono. 
-            cards.push(
-                <div key={i} class="accordion-item">
-                    <h2 class="accordion-header" id="heading${i}">                            
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${i}`} aria-expanded="false" aria-controls={`collapse${i}`} 
-                        onClick={(e)=>{ if(e.target.attributes['aria-expanded'].value == "true"){ console.log('orloo'); intid = pbref.current.start(intid) ;  check('/api/receipt?cnum='+ca[i].number, getreceipt)  }}}>card#${i+1} _id: <a href={`card?id=${cardid}`}>{cardid}</a> num: {ca[i].number} ct: {ca[i].card_type} bal: {ca[i].balance} st: {ca[i].status}  mobile: {ca[i].mobile} <span class="badge text-bg-secondary">receiptCnt</span></button>
+            let cardid=con.cards[i]['$oid'];  //card buriin id ni cardid-d onoogdono. 
+            acc_items.push(
+                <div key={i} className="accordion-item">
+                    <h2 className="accordion-header" id="heading${i}">                            
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${i}`} aria-expanded="false" aria-controls={`collapse${i}`} 
+                        onClick={(e)=>{ if(e.target.attributes['aria-expanded'].value == "true"){ console.log('orloo'); intid = pbref.current.start(intid) ;  check('/api/receipt?cnum='+ca[i].number, getreceipt)  }}}>card#${i+1} _id: <a href={`card?id=${cardid}`}>{cardid}</a> num: {ca[i].number} ct: {ca[i].card_type} bal: {ca[i].balance} st: {ca[i].status}  mobile: {ca[i].mobile} <span className="badge text-bg-secondary">receiptCnt</span></button>
                     </h2>
-                    <div id={`collapse${i}`} class="accordion-collapse collapse" aria-labelledby={`heading${i}`} data-bs-parent="#accordion"><div class="accordion-body">receipt {receipt}  haij123 {cnt} bn. </div></div>
+                    <div id={`collapse${i}`} className="accordion-collapse collapse" aria-labelledby={`heading${i}`} data-bs-parent="#accordion"><div className="accordion-body">{receipt}</div></div>
                 </div>
             )
         }
-        // setRen((o)=>[...o,  <div key={5} class="accordion" id="accordion">
-        //     {cards}
-        // </div>
-        // ]) 
-
-        
-        
+        return acc_items
+    }
+    function findcon(d){    console.log('findcon', d)  
+        pbref.current.stop(intid)  
+        d = d.data
+        setCon(d.con) 
+        setColl( d.collective)  
+        setCards(d.concards)       
     }
    
 
     return <div>
-        <div class="container-flued">
-            <div class="row">
-                <div class="col-2">
-                    <select class="form-select" aria-label="Default select example" value={searchval} onChange={(e)=>setSearchval(e.target.value)}>
+        <div className="container-flued">
+            <div className="row">
+                <div className="col-2">
+                    <select className="form-select" aria-label="Default select example" value={searchval} onChange={(e)=>setSearchval(e.target.value)}>
                         <option value="mobile">mobile</option>
                         <option value="regno">regno</option>
                         <option value="id">id</option>
                     </select>
                 </div>
-                <div class="col-6">
-                    <input type="text" class="form-control" value={bb} placeholder={searchval} onChange={(e)=>setBb(e.target.value)}/>
+                <div className="col-6">
+                    <input type="text" className="form-control" value={bb} placeholder={searchval} onChange={(e)=>setBb(e.target.value)}/>
                 </div>
-                <div class="col-1">
-                    <input type="button" class="btn btn-secondary" value="send" onClick={ ()=>{intid =  pbref.current.start();  check('/api/cons?'+ searchval +"="+bb, findcon )  }}/>  
+                <div className="col-1">
+                    <input type="button" className="btn btn-secondary" value="send" onClick={ ()=>{intid =  pbref.current.start();  check('/api/cons?'+ searchval +"="+bb, findcon )  }}/>  
                 </div>
-                <div class="col-3">
+                <div className="col-3">
                     
                 </div>
             </div>
             <div className='row' >
-                {con ? <div  >
-                {con.length==0 ?<div class="alert alert-secondary fw-bold" role="alert">Системд бүртгэлгүй хэрэглэгч</div>
-                : <div> 
-                <div class="alert alert-secondary fw-bold" role="alert">Хэрэглэгчийн мэдээлэл</div>
-                <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="table-lidarkght"><tr><th>_id</th><th>regno</th><th>mob</th><th>cardslen</th><th>token</th><th>bal</th><th>bs</th><th>isfam</th></tr></thead>
-                    <tbody>
-                        <tr>                                
-                            <td className='w-15' >{d._id}</td>
-                            <td className='w-20' >{d.profile.registration_number}</td>
-                            <td className='w-15' >{d.mobile}</td>
-                            <td>{d.cards.length}</td>
-                            <td>{d.token}</td>
-                            <td className='w-10' >{d.balance}</td>
-                            <td>{d.balance_status}</td>
-                            <td>{d.is_family}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div></div></div>
+                {con ? <span>
+                    {con.length==0 ?<div className="alert alert-secondary fw-bold" role="alert">Системд бүртгэлгүй хэрэглэгч</div>
+                    : <span> 
+                        <div className="alert alert-secondary fw-bold" role="alert">Хэрэглэгчийн мэдээлэл</div>
+                        <div className="table-responsive">
+                        <table className="table table-bordered">
+                            <thead className="table-lidarkght"><tr><th>_id</th><th>regno</th><th>mob</th><th>cardslen</th><th>token</th><th>bal</th><th>bs</th><th>isfam</th></tr></thead>
+                            <tbody>
+                                <tr>                                
+                                    <td className='w-15' >{con._id}</td>
+                                    <td className='w-20' >{con.profile.registration_number}</td>
+                                    <td className='w-15' >{con.mobile}</td>
+                                    <td>{con.cards.length}</td>
+                                    <td>{con.token}</td>
+                                    <td className='w-10' >{con.balance}</td>
+                                    <td>{con.balance_status}</td>
+                                    <td>{con.is_family}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </span>}
+                </span>
                 : ''}
             </div>
-            <div className='row'>
-                <div key={5} class="accordion" id="accordion">
-                    {cards}
-                </div>
+            <div className='row' title='collective'>                
+                {coll ? <div>
+                    <button type="button" className="btn btn-light" data-bs-toggle="collapse" data-bs-target="#collective">collective({coll && coll.congroups && coll.congroups.length || 0})</button>
+                    <div id="collective" className="collapse">
+                        {coll.famgr ?<div title='family_group-d burtgeltei eseh'> 
+                        <p><b>Family_group</b></p>
+                        <table className="table span12 table-striped table-hover table-bordered">
+                            <thead><tr><th>fam_id: </th><th>fam_name: </th><th>bal: </th></tr></thead>
+                            <tbody><tr>
+                                <td className="w-20">{coll.famgr.family_id}</td>
+                                <td className="w-20">{coll.famgr.family_name}</td>
+                                <td>{coll.famgr.balance}</td>
+                            </tr></tbody>
+                        </table></div>
+                        :''}   
+                        {coll.congroups && coll.congroups.length>0?<div>
+                            <p><b>Consumer_family</b></p>                
+                            <table className="table span12 table-striped table-hover table-bordered"><thead><tr><th>group: </th><th>isadmin: </th><th>consumer: </th></tr></thead>
+                                <tbody>{renderConColl()}</tbody>
+                            </table>
+                        </div>:''}
+                        {coll.gr_req && coll.gr_req.length >0 ?    <div><p><b>Group_request</b></p>            
+                            <table className="table span12 table-striped table-hover table-bordered"><thead><tr><th>cr_at: </th><th>st: </th><th>conid: </th></tr></thead>
+                                <tbody>{rendergr_req()}</tbody>
+                            </table>
+                        </div>:''}
+                        {coll.con_coll && coll.con_coll.length>0 ? <div> <span>consumer_collection</span>
+                            <div className="table-responsive">
+                            <table className="table table-striped table-hover table-bordered"><tr><th>cr_at: </th><th>sender:</th><th>sender_mobile:</th><th>sender_mobile:</th><th>is_sender:</th><th>receiver: </th><th>receiver_mobile:</th><th>is_receiver</th><th>group</th><th>group_id</th></tr>
+                                {rendecon_coll()}
+                            </table></div>
+                        </div>:''}
+                    
+                    
+                    </div>
+                </div>:''}      
+                
             </div>
-            <div className='row'>
-                {receipt}
+            <div className='row' title='cards'>
+                <div key={5} className="accordion" id="accordion">
+                    {renderCards()}
+                </div>
             </div>
             </div>
             <ProgbarComp ref={pbref} /> 
     </div>
 }
 function Home(){
-
     return <div>
         <NavComp active='home'/>
-        <ConsumerComp />
-        
+        <ConsumerComp />        
     </div>
 }
-
-
 function Index(){
-
     return <BrowserRouter>  
     <Routes>
         <Route path="" element={<Home />} />       
