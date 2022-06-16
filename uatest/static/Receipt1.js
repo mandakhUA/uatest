@@ -100,7 +100,7 @@ function MyApp() {
     
     const [token, setToken] = useState("7900b7fe2e28fa86cda82cd11b204e13ae9097e2")
     const [mobile, setMobile] = useState("");
-    const [num, setNum] = useState("4850345233527525");
+    const [num, setNum] = useState("");
     const [date, setDate] = useState(cc);
     const [billno, setBillno] = useState("test275018785");
     const [spam, setSpam] = useState(0);
