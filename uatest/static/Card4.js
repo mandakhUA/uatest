@@ -1,7 +1,10 @@
 const {useState, useEffect} = React
 
 function Card(){
-    const [searchval, setSearchval] = useState("id");
+    const params = new URLSearchParams(window.location.search); console.log('params', params, params.has('id'), params.get('id'))
+    let defval = "id"
+    if (params.has('num')) defval = "num"
+    const [searchval, setSearchval] = useState(defval);
     const [bb, setBb] = useState("");
     const [searchmsg, setSearchmsg] = useState("");
     useEffect(() => {
@@ -23,7 +26,7 @@ function Card(){
           fetch('/api/card', {
             headers: {"Content-Type": "application/x-www-form-urlencoded",},
             method: "post",
-            body: "id="+ab,      
+            body: `searchval=${searchval}&val=${ab}`,      
             })          
           .then(response => response.json())	//json(), blob(), formData() and arrayBuffer()
           .then(data => {

@@ -1,40 +1,16 @@
 console.log('check.js')
-function check_terminal(terminal, callback){
-    msg = 'terminal'  
-    callback(msg) ;
-}
-function check_billno(billno, callback){
-    msg = 'billno'  
-    callback(msg) ;
-}
 
-function check_token(token, callback){
+
+function check(url,callback){
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/check_token?token=' + token, true);
+    xhr.open('GET', url, true);
     xhr.responseType= "json"
-    xhr.onload = function () {console.log('check_token', xhr.response)
+    xhr.onload = function () {console.log('check', xhr.response)
         callback(xhr.response)
     }
-    xhr.send()    
+    xhr.send() 
 }
 
-function check_mobile(mobile, callback){
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/check_mobile?mobile='+mobile, true);
-    xhr.responseType= "json"
-    xhr.onload = function () {
-        console.log('checkmoob', xhr.response)        
-        callback(xhr.response) ;
-    }
-    xhr.send(null);
-}
-function check_num(num, callback){
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/check_num?num='+num, true);
-    xhr.responseType= "json"
-    xhr.onload = function () {
-        console.log('checknum', xhr.response)     
-        callback( xhr.response );
-    }
-    xhr.send(null);
-}
+
+
+
